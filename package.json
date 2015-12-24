@@ -1,0 +1,21 @@
+{
+  "name": "eeg-logger",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel-preset-react": "~6.3.13",
+    "react": "~0.14.3",
+    "react-dom": "~0.14.3",
+    "source-map-support": "~0.3.2",
+    "express": "~4.13.3",
+    "ts-loader": "~0.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "make": "webpack -d"
+  },
+  "author": "Toby Suggate",
+  "license": "BSD-2-Clause"
+}

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "jsx" : "react"
+  },
+  "files": [
+    "client/test.js",
+    "tsdefs/react.d.ts",
+    "tsdefs/react-dom.d.ts"
+  ]
+}
