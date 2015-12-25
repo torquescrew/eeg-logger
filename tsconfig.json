@@ -5,9 +5,8 @@
     "sourceMap": true,
     "jsx" : "react"
   },
-  "files": [
-    "client/test.js",
-    "tsdefs/react.d.ts",
-    "tsdefs/react-dom.d.ts"
+  "exclude": [
+    "node_modules",
+    "public"
   ]
 }
