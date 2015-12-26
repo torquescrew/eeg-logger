@@ -29,7 +29,7 @@ export class DataStore extends Store {
       this.location = [Mode.Start];
 
       dispatcher.on(Ev.PlayLog, () => {
-         this.dataFile = new DataFile(this.dataPanelSize)
+         this.dataFile = new DataFile(this.dataPanelSize);
          this.emitChange();
       });
 
@@ -80,11 +80,11 @@ export class DataStore extends Store {
    }
 
    loadLog(log: number): void {
-      $.get('/loadLog', {name: log + '.json'}).done(function(res) {
+      $.get('/loadLog', {name: log + '.json'}).done((res) => {
          this.dataFile = new DataFile(this.dataPanelSize);
          this.dataFile.appendArrayOfData(JSON.parse(res));
          this.emitChange();
-      }.bind(this));
+      });
    }
 
    loadLastDataFile() {

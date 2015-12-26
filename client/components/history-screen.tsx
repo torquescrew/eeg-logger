@@ -4,6 +4,7 @@ import * as _ from 'underscore';
 import { dispatcher, Ev } from '../util/dispatcher';
 import * as util from '../util/util';
 import {DataFile} from "../stores/data-file/data-file";
+import {DisplayLog} from './display-log';
 
 
 export class HistoryScreen extends React.Component<{
