@@ -8,14 +8,21 @@ export class Btn extends React.Component<{
    classes?: string[]
 }, {}> {
 
-   getDefaultProps() {
-      return {
-         onClick: () => { console.log('does nothing'); },
-         test: 'todo',
-         hide: false,
-         classes: ['btn', 'disable-select']
-      };
-   }
+   static defaultProps = {
+      onClick: () => { console.log('does nothing'); },
+      test: 'todo',
+      hide: false,
+      classes: ['btn', 'disable-select']
+   };
+
+   //getDefaultProps() {
+   //   return {
+   //      onClick: () => { console.log('does nothing'); },
+   //      test: 'todo',
+   //      hide: false,
+   //      classes: ['btn', 'disable-select']
+   //   };
+   //}
 
    getClasses(): string {
       var classes = this.props.classes;
@@ -35,3 +42,10 @@ export class Btn extends React.Component<{
       )
    }
 }
+
+//Btn.defaultProps = {
+//   onClick: () => { console.log('does nothing'); },
+//   test: 'todo',
+//   hide: false,
+//   classes: ['btn', 'disable-select']
+//};

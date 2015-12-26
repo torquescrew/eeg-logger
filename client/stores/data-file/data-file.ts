@@ -9,8 +9,6 @@ export class DataFile {
    private mapper: Mapper;
 
    constructor(dataPanelSize: Size) {
-      console.log('data file constructed!');
-
       this.dataPanelSize = dataPanelSize;
       this.mapper = new Mapper(dataPanelSize, this, 0.01);
       this.data = [];

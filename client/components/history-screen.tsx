@@ -5,9 +5,11 @@ import { dispatcher, Ev } from '../util/dispatcher';
 import * as util from '../util/util';
 import {DataFile} from "../stores/data-file/data-file";
 import {DisplayLog} from './display-log';
+import {Size} from "../util/util";
 
 
 export class HistoryScreen extends React.Component<{
+   dataPanelSize: Size,
    dataFile: DataFile,
    location: any[],
    logList: number[]
@@ -45,7 +47,10 @@ export class HistoryScreen extends React.Component<{
       var view = null;
 
       if (!_.isUndefined(this.props.location[1])) {
-         //TODO
+         view = <DisplayLog dataPanelSize={this.props.dataPanelSize}
+                            dataFile={this.props.dataFile}
+                            location={this.props.location}
+                            logList={this.props.logList} />
       }
       else {
          view = this.buildList();

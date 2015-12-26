@@ -4,15 +4,18 @@ import {Btn} from './controls/btn';
 import {dispatcher} from "../util/dispatcher";
 import {Ev} from "../util/dispatcher";
 import * as util from '../util/util';
+import {Size} from "../util/util";
+import {DataPanel} from './data-panel/data-panel';
 
 
 export class DisplayLog extends React.Component<{
+   dataPanelSize: Size,
    dataFile: DataFile,
    location: any[],
    logList: number[]
 }, {}> {
 
-   onClickBack() {
+   onClickBack = () => {
       var location = this.props.location;
 
       if (location.length > 1) {
@@ -20,9 +23,9 @@ export class DisplayLog extends React.Component<{
       }
 
       dispatcher.emit(Ev.SetLocation, location);
-   }
+   };
 
-   onClickNext() {
+   onClickNext = () => {
       var location = this.props.location;
       var i = location[1];
 
@@ -32,9 +35,9 @@ export class DisplayLog extends React.Component<{
          dispatcher.emit(Ev.SetLocation, location);
          dispatcher.emit(Ev.SelectLog, this.props.logList[i]);
       }
-   }
+   };
 
-   onClickPrev() {
+   onClickPrev = () => {
       var location = this.props.location;
       var i = location[1];
 
@@ -44,7 +47,7 @@ export class DisplayLog extends React.Component<{
          dispatcher.emit(Ev.SetLocation, location);
          dispatcher.emit(Ev.SelectLog, this.props.logList[i]);
       }
-   }
+   };
 
    hidePrevButton() {
       var i = this.props.location[1];
@@ -76,10 +79,9 @@ export class DisplayLog extends React.Component<{
                     hide={this.hideNextButton()} />
             </div>
 
-            <DataPanel width={801}
-                       height={400}
+            <DataPanel dataPanelSize={this.props.dataPanelSize}
                        dataFile={this.props.dataFile}
-                       location={this.props.location} />
+                       location={this.props.location}  />
          </div>
       );
    }

@@ -8,25 +8,30 @@ import { Mode } from '../util/constants';
 import { Store } from "./store";
 
 
-
 export interface MainState {
    dataPanelSize: Size,
    dataFile: DataFile,
    logList: number[],
-   location: any[]
+   location: any[],
+   playing: boolean,
+   muted: boolean
 }
 
-export class DataStore extends Store {
+export class DataStore extends Store implements MainState {
    dataPanelSize: Size;
    dataFile: DataFile;
-   logList: number[];
-   location: any[];
+   logList = [];
+   location = [];
+   playing = false;
+   muted = false;
 
    constructor(dataPanelSize: Size) {
       super();
       this.dataPanelSize = dataPanelSize;
       this.dataFile = new DataFile(this.dataPanelSize);
       this.location = [Mode.Start];
+      this.playing = false;
+      this.muted = false;
 
       dispatcher.on(Ev.PlayLog, () => {
          this.dataFile = new DataFile(this.dataPanelSize);
@@ -98,7 +103,9 @@ export class DataStore extends Store {
          dataPanelSize: this.dataPanelSize,
          dataFile: this.dataFile,
          logList: this.logList,
-         location: this.location
+         location: this.location,
+         playing: this.playing,
+         muted: this.muted
       };
    }
 
