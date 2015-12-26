@@ -2,10 +2,11 @@ import { Size } from '../util/util';
 import { DataFile } from './data-file/data-file';
 import * as $ from 'jquery';
 import * as _ from 'underscore';
-import * as dispatcher from '../util/dispatcher';
+import { dispatcher, Ev } from '../util/dispatcher';
 
 import { Mode } from '../util/constants';
 import { Store } from "./store";
+
 
 
 export interface MainState {
@@ -27,9 +28,33 @@ export class DataStore extends Store {
       this.dataFile = new DataFile(this.dataPanelSize);
       this.location = [Mode.Start];
 
+      dispatcher.on(Ev.PlayLog, () => {
+         this.dataFile = new DataFile(this.dataPanelSize)
+         this.emitChange();
+      });
+
+      dispatcher.socket.on('liveData', (data) => {
+         dispatcher.emit(Ev.LiveData, data); //TODO: check that this works.
+         this.dataFile.appendData(data);
+         this.emitChange();
+      });
+
+      dispatcher.on(Ev.SelectLog, (log: number) => {
+         this.loadLog(log);
+      });
+
+      dispatcher.on(Ev.SelectMode, (mode: Mode) => {
+         this.location = [mode];
+         this.emitChange();
+      });
+
+      dispatcher.on(Ev.SetLocation, (location: any[]) => {
+         this.location = location;
+         this.emitChange();
+      });
+
       this.loadLogList();
-
-
+      this.initDataFile();
    }
 
    initDataFile() {
@@ -45,9 +70,7 @@ export class DataStore extends Store {
 
    loadLogList() {
       $.get('/logFileList', (logs: string[]) => {
-         var list = _.map(logs, (e) => {
-            return parseInt(e);
-         });
+         var list = logs.map((e) => parseInt(e));
 
          list.sort((a, b) => b - a);
 
@@ -56,7 +79,7 @@ export class DataStore extends Store {
       });
    }
 
-   loadLog(log: number) {
+   loadLog(log: number): void {
       $.get('/loadLog', {name: log + '.json'}).done(function(res) {
          this.dataFile = new DataFile(this.dataPanelSize);
          this.dataFile.appendArrayOfData(JSON.parse(res));

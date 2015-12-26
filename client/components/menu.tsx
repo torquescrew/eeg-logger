@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as dispatcher from '../util/dispatcher';
+import { dispatcher, Ev } from '../util/dispatcher';
 import { Mode } from '../util/constants';
 
 export class Menu extends React.Component<{
@@ -7,15 +7,15 @@ export class Menu extends React.Component<{
 }, {}> {
 
    onClickSettings() {
-      dispatcher.client.emit('selectMode', Mode.Settings);
+      dispatcher.emit(Ev.SelectMode, Mode.Settings);
    }
 
    onClickStart() {
-      dispatcher.client.emit('selectMode', Mode.Start);
+      dispatcher.emit(Ev.SelectMode, Mode.Start);
    }
 
    onClickHistory() {
-      dispatcher.client.emit('selectMode', Mode.History);
+      dispatcher.emit(Ev.SelectMode, Mode.History);
    }
 
    render() {

@@ -5,6 +5,8 @@ import { Size } from './util/util';
 
 import { Menu } from './components/menu';
 
+import { dispatcher, Ev } from './util/dispatcher';
+
 var store = new DataStore(new Size(800, 400));
 
 
@@ -13,6 +15,8 @@ class Main extends React.Component<{}, MainState> {
    state: MainState = store.getState();
 
    componentDidMount() {
+
+
       store.addChangeListener(this.onStoreChange);
    }
 
