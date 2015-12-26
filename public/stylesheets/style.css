@@ -1,0 +1,176 @@
+.main {
+  font-family: sans-serif;
+  font-size: 1.2em;
+  color: #323232;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.screen {
+  display: flex;
+  justify-content: center;
+}
+
+#stripeContainer {
+  border: 2px solid;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sidebar {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.sidebar .button {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.historyList .button {
+  /*margin: 5px;*/
+  cursor: pointer;
+}
+
+.scaleControls {
+  display: flex;
+}
+
+.playControls {
+  display: flex;
+}
+
+.dataPanelContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+}
+
+.dataPanelControls {
+  display: flex;
+  margin-top: 5px;
+  justify-content: space-between;
+}
+
+.recordScreen {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+}
+
+.disable-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn {
+  min-width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 30px;
+  /*background-color: rgba(0, 0, 0, 0.15);*/
+  border: 2px solid #7c7c7c;
+  padding: 4px 13px;
+  cursor: pointer;
+  margin: 5px;
+  display: inline-block;
+}
+
+.btn:hover {
+  /*background-color: rgba(148, 148, 148, 0.2);*/
+  border: 2px solid #353535;
+}
+
+.sidebar .start {
+  /*flex: 1;*/
+}
+
+.sidebar .historyList {
+  flex: 2;
+  overflow-y: auto;
+  width: 190px;
+  /*height: 100%;*/
+}
+
+.sidebar .settings {
+  /*flex: 1;*/
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  height: 70px;
+}
+
+.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu .menuButton {
+  font-size: 2em;
+  /*padding: 10px;*/
+  margin: 10px;
+  cursor: pointer;
+  color: #5f5f5f;
+  animation-name: shrink;
+  animation-duration: 0.2s;
+}
+
+.menu .menuButton.selected {
+  font-size: 2.5em;
+  margin-top: 5px;
+  color: #494949;
+  animation-name: grow;
+  animation-duration: 0.2s;
+}
+
+@keyframes grow {
+  from {
+    font-size: 2em;
+    color: #5f5f5f;
+    margin: 10px;
+  }
+
+  to {
+    font-size: 2.5em;
+    margin-top: 5px;
+    color: #494949;
+  }
+}
+
+@keyframes shrink {
+  from {
+    font-size: 2.5em;
+    margin-top: 5px;
+    color: #494949;
+  }
+
+  to {
+    font-size: 2em;
+    color: #5f5f5f;
+    margin: 10px;
+  }
+}
+
+.logNavigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logTitle {
+  font-size: 1.15em;
+  margin: 8px;
+}
+
+.logNavigation .logTitle {
+  margin-top: 12px;
+}

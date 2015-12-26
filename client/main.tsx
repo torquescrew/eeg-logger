@@ -1,30 +1,40 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import store from './stores/store';
+import { DataStore, MainState } from './stores/data-store';
+import { Size } from './util/util';
 
-interface MainState {
-   size: number
-}
+import { Menu } from './components/menu';
+
+var store = new DataStore(new Size(800, 400));
 
 
 class Main extends React.Component<{}, MainState> {
-   state: MainState = {
-      size: 100
-   };
+
+   state: MainState = store.getState();
 
    componentDidMount() {
-      this.setState({
-         size: 102
-      });
-
-      store.doSomething();
+      store.addChangeListener(this.onStoreChange);
    }
 
+   componentWillUnmount() {
+      store.removeChangeListener(this.onStoreChange);
+   }
+
+   onStoreChange = () => this.setState(store.getState());
+
    render() {
-      console.log(this.state.size);
+      if (!store.finishedLoading()) {
+         return null;
+      }
+      console.log(this.state);
 
       return (
-         <div>hi</div>
+         <div className="main">
+            <Menu location={this.state.location} />
+            <div className="screen">
+
+            </div>
+         </div>
       );
    }
 }
