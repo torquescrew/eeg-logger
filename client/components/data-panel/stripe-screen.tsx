@@ -33,7 +33,7 @@ export class StripeScreen extends React.Component<{
    }
 
    drawData() {
-      var context = this.state.context;
+      var context: CanvasRenderingContext2D = this.state.context;
       var mapper = this.props.mapper;
       var dataFile = this.props.dataFile;
       var startX = -this.props.leftPosition;

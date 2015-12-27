@@ -47,7 +47,7 @@ class Main extends React.Component<{}, MainState> {
                                    dataFile={this.state.dataFile}
                                    location={this.state.location}
                                    playing={this.state.playing}
-                                   muted={this.state.muted} />
+                                   muted={this.state.muted} />;
             break;
       }
 

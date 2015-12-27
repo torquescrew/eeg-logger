@@ -13,6 +13,9 @@ module.exports = {
       ]
    },
    "exclude": [
-      "node_modules"
+      "node_modules",
+      "public",
+      "server",
+      "app-state"
    ]
 };

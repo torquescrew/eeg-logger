@@ -1,7 +1,7 @@
 var fs = require('fs');
 var _ = require('underscore');
 
-var logsPath = '../mindwave_logs/';
+var logsPath = '../app-state/mindwave_logs/';
 
 function save(data) {
    if (!data.length) {
@@ -25,7 +25,7 @@ function load(fileName, callback) {
       if (callback) {
          callback(data);
       }
-   })
+   });
 }
 
 function remove(fileName) {
@@ -33,7 +33,7 @@ function remove(fileName) {
       if (err) throw err;
 
       console.log('deleted ' + fileName);
-   })
+   });
 }
 
 function endsWith(str, suffix) {

@@ -14,11 +14,11 @@ export class DataFile {
       this.data = [];
    }
 
-   appendData(data) {
+   appendData(data): void {
       this.data.push(new DataSample(data));
    }
 
-   appendArrayOfData(array: any[]) {
+   appendArrayOfData(array: any[]): void {
       array.forEach((data) => this.appendData(data));
    }
 
@@ -31,7 +31,7 @@ export class DataFile {
       }
    };
 
-   at(index: number) {
+   at(index: number): DataSample {
       return this.data[index];
    }
 

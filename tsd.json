@@ -24,7 +24,7 @@
       "commit": "5e960679e6f9ae6ce905b1db0ad36fc189cd2eca"
     },
     "node/node.d.ts": {
-      "commit": "5e960679e6f9ae6ce905b1db0ad36fc189cd2eca"
+      "commit": "1ffc055e50f0df255da310485a7871c6f894e370"
     },
     "socket.io-client/socket.io-client.d.ts": {
       "commit": "5e960679e6f9ae6ce905b1db0ad36fc189cd2eca"
@@ -37,6 +37,9 @@
     },
     "moment/moment-node.d.ts": {
       "commit": "1da639a106527e0c4010b354a1efe52a3059a291"
+    },
+    "socket.io/socket.io.d.ts": {
+      "commit": "1ffc055e50f0df255da310485a7871c6f894e370"
     }
   }
 }

@@ -23,13 +23,6 @@ export class DataPanel extends React.Component<{
    stickScrollToRight: boolean
 }> {
 
-   //getDefaultProps() {
-   //   return {
-   //      muted: false,
-   //      playing: false
-   //   }
-   //}
-
    static defaultProps = {
       muted: false,
       playing: false

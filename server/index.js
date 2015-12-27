@@ -9,10 +9,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-
-//app.get('/', function(req, res) {
-//  res.redirect('/main.html');
-//});
+var settings = require('./util/settings');
 
 app.get('/playLog', function(req, res) {
   var name = req.query.name;
@@ -47,6 +44,13 @@ app.get('/deleteLog', function(req, res) {
   res.send('OK');
 });
 
+app.get('/loadSettings', function(req, res) {
+  //console.log(req.query);
+
+  settings.loadSettings(function(settings) {
+    res.send(settings);
+  })
+});
 
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -55,6 +59,14 @@ server.listen(3081, function() {
 });
 
 io.on('connection', function(s) {
+
+  //TODO: make this post?
+  s.on('saveSettings', function(data) {
+    settings.saveSettings(data);
+
+    console.log(data);
+  });
+
   console.log('connection!');
   mindwave.setSocket(s);
 });
