@@ -6,6 +6,7 @@ import {Ev} from "../util/dispatcher";
 import * as util from '../util/util';
 import {Size} from "../util/util";
 import {DataPanel} from './data-panel/data-panel';
+import {StatsPanel} from './stats-panel';
 
 
 export class DisplayLog extends React.Component<{
@@ -82,6 +83,9 @@ export class DisplayLog extends React.Component<{
             <DataPanel dataPanelSize={this.props.dataPanelSize}
                        dataFile={this.props.dataFile}
                        location={this.props.location}  />
+
+            <StatsPanel dataFile={this.props.dataFile}
+                        playing={false} />
          </div>
       );
    }

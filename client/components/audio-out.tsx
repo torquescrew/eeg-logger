@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as _ from 'underscore';
 import {DataFile} from "../stores/data-file/data-file";
+import {Field} from "../stores/data-file/data-sample";
 
 
 export class AudioOut extends React.Component<{
@@ -31,7 +32,7 @@ export class AudioOut extends React.Component<{
       if (dataFile.isEmpty()) {
          return 0;
       }
-      return dataFile.getLastSample().getMeditation();
+      return dataFile.getLastSample().getField(Field.Meditation);
    }
 
    calcRate(): number {

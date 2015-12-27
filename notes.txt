@@ -16,7 +16,7 @@ TODO:
 
 Settings:
  - which traces to display
- - smoothing?
+ - smoothing? - average based on the number of visible points
  -
 
 export/import of logs?

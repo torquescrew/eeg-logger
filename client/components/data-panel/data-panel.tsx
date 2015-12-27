@@ -107,10 +107,10 @@ export class DataPanel extends React.Component<{
 
    //TODO: hard coded id
    render() {
-      var mapper = new Mapper(
-         this.props.dataPanelSize,
-         this.props.dataFile,
-         this.state.pixPerMilliSecond);
+      //var mapper = new Mapper(
+      //   this.props.dataPanelSize,
+      //   this.props.dataFile,
+      //   this.state.pixPerMilliSecond);
 
       var controls = null;
       if (this.props.location[0] === Mode.Start) {
@@ -124,8 +124,7 @@ export class DataPanel extends React.Component<{
             <div id="stripeContainer" style={this.getStyle()}>
                <Stripe dataPanelSize={this.props.dataPanelSize}
                        dataFile={this.props.dataFile}
-                       leftPosition={this.state.leftPosition}
-                       mapper={mapper}/>
+                       leftPosition={this.state.leftPosition} />
             </div>
 
             <div className="dataPanelControls">

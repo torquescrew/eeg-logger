@@ -1,13 +1,12 @@
 import * as React from 'react';
 import * as _ from 'underscore';
 import {Size, Position} from "../../util/util";
-import {Mapper} from "../../stores/data-file/pix-mapper";
+//import {Mapper} from "../../stores/data-file/pix-mapper";
 import {DataFile} from "../../stores/data-file/data-file";
 import {Field} from "../../stores/data-file/data-sample";
 
 export class StripeScreen extends React.Component<{
    dataPanelSize: Size,
-   mapper: Mapper,
    dataFile: DataFile,
    leftPosition: number
 }, {
@@ -40,7 +39,12 @@ export class StripeScreen extends React.Component<{
       var leftPix = -this.props.leftPosition;
       var width = this.props.dataPanelSize.width;
 
-      context.clearRect(0, 0, +width, +this.props.dataPanelSize.height);
+      let length = dataFile.getLengthOfStripe();
+      if (length < width) {
+         leftPix -= (width - length);
+      }
+
+      context.clearRect(0, 0, width, this.props.dataPanelSize.height);
       if (dataFile.isEmpty()) {
          return;
       }
@@ -62,12 +66,40 @@ export class StripeScreen extends React.Component<{
 
       var points: Position[] = dataFile.getPixPositionsForScreen(leftPix, width, field);
 
+      if (points.length > 200) {
+         context.lineWidth = 2;
+      }
+      //points = this.smoothPoints(points);
+
       if (points.length > 2) {
          this.drawCurvedLine(points, context);
       }
       else {
          this.drawStraightLine(points, context);
       }
+   }
+
+   smoothPoints(points: Position[], numTimes?: number): Position[] {
+      let smoothed = [];
+
+      var prev: Position = null;
+
+      _.each(points, (p, i) => {
+         if (i === 0) {
+            smoothed.push(p);
+         }
+         else {
+            let x = (prev.x + p.x) / 2;
+            let y = (prev.y + p.y) / 2;
+            smoothed.push(new Position(x, y));
+         }
+         prev = p;
+      });
+
+      if (numTimes && numTimes > 0) {
+         return this.smoothPoints(smoothed, numTimes - 1);
+      }
+      return smoothed;
    }
 
    drawStraightLine(points: Position[], context: CanvasRenderingContext2D) {

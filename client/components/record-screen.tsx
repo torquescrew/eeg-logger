@@ -32,7 +32,8 @@ export class RecordScreen extends React.Component<{
                        muted={this.props.muted}
                        location={this.props.location} />
 
-            <StatsPanel dataFile={this.props.dataFile} />
+            <StatsPanel dataFile={this.props.dataFile}
+                        playing={this.props.playing} />
 
             <AudioOut playing={this.props.playing}
                       muted={this.props.muted}

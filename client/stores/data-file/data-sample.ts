@@ -25,7 +25,9 @@ export enum Field {
    LowBeta,
    HighBeta,
    LowGamma,
-   HighGamma
+   HighGamma,
+   Signal,
+   Time
 }
 
 interface Sample {
@@ -54,6 +56,7 @@ export class DataSample {
       this.sample = sample;
    }
 
+   // This style of getter allows drawing trace with any field.
    getField(field: Field): number {
       let s = this.sample;
 
@@ -78,23 +81,31 @@ export class DataSample {
             return s.eegPower.lowGamma;
          case Field.HighGamma:
             return s.eegPower.highGamma;
+         case Field.Signal:
+            return this.calcSignal(s.poorSignalLevel);
+         case Field.Time:
+            return s.time;
       }
    }
 
-   getSignal(): number {
-      let poorSignalLevel = this.sample['poorSignalLevel'];
+   private calcSignal(poorSignalLevel: number): number {
       return 100 - (poorSignalLevel / 2);
    }
 
-   getAttention(): number {
-      return this.sample['eSense']['attention'];
-   }
-
-   getMeditation(): number {
-      return this.sample['eSense']['meditation'];
-   }
-
-   getTime(): number {
-      return this.sample['time'];
-   }
+   //getSignal(): number {
+   //   let poorSignalLevel = this.sample['poorSignalLevel'];
+   //   return 100 - (poorSignalLevel / 2);
+   //}
+   //
+   //getAttention(): number {
+   //   return this.sample['eSense']['attention'];
+   //}
+   //
+   //getMeditation(): number {
+   //   return this.sample['eSense']['meditation'];
+   //}
+   //
+   //getTime(): number {
+   //   return this.sample['time'];
+   //}
 }

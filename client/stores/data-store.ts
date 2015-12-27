@@ -172,6 +172,9 @@ export class DataStore extends Store implements MainState {
       $.get('/loadLog', {name: log + '.json'}).done((res) => {
          this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
          this.dataFile.appendArrayOfData(JSON.parse(res));
+         let pixPerMilliSec = this.dataFile.calcPixPerMilliSecToFit();
+
+         this.dataFile.setPixPerMilliSec(this.dataFile.calcPixPerMilliSecToFit());
 
          callback();
       });

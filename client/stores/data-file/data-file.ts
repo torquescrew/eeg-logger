@@ -39,7 +39,7 @@ export class DataFile {
    getClosestSampleIndex(time: number): number {
       var startTime = this.getStartTime();
 
-      var i = _.findIndex(this.data, (e) => (e.getTime() - startTime) > time);
+      var i = _.findIndex(this.data, (e: DataSample) => (e.getField(Field.Time) - startTime) > time);
 
       if (i === -1) {
          return this.data.length - 1;
@@ -61,7 +61,7 @@ export class DataFile {
    }
 
    getPixPositionForSample(sample: DataSample, field: Field, leftPix: number): Position {
-      let time = sample.getTime() - this.getStartTime();
+      let time = sample.getField(Field.Time) - this.getStartTime();
 
       let x = this.mapper.timeToPixel(time) - leftPix;
       let y = this.mapper.valueToYPixel(sample.getField(field));
@@ -69,8 +69,24 @@ export class DataFile {
       return new Position(x, y);
    }
 
+   getMeanOfField(field: Field): number {
+      let sum = _.reduce(this.data, (total: number, sample: DataSample) => {
+         return total + sample.getField(field);
+      }, 0);
+
+      return Math.floor(sum / this.data.length);
+   }
+
+   getLengthOfStripe(): number {
+      return this.mapper.getLengthOfStripe();
+   }
+
    setPixPerMilliSec(pixPerMilliSec: number): void {
       this.mapper.setPixPerMilliSec(pixPerMilliSec);
+   }
+
+   calcPixPerMilliSecToFit() {
+      return this.dataPanelSize.width / this.getTimeDuration();
    }
 
    getTimeDuration(): number {
@@ -78,11 +94,11 @@ export class DataFile {
    }
 
    getStartTime(): number {
-      return this.data[0].getTime();
+      return this.at(0).getField(Field.Time);
    }
 
    getEndTime(): number {
-      return _.last(this.data).getTime();
+      return _.last(this.data).getField(Field.Time);
    }
 
    isEmpty(): boolean {
