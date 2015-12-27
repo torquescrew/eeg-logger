@@ -1,0 +1,32 @@
+
+TODO:
+ - when viewing log, data panel should fit full log on screen, ie zoom 100%
+ - save location to server
+ - display stat averages in history mode
+ - improve appearance of data panel
+    - show time/y values
+ - show url location
+ - remember location thread
+ - fix event handler leaks
+ - get working with actual headset
+    - connect headset
+ - electron
+ - modularise css
+
+Settings:
+ - which traces to display
+ - smoothing?
+ -
+
+export/import of logs?
+
+Location keeping:
+
+plain array:
+['history', '12453453.json']
+
+map:
+{'history': [], 'start': [], 'settings': [], current: 'start'}
+
+location object:
+location['history']['2432365.json']

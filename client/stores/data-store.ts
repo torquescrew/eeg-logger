@@ -35,11 +35,27 @@ export class DataStore extends Store implements MainState {
 
       dispatcher.on(Ev.PlayLog, () => {
          this.dataFile = new DataFile(this.dataPanelSize);
+         this.playing = true;
+         this.emitChange();
+      });
+
+      dispatcher.on(Ev.StopPlaying, () => {
+         this.playing = false;
+         this.emitChange();
+      });
+
+      dispatcher.on(Ev.Mute, () => {
+         this.muted = true;
+         this.emitChange();
+      });
+
+      dispatcher.on(Ev.Unmute, () => {
+         this.muted = false;
          this.emitChange();
       });
 
       dispatcher.socket.on('liveData', (data) => {
-         dispatcher.emit(Ev.LiveData, data); //TODO: check that this works.
+         this.playing = true;
          this.dataFile.appendData(data);
          this.emitChange();
       });

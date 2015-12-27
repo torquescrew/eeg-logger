@@ -19,39 +19,6 @@ export class RecordScreen extends React.Component<{
    muted: boolean
 },{}> {
 
-   componentDidMount() {
-      //TODO: this should be handled in data-store instead?
-      dispatcher.socket.on('liveData', this.play);
-      dispatcher.on(Ev.PlayLog, this.play);
-      dispatcher.on(Ev.StopPlaying, this.stop);
-      dispatcher.on(Ev.Mute, this.mute);
-      dispatcher.on(Ev.Unmute, this.unmute);
-   }
-
-   componentWillUnmount() {
-      dispatcher.socket.removeListener('liveData', this.play);
-      dispatcher.removeListener(Ev.PlayLog, this.play);
-      dispatcher.removeListener(Ev.StopPlaying, this.stop);
-      dispatcher.removeListener(Ev.Mute, this.mute);
-      dispatcher.removeListener(Ev.Unmute, this.unmute);
-   }
-
-   play = () => {
-      //TODO
-   };
-
-   stop = () => {
-      //TODO
-   };
-
-   mute = () => {
-
-   };
-
-   unmute = () => {
-
-   };
-
    render() {
       if (this.props.location[0] !== Mode.Start) {
          return null;
