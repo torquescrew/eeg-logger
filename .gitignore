@@ -103,5 +103,4 @@ node_modules
 
 typings
 
-public/bundle.js
-public/bundle.js.map
+/public/scripts
