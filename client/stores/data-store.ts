@@ -15,7 +15,8 @@ export interface MainState {
    logList: number[],
    location: any[],
    playing: boolean,
-   muted: boolean
+   muted: boolean,
+   pixPerMilliSec: number
 }
 
 interface Settings {
@@ -31,17 +32,18 @@ export class DataStore extends Store implements MainState {
    location = [];
    playing = false;
    muted = false;
+   pixPerMilliSec = 0.01;
 
    constructor(dataPanelSize: Size) {
       super();
       this.dataPanelSize = dataPanelSize;
-      this.dataFile = new DataFile(this.dataPanelSize);
+      this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
       this.location = [Mode.Start];
       this.playing = false;
       this.muted = false;
 
       dispatcher.on(Ev.PlayLog, () => {
-         this.dataFile = new DataFile(this.dataPanelSize);
+         this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
          this.setPlaying(true);
          this.emitChange();
       });
@@ -80,6 +82,12 @@ export class DataStore extends Store implements MainState {
 
       dispatcher.on(Ev.SetLocation, (location: any[]) => {
          this.setLocation(location);
+         this.emitChange();
+      });
+
+      dispatcher.on(Ev.SetPixPerMilliSec, (pixPerMilliSec: number) => {
+         this.pixPerMilliSec = pixPerMilliSec;
+         this.dataFile.setPixPerMilliSec(pixPerMilliSec);
          this.emitChange();
       });
 
@@ -162,7 +170,7 @@ export class DataStore extends Store implements MainState {
 
    loadLog(log: number, callback: Function): void {
       $.get('/loadLog', {name: log + '.json'}).done((res) => {
-         this.dataFile = new DataFile(this.dataPanelSize);
+         this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
          this.dataFile.appendArrayOfData(JSON.parse(res));
 
          callback();
@@ -182,7 +190,8 @@ export class DataStore extends Store implements MainState {
          logList: this.logList,
          location: this.location,
          playing: this.playing,
-         muted: this.muted
+         muted: this.muted,
+         pixPerMilliSec: this.pixPerMilliSec
       };
    }
 

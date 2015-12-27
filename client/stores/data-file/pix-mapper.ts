@@ -4,17 +4,21 @@ import {DataFile} from './data-file';
 export class Mapper {
    dataPanelSize: Size;
    dataFile: DataFile;
-   pixelPerMilliSecond: number;
+   pixPerMilliSec: number;
 
-   constructor(dataPanelSize: Size, dataFile: DataFile, pixelPerMilliSecond: number) {
+   constructor(dataPanelSize: Size, dataFile: DataFile, pixPerMilliSec: number) {
       this.dataPanelSize = dataPanelSize;
       this.dataFile = dataFile;
-      this.pixelPerMilliSecond = pixelPerMilliSecond;
+      this.pixPerMilliSec = pixPerMilliSec;
+   }
+
+   setPixPerMilliSec(pixPerMilliSec: number): void {
+      this.pixPerMilliSec = pixPerMilliSec;
    }
 
    getLengthOfStripe(): number {
       if (!this.dataFile.isEmpty()) {
-         return this.dataFile.getTimeDuration() * this.pixelPerMilliSecond;
+         return this.dataFile.getTimeDuration() * this.pixPerMilliSec;
       }
       return this.dataPanelSize.width;
    }
@@ -28,7 +32,7 @@ export class Mapper {
    }
 
    timeToPixel(time: number) {
-      return time * this.pixelPerMilliSecond;
+      return time * this.pixPerMilliSec;
    }
 
    valueToYPixel(value: number) {

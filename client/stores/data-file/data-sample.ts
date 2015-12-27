@@ -1,8 +1,84 @@
-export class DataSample {
-   sample: any;
+//var a = {
+//   "eSense": {"attention": 64, "meditation": 81},
+//   "eegPower": {
+//      "delta": 5881,
+//      "theta": 4519,
+//      "lowAlpha": 7393,
+//      "highAlpha": 3582,
+//      "lowBeta": 2084,
+//      "highBeta": 1661,
+//      "lowGamma": 783,
+//      "highGamma": 3414
+//   },
+//   "poorSignalLevel": 0,
+//   "time": 1446272258272
+//};
 
-   constructor(sample) {
+
+export enum Field {
+   Attention,
+   Meditation,
+   Delta,
+   Theta,
+   LowAlpha,
+   HighAlpha,
+   LowBeta,
+   HighBeta,
+   LowGamma,
+   HighGamma
+}
+
+interface Sample {
+   eSense: {
+      attention: number,
+      meditation: number
+   },
+   eegPower: {
+      delta: number,
+      theta: number,
+      lowAlpha: number,
+      highAlpha: number,
+      lowBeta: number,
+      highBeta: number,
+      lowGamma: number,
+      highGamma: number
+   },
+   poorSignalLevel: number,
+   time: number
+}
+
+export class DataSample {
+   sample: Sample;
+
+   constructor(sample: Sample) {
       this.sample = sample;
+   }
+
+   getField(field: Field): number {
+      let s = this.sample;
+
+      switch (field) {
+         case Field.Attention:
+            return s.eSense.attention;
+         case Field.Meditation:
+            return s.eSense.meditation;
+         case Field.Delta:
+            return s.eegPower.delta;
+         case Field.Theta:
+            return s.eegPower.theta;
+         case Field.LowAlpha:
+            return s.eegPower.lowAlpha;
+         case Field.HighAlpha:
+            return s.eegPower.highAlpha;
+         case Field.LowBeta:
+            return s.eegPower.lowBeta;
+         case Field.HighBeta:
+            return s.eegPower.highBeta;
+         case Field.LowGamma:
+            return s.eegPower.lowGamma;
+         case Field.HighGamma:
+            return s.eegPower.highGamma;
+      }
    }
 
    getSignal(): number {

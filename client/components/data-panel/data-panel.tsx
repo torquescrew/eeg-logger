@@ -75,6 +75,8 @@ export class DataPanel extends React.Component<{
    }
 
    zoomOut = () => {
+      dispatcher.emit(Ev.SetPixPerMilliSec, this.state.pixPerMilliSecond / 2);
+
       this.setState({
          leftPosition: this.state.leftPosition,
          pixPerMilliSecond: this.state.pixPerMilliSecond / 2,
@@ -83,6 +85,8 @@ export class DataPanel extends React.Component<{
    };
 
    zoomIn = () => {
+      dispatcher.emit(Ev.SetPixPerMilliSec, this.state.pixPerMilliSecond * 2);
+
       this.setState({
          leftPosition: this.state.leftPosition,
          pixPerMilliSecond: this.state.pixPerMilliSecond * 2,

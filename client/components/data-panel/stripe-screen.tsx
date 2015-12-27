@@ -1,7 +1,9 @@
 import * as React from 'react';
-import {Size} from "../../util/util";
+import * as _ from 'underscore';
+import {Size, Position} from "../../util/util";
 import {Mapper} from "../../stores/data-file/pix-mapper";
 import {DataFile} from "../../stores/data-file/data-file";
+import {Field} from "../../stores/data-file/data-sample";
 
 export class StripeScreen extends React.Component<{
    dataPanelSize: Size,
@@ -34,9 +36,8 @@ export class StripeScreen extends React.Component<{
 
    drawData() {
       var context: CanvasRenderingContext2D = this.state.context;
-      var mapper = this.props.mapper;
       var dataFile = this.props.dataFile;
-      var startX = -this.props.leftPosition;
+      var leftPix = -this.props.leftPosition;
       var width = this.props.dataPanelSize.width;
 
       context.clearRect(0, 0, +width, +this.props.dataPanelSize.height);
@@ -44,75 +45,48 @@ export class StripeScreen extends React.Component<{
          return;
       }
 
-      var startIndex = dataFile.getClosestSampleIndex(mapper.pixelToTime(startX));
-      var endIndex = dataFile.getClosestSampleIndex(mapper.pixelToTime(startX + width));
-
       context.lineWidth = 3;
       context.lineCap = 'round';
       context.lineJoin = 'round';
 
-      this.drawTrace(
-         startIndex,
-         endIndex,
-         dataFile,
-         context,
-         mapper,
-         startX,
-         width,
-         "#00AA00",
-         sample => sample.getMeditation()
-      );
-
-      this.drawTrace(
-         startIndex,
-         endIndex,
-         dataFile,
-         context,
-         mapper,
-         startX,
-         width,
-         "#0000FF",
-         sample => sample.getAttention()
-      );
+      this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
+      this.drawTrace(leftPix, width, Field.Attention, "#0000FF");
+      //this.drawTrace2(leftPix, width, Field.HighGamma, "#FF0000");
    }
 
-   drawTrace(startIndex, endIndex, dataFile, context, mapper, startX, width, colour, getter) {
+   drawTrace(leftPix: number, width: number, field: Field, colour: string) {
+      var context: CanvasRenderingContext2D = this.state.context;
       context.strokeStyle = colour;
+
+      var dataFile = this.props.dataFile;
+
+      var points: Position[] = dataFile.getPixPositionsForScreen(leftPix, width, field);
+
+      if (points.length > 2) {
+         this.drawCurvedLine(points, context);
+      }
+      else {
+         this.drawStraightLine(points, context);
+      }
+   }
+
+   drawStraightLine(points: Position[], context: CanvasRenderingContext2D) {
       context.beginPath();
 
-      var shift = 0;
-      var length = mapper.getLengthOfStripe();
-      if (length < width) {
-         shift = width - length;
-      }
-
-      for (var i = startIndex; i < endIndex; i++) {
-         var sample = dataFile.at(i);
-
-         var x = Math.floor(shift + mapper.timeToPixel(sample.getTime() - dataFile.getStartTime()) - startX);
-         var y = Math.floor(mapper.valueToYPixel(getter(sample)));
-
-         if (i === startIndex) {
-            context.moveTo(x, y);
+      _.each(points, (p: Position, i: number) => {
+         if (i === 0) {
+            context.moveTo(p.x, p.y);
          }
          else {
-            context.lineTo(x, y);
+            context.lineTo(p.x, p.y);
          }
-      }
+      });
 
       context.stroke();
    }
 
-   //TODO
-   calcXPix(time, startX, shift) {
-
-   }
-
-   //TODO
-   drawCurvedPencilLine(annotation, context) {
+   drawCurvedLine(points: Position[], context: CanvasRenderingContext2D) {
       context.beginPath();
-
-      var points = annotation.coords;
 
       context.moveTo(points[0].x, points[0].y);
 
@@ -126,7 +100,6 @@ export class StripeScreen extends React.Component<{
       context.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
 
       context.stroke();
-
    }
 
    getStyle() {
@@ -148,7 +121,9 @@ export class StripeScreen extends React.Component<{
 
    render() {
       if (this.state.context) {
+         //var t = _.now();
          this.drawData();
+         //console.log(_.now() - t);
       }
 
       return (

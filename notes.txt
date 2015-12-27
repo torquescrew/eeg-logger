@@ -12,6 +12,7 @@ TODO:
     - connect headset
  - electron
  - modularise css
+ - need a channel per frequency since they each have their own scale.
 
 Settings:
  - which traces to display
