@@ -8,12 +8,6 @@ export class Play extends React.Component<{
    playing: boolean
 }, {}> {
 
-   getDefaultProps() {
-      return {
-         playing: false
-      };
-   }
-
    handlePlay() {
       dispatcher.emit(Ev.PlayLog);
       dispatcher.playLog('1447751933712');

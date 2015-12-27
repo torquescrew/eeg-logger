@@ -53,13 +53,13 @@ export class DataPanel extends React.Component<{
       $('#stripeContainer').off('scroll touchmove', this.onScroll);
    }
 
-   playLog() {
+   playLog = () => {
       this.setState({
          pixPerMilliSecond: this.state.pixPerMilliSecond,
          leftPosition: 0,
          stickScrollToRight: true
       });
-   }
+   };
 
    onScroll = (e) => {
       var $stripe = $(e.target.lastChild);
@@ -69,7 +69,7 @@ export class DataPanel extends React.Component<{
          leftPosition: Math.floor($stripe.position().left - $('#stripeContainer').position().left),
          stickScrollToRight: this.state.stickScrollToRight
       });
-   }
+   };
 
    getStyle() {
       return {
@@ -97,10 +97,10 @@ export class DataPanel extends React.Component<{
       });
    };
 
-   scrollToRight() {
+   scrollToRight = () => {
       var sc = document.getElementById('stripeContainer');
       sc.scrollLeft = sc.scrollWidth;
-   }
+   };
 
    componentDidUpdate() {
       if (this.state.stickScrollToRight) {

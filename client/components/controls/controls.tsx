@@ -11,13 +11,6 @@ export class Controls extends React.Component<{
    muted: boolean
 }, {}> {
 
-   getDefaultProps() {
-      return {
-         playing: false,
-         muted: false
-      };
-   }
-
    render() {
       return (
          <div className="playControls">

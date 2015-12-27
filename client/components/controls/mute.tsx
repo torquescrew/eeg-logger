@@ -7,12 +7,6 @@ export class Mute extends React.Component<{
    muted: boolean
 },{}> {
 
-   getDefaultProps() {
-      return {
-         muted: false
-      };
-   }
-
    mute() {
       dispatcher.emit(Ev.Mute);
    }

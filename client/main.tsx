@@ -5,6 +5,7 @@ import {Size} from './util/util';
 
 import {Menu} from './components/menu';
 import {HistoryScreen} from './components/history-screen';
+import {RecordScreen} from './components/record-screen';
 
 import {dispatcher, Ev} from './util/dispatcher';
 import {Mode} from "./util/constants";
@@ -40,6 +41,13 @@ class Main extends React.Component<{}, MainState> {
                                     dataFile={this.state.dataFile}
                                     location={this.state.location}
                                     logList={this.state.logList} />;
+            break;
+         case Mode.Start:
+            screen = <RecordScreen dataPanelSize={this.state.dataPanelSize}
+                                   dataFile={this.state.dataFile}
+                                   location={this.state.location}
+                                   playing={this.state.playing}
+                                   muted={this.state.muted} />
             break;
       }
 
