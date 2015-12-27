@@ -1,7 +1,9 @@
 .main {
-  font-family: sans-serif;
+
+  font-family: Verdana, Geneva, sans-serif;
   font-size: 1.2em;
   color: #323232;
+  /*background-color: #fdfdfd;*/
 
   position: absolute;
   top: 0;
@@ -16,7 +18,8 @@
 }
 
 #stripeContainer {
-  border: 2px solid;
+  border: 1px solid #c4c4c4;
+  /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);*/
   -webkit-overflow-scrolling: touch;
 }
 
@@ -75,8 +78,12 @@
   text-align: center;
   vertical-align: middle;
   line-height: 30px;
-  /*background-color: rgba(0, 0, 0, 0.15);*/
-  border: 2px solid #7c7c7c;
+  /*background-color: rgb(100, 100, 100);*/
+  /*background-color: #008CBA;*/
+  border: 1px solid #d4d4d4;
+  /*color: rgb(255, 255, 255);*/
+  /*font-style: italic;*/
+
   padding: 4px 13px;
   cursor: pointer;
   margin: 5px;
@@ -84,8 +91,12 @@
 }
 
 .btn:hover {
+  /*text-decoration: underline;*/
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+  /*background-color: rgb(81, 81, 81);*/
+  /*background-color: #00729c;*/
   /*background-color: rgba(148, 148, 148, 0.2);*/
-  border: 2px solid #353535;
+  /*border: 2px solid #353535;*/
 }
 
 .sidebar .start {
@@ -118,19 +129,27 @@
 .menu .menuButton {
   font-size: 2em;
   /*padding: 10px;*/
-  margin: 10px;
+  /*margin: 10px;*/
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  padding-right: 10px;
+  padding-left: 10px;
+
   cursor: pointer;
   color: #5f5f5f;
-  animation-name: shrink;
-  animation-duration: 0.2s;
+  border: solid 1px rgba(212, 212, 212, 0);
+  /*animation-name: shrink;*/
+  /*animation-duration: 0.2s;*/
 }
 
 .menu .menuButton.selected {
-  font-size: 2.5em;
-  margin-top: 5px;
+  /*font-size: 2.5em;*/
+  /*margin-top: 5px;*/
   color: #494949;
-  animation-name: grow;
-  animation-duration: 0.2s;
+  border: solid 1px #d4d4d4;
+  /*animation-name: grow;*/
+  /*animation-duration: 0.2s;*/
 }
 
 @keyframes grow {
@@ -164,6 +183,7 @@
 .logNavigation {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 6px;
 }
 
 .logTitle {

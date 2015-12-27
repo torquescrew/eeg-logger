@@ -60,9 +60,8 @@ export class StripeScreen extends React.Component<{
          startX,
          width,
          "#00AA00",
-         function (sample) {
-            return sample.getMeditation();
-         });
+         sample => sample.getMeditation()
+      );
 
       this.drawTrace(
          startIndex,
@@ -73,9 +72,8 @@ export class StripeScreen extends React.Component<{
          startX,
          width,
          "#0000FF",
-         function (sample) {
-            return sample.getAttention();
-         });
+         sample => sample.getAttention()
+      );
    }
 
    drawTrace(startIndex, endIndex, dataFile, context, mapper, startX, width, colour, getter) {

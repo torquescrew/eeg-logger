@@ -83,7 +83,6 @@ export class DataStore extends Store implements MainState {
          this.emitChange();
       });
 
-
       this.loadLogList(() => {
          this.loadSettings(() => {
             this.initDataFile(() => {
@@ -91,7 +90,6 @@ export class DataStore extends Store implements MainState {
             });
          });
       });
-
    }
 
    setPlaying = (playing: boolean) => {

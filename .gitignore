@@ -104,3 +104,5 @@ node_modules
 typings
 
 /public/scripts
+
+/app-state/state.json
