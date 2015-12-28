@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-#stripeContainer {
+.stripeContainer {
   border: 1px solid #c4c4c4;
   overflow-y: hidden;
   overflow-x: scroll;
@@ -155,7 +155,7 @@
 }
 
 .statsPanel {
-  margin: 40px;
+  margin: 20px;
   display: flex;
   justify-content: space-between;
 }
@@ -222,6 +222,7 @@
 }
 
 .timeAxis .value {
+  pointer-events: none;
   /*position: relative;*/
   width: 80px;
   /*margin-left: -3px;*/

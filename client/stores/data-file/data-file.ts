@@ -89,6 +89,10 @@ export class DataFile {
       return this.dataPanelSize.width / this.getTimeDuration();
    }
 
+   getPixPerMilliSec(): number {
+      return this.mapper.pixPerMilliSec;
+   }
+
    getTimeDuration(): number {
       return this.getEndTime() - this.getStartTime();
    }

@@ -13,6 +13,8 @@ TODO:
  - electron
  - modularise css
  - need a channel per frequency since they each have their own scale.
+ - delete log
+ - label axis
 
 Settings:
  - which traces to display

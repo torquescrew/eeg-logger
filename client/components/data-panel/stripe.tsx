@@ -21,7 +21,8 @@ export class Stripe extends React.Component<{
 
    render() {
       return (
-         <div style={this.getStyle()}>
+         <div className="stripe"
+              style={this.getStyle()}>
             <StripeScreen dataPanelSize={this.props.dataPanelSize}
                           dataFile={this.props.dataFile}
                           leftPosition={this.props.leftPosition} />

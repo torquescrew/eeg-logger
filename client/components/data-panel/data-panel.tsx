@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import * as $ from 'jquery';
 import {Mapper} from "../../stores/data-file/pix-mapper";
 import {Mode} from "../../util/constants";
@@ -19,7 +20,6 @@ export class DataPanel extends React.Component<{
    muted?: boolean,
    playing?: boolean
 }, {
-   pixPerMilliSecond: number,
    leftPosition: number,
    stickScrollToRight: boolean
 }> {
@@ -30,74 +30,76 @@ export class DataPanel extends React.Component<{
    };
    
    state = {
-      pixPerMilliSecond: 0.01,
       leftPosition: 0,
       stickScrollToRight: false
    };
 
    componentDidMount() {
       dispatcher.on(Ev.PlayLog, this.playLog);
-
-      $('#stripeContainer').on('scroll touchmove', this.onScroll);
    }
 
    componentWillUnmount() {
       dispatcher.removeListener(Ev.PlayLog, this.playLog);
-
-      $('#stripeContainer').off('scroll touchmove', this.onScroll);
    }
 
    playLog = () => {
       this.setState({
-         pixPerMilliSecond: this.state.pixPerMilliSecond,
          leftPosition: 0,
          stickScrollToRight: true
       });
    };
 
-   onScroll = (e) => {
-      var $stripe = $(e.target.lastChild);
+
+   //TODO: Make sure this grabs the element inside this component only.
+   getElement(className: string): Element {
+      return ReactDOM.findDOMNode(this).getElementsByClassName(className)[0];
+   }
+
+   onScroll = () => {
+      var $stripe = $(this.getElement('stripe'));
+      let $stripeContainer = $(this.getElement('stripeContainer'));
+
+      let leftPos = Math.floor($stripe.position().left - $stripeContainer.position().left);
 
       this.setState({
-         pixPerMilliSecond: this.state.pixPerMilliSecond,
-         leftPosition: Math.floor($stripe.position().left - $('#stripeContainer').position().left),
+         leftPosition: leftPos,
          stickScrollToRight: this.state.stickScrollToRight
       });
    };
 
    getStyle() {
       return {
-         //height: this.props.height + 'px',
-         width: this.props.dataPanelSize.width + 'px',
-         //overflowY: 'hidden',
-         //overflowX: 'auto'
-         //position: 'relative'
+         width: this.props.dataPanelSize.width + 'px'
       }
    }
 
    zoomOut = () => {
-      dispatcher.emit(Ev.SetPixPerMilliSec, this.state.pixPerMilliSecond / 2);
+      dispatcher.emit(Ev.SetPixPerMilliSec, this.props.dataFile.getPixPerMilliSec() / 2);
 
       this.setState({
          leftPosition: this.state.leftPosition,
-         pixPerMilliSecond: this.state.pixPerMilliSecond / 2,
          stickScrollToRight: this.state.stickScrollToRight
       });
    };
 
    zoomIn = () => {
-      dispatcher.emit(Ev.SetPixPerMilliSec, this.state.pixPerMilliSecond * 2);
+      dispatcher.emit(Ev.SetPixPerMilliSec, this.props.dataFile.getPixPerMilliSec() * 2);
 
       this.setState({
          leftPosition: this.state.leftPosition,
-         pixPerMilliSecond: this.state.pixPerMilliSecond * 2,
          stickScrollToRight: this.state.stickScrollToRight
       });
    };
 
    scrollToRight = () => {
-      var sc = document.getElementById('stripeContainer');
-      sc.scrollLeft = sc.scrollWidth;
+      let leftPos = this.props.dataFile.getLengthOfStripe() - this.props.dataPanelSize.width;
+
+      if (leftPos !== this.state.leftPosition) {
+         this.setState({
+            leftPosition: this.props.dataFile.getLengthOfStripe() - this.props.dataPanelSize.width,
+            stickScrollToRight: this.state.stickScrollToRight
+         });
+      }
    };
 
    componentDidUpdate() {
@@ -108,11 +110,6 @@ export class DataPanel extends React.Component<{
 
    //TODO: hard coded id
    render() {
-      //var mapper = new Mapper(
-      //   this.props.dataPanelSize,
-      //   this.props.dataFile,
-      //   this.state.pixPerMilliSecond);
-
       var controls = null;
       if (this.props.location[0] === Mode.Start) {
          controls = <Controls dataFile={this.props.dataFile}
@@ -122,7 +119,10 @@ export class DataPanel extends React.Component<{
 
       return (
          <div className="dataPanelContainer">
-            <div id="stripeContainer" style={this.getStyle()}>
+            <div className="stripeContainer"
+                 style={this.getStyle()}
+                 onScroll={this.onScroll}
+                 onTouchMove={this.onScroll} >
                <Stripe dataPanelSize={this.props.dataPanelSize}
                        dataFile={this.props.dataFile}
                        leftPosition={this.state.leftPosition} />
