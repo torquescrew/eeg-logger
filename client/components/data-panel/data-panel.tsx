@@ -9,6 +9,7 @@ import {DataFile} from "../../stores/data-file/data-file";
 import {Controls} from '../controls/controls';
 import {Stripe} from './stripe';
 import {Btn} from '../controls/btn';
+import {TimeAxis} from './time-axis';
 
 
 export class DataPanel extends React.Component<{
@@ -68,8 +69,8 @@ export class DataPanel extends React.Component<{
       return {
          //height: this.props.height + 'px',
          width: this.props.dataPanelSize.width + 'px',
-         overflowY: 'hidden',
-         overflowX: 'auto'
+         //overflowY: 'hidden',
+         //overflowX: 'auto'
          //position: 'relative'
       }
    }
@@ -125,6 +126,8 @@ export class DataPanel extends React.Component<{
                <Stripe dataPanelSize={this.props.dataPanelSize}
                        dataFile={this.props.dataFile}
                        leftPosition={this.state.leftPosition} />
+               <TimeAxis dataPanelSize={this.props.dataPanelSize}
+                         dataFile={this.props.dataFile} />
             </div>
 
             <div className="dataPanelControls">

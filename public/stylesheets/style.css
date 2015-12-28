@@ -19,6 +19,8 @@
 
 #stripeContainer {
   border: 1px solid #c4c4c4;
+  overflow-y: hidden;
+  overflow-x: scroll;
   /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);*/
   -webkit-overflow-scrolling: touch;
 }
@@ -208,4 +210,34 @@
 
 .logNavigation .logTitle {
   margin-top: 12px;
+}
+
+.timeAxis {
+  height: 25px;
+  border-top: 1px solid #d4d4d4;
+  color: #6a6a6a;
+  /*background-color: #f6f6f6;*/
+  padding-top: 2px;
+
+}
+
+.timeAxis .value {
+  /*position: relative;*/
+  width: 80px;
+  /*margin-left: -3px;*/
+  /*margin-right: 3px;*/
+  top: 0;
+  font-size: 0.75em;
+}
+
+.timeAxis .valueHolder {
+  /*position: absolute;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*top: 0;*/
+  /*bottom: 0;*/
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
 }

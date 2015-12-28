@@ -63,8 +63,8 @@ export class DataFile {
    getPixPositionForSample(sample: DataSample, field: Field, leftPix: number): Position {
       let time = sample.getField(Field.Time) - this.getStartTime();
 
-      let x = this.mapper.timeToPixel(time) - leftPix;
-      let y = this.mapper.valueToYPixel(sample.getField(field));
+      let x = Math.floor(this.mapper.timeToPixel(time) - leftPix);
+      let y = Math.floor(this.mapper.valueToYPixel(sample.getField(field)));
 
       return new Position(x, y);
    }
@@ -99,6 +99,13 @@ export class DataFile {
 
    getEndTime(): number {
       return _.last(this.data).getField(Field.Time);
+   }
+
+   pixelToTime(xPix: number, startAtZero: boolean = false): number {
+      if (startAtZero) {
+         return this.mapper.pixelToTime(xPix) - this.getStartTime();
+      }
+      return Math.floor(this.mapper.pixelToTime(xPix));
    }
 
    isEmpty(): boolean {

@@ -31,3 +31,11 @@ map:
 
 location object:
 location['history']['2432365.json']
+
+
+
+if virtual canvas contains any visible trace, blot to screen
+draw rest of screen
+save screen to virtual canvas
+
+how to keep track of what is still visible on virtual canvas? - will this work with sampling?

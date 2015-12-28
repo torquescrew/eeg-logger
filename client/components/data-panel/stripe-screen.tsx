@@ -4,6 +4,7 @@ import {Size, Position} from "../../util/util";
 //import {Mapper} from "../../stores/data-file/pix-mapper";
 import {DataFile} from "../../stores/data-file/data-file";
 import {Field} from "../../stores/data-file/data-sample";
+//import {VirtualCanvas} from './virtual-canvas';
 
 export class StripeScreen extends React.Component<{
    dataPanelSize: Size,
@@ -13,6 +14,7 @@ export class StripeScreen extends React.Component<{
    canvas: HTMLCanvasElement,
    context: CanvasRenderingContext2D
 }> {
+   //virtualCanvas: VirtualCanvas;
 
    state = {
       canvas: null,
@@ -26,6 +28,7 @@ export class StripeScreen extends React.Component<{
    initCanvas() {
       const canvas = document.getElementById('canvas') as HTMLCanvasElement;
       const context = canvas.getContext('2d');
+      //this.virtualCanvas = new VirtualCanvas(this.props.dataPanelSize);
 
       this.setState({
          canvas: canvas,
@@ -53,7 +56,11 @@ export class StripeScreen extends React.Component<{
       context.lineCap = 'round';
       context.lineJoin = 'round';
 
+      // Make things slow.
       this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
+      //this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
+      //this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
+
       this.drawTrace(leftPix, width, Field.Attention, "#0000FF");
       //this.drawTrace2(leftPix, width, Field.HighGamma, "#FF0000");
    }
@@ -64,6 +71,21 @@ export class StripeScreen extends React.Component<{
 
       var dataFile = this.props.dataFile;
 
+      //if (!this.virtualCanvas.isEmpty()) {
+      //   let prevLeftPix = this.virtualCanvas.getLeftPix();
+      //
+      //   console.log('prev: ', prevLeftPix, ', now: ', leftPix);
+      //
+      //   if (prevLeftPix < leftPix) {
+      //      this.virtualCanvas.blotVisibleRegion(this.state.context, leftPix);
+      //      leftPix = prevLeftPix + width;
+      //   }
+      //   else {
+      //      this.virtualCanvas.blotVisibleRegion(this.state.context, leftPix);
+      //      width = prevLeftPix - leftPix;
+      //   }
+      //}
+
       var points: Position[] = dataFile.getPixPositionsForScreen(leftPix, width, field);
 
       if (points.length > 200) {
@@ -72,10 +94,10 @@ export class StripeScreen extends React.Component<{
       //points = this.smoothPoints(points);
 
       if (points.length > 2) {
-         this.drawCurvedLine(points, context);
+         this.drawCurvedLine(points, context, leftPix);
       }
       else {
-         this.drawStraightLine(points, context);
+         this.drawStraightLine(points, context, leftPix);
       }
    }
 
@@ -102,7 +124,7 @@ export class StripeScreen extends React.Component<{
       return smoothed;
    }
 
-   drawStraightLine(points: Position[], context: CanvasRenderingContext2D) {
+   drawStraightLine(points: Position[], context: CanvasRenderingContext2D, leftPix: number) {
       context.beginPath();
 
       _.each(points, (p: Position, i: number) => {
@@ -115,9 +137,10 @@ export class StripeScreen extends React.Component<{
       });
 
       context.stroke();
+      //this.virtualCanvas.saveCanvas(this.state.canvas, leftPix);
    }
 
-   drawCurvedLine(points: Position[], context: CanvasRenderingContext2D) {
+   drawCurvedLine(points: Position[], context: CanvasRenderingContext2D, leftPix: number) {
       context.beginPath();
 
       context.moveTo(points[0].x, points[0].y);
@@ -132,6 +155,7 @@ export class StripeScreen extends React.Component<{
       context.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
 
       context.stroke();
+      //this.virtualCanvas.saveCanvas(this.state.canvas, leftPix);
    }
 
    getStyle() {
