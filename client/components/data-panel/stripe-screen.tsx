@@ -177,10 +177,13 @@ export class StripeScreen extends React.Component<{
 
    render() {
       return (
-         <canvas width={this.props.dataStripeSize.width}
-                 height={this.props.dataStripeSize.height}
-                 style={this.getStyle()}
-                 ref="canvas" />
+         <div>
+            <canvas width={this.props.dataStripeSize.width}
+                    height={this.props.dataStripeSize.height}
+                    style={this.getStyle()}
+                    ref="canvas" />
+            <div className="channelName">{Field[this.props.field]}</div>
+         </div>
       );
    }
 }
