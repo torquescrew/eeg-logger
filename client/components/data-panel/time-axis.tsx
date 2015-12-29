@@ -50,7 +50,7 @@ export class TimeAxis extends React.Component<{
 
    render() {
       return (
-         <div className="timeAxis" style={this.getStyle()}>
+         <div className="timeAxis disable-select" style={this.getStyle()}>
             <div className="valueHolder">
                {this.renderTimeValues()}
             </div>

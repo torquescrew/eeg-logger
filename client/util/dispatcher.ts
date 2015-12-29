@@ -12,7 +12,8 @@ export enum Ev {
    SetLocation,
    Mute,
    Unmute,
-   SetPixPerMilliSec
+   SetPixPerMilliSec,
+   SetFieldVisibility
 }
 
 class Dispatcher {

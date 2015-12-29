@@ -6,6 +6,7 @@ import {Size} from './util/util';
 import {Menu} from './components/menu';
 import {HistoryScreen} from './components/history-screen';
 import {RecordScreen} from './components/record-screen';
+import {SettingsScreen} from './components/settings-screen';
 
 import {dispatcher, Ev} from './util/dispatcher';
 import {Mode} from "./util/constants";
@@ -51,6 +52,8 @@ class Main extends React.Component<{}, MainState> {
                                    playing={this.state.playing}
                                    muted={this.state.muted} />;
             break;
+         case Mode.Settings:
+            screen = <SettingsScreen visibleStripes={this.state.visibleStripes} />
       }
 
       return (

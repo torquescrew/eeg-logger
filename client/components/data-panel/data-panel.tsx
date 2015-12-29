@@ -168,7 +168,7 @@ export class DataPanel extends React.Component<{
       }
 
       return (
-         <div className="dataPanelContainer">
+         <div className="dataPanelContainer disable-select">
             <div className="stripeContainer"
                  ref="stripeContainer"
                  style={this.getStyle()}

@@ -48,6 +48,15 @@ export class DataStore extends Store implements MainState {
          this.emitChange();
       });
 
+      dispatcher.on(Ev.SetFieldVisibility, (options: {field: Field, visible: boolean}) => {
+         if (options.visible) {
+            this.visibleStripes.push(options.field);
+         }
+         else {
+            this.visibleStripes = _.without(this.visibleStripes, options.field);
+         }
+      });
+
       dispatcher.on(Ev.StopPlaying, () => {
          this.setPlaying(false);
          this.emitChange();
