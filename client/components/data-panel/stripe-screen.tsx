@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as _ from 'underscore';
 import {Size, Position} from "../../util/util";
-//import {Mapper} from "../../stores/data-file/pix-mapper";
 import {DataFile} from "../../stores/data-file/data-file";
-import {Field} from "../../stores/data-file/data-sample";
+import {Field, fieldColour} from "../../util/util";
+
 //import {VirtualCanvas} from './virtual-canvas';
 
 export class StripeScreen extends React.Component<{
-   dataPanelSize: Size,
+   dataStripeSize: Size,
+   field: Field,
    dataFile: DataFile,
    leftPosition: number
 }, {
@@ -26,9 +27,9 @@ export class StripeScreen extends React.Component<{
    }
 
    initCanvas() {
-      const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+      const canvas = this.refs['canvas'] as HTMLCanvasElement;
       const context = canvas.getContext('2d');
-      //this.virtualCanvas = new VirtualCanvas(this.props.dataPanelSize);
+      //this.virtualCanvas = new VirtualCanvas(this.props.dataStripeSize);
 
       this.setState({
          canvas: canvas,
@@ -40,14 +41,14 @@ export class StripeScreen extends React.Component<{
       var context: CanvasRenderingContext2D = this.state.context;
       var dataFile = this.props.dataFile;
       var leftPix = -this.props.leftPosition;
-      var width = this.props.dataPanelSize.width;
+      var width = this.props.dataStripeSize.width;
 
       let length = dataFile.getLengthOfStripe();
       if (length < width) {
          leftPix -= (width - length);
       }
 
-      context.clearRect(0, 0, width, this.props.dataPanelSize.height);
+      context.clearRect(0, 0, width, this.props.dataStripeSize.height);
       if (dataFile.isEmpty()) {
          return;
       }
@@ -56,13 +57,7 @@ export class StripeScreen extends React.Component<{
       context.lineCap = 'round';
       context.lineJoin = 'round';
 
-      // Make things slow.
-      this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
-      //this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
-      //this.drawTrace(leftPix, width, Field.Meditation, "#00AA00");
-
-      this.drawTrace(leftPix, width, Field.Attention, "#0000FF");
-      //this.drawTrace2(leftPix, width, Field.HighGamma, "#FF0000");
+      this.drawTrace(leftPix, width, this.props.field, fieldColour(this.props.field));
    }
 
    drawTrace(leftPix: number, width: number, field: Field, colour: string) {
@@ -162,7 +157,7 @@ export class StripeScreen extends React.Component<{
       //var shift = 0;
       //
       //var length = this.props.mapper.getLengthOfStripe();
-      //var width = this.props.dataPanelSize.width;
+      //var width = this.props.dataStripeSize.width;
       //if (length < width) {
       //  shift = width - length;
       //}
@@ -176,18 +171,16 @@ export class StripeScreen extends React.Component<{
       };
    }
 
-   render() {
-      if (this.state.context) {
-         //var t = _.now();
-         this.drawData();
-         //console.log(_.now() - t);
-      }
+   componentDidUpdate() {
+      this.drawData();
+   }
 
+   render() {
       return (
-         <canvas width={this.props.dataPanelSize.width}
-                 height={this.props.dataPanelSize.height}
+         <canvas width={this.props.dataStripeSize.width}
+                 height={this.props.dataStripeSize.height}
                  style={this.getStyle()}
-                 id="canvas"/>
+                 ref="canvas" />
       );
    }
 }

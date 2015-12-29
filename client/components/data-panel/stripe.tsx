@@ -1,21 +1,21 @@
 import * as React from 'react';
 import {StripeScreen} from './stripe-screen';
-import {Size} from "../../util/util";
+import {Size, Field} from "../../util/util";
 import {DataFile} from "../../stores/data-file/data-file";
-//import {Mapper} from "../../stores/data-file/pix-mapper";
 
 
 export class Stripe extends React.Component<{
-   dataPanelSize: Size,
+   dataStripeSize: Size,
    dataFile: DataFile,
-   leftPosition: number
+   field: Field,
+   leftPosition: number,
+   key?: string
 }, {}> {
 
    getStyle() {
       return {
          width: this.props.dataFile.getLengthOfStripe(),
-         height: this.props.dataPanelSize.height + 'px',
-         backgroundColor: '#fafafa'
+         height: this.props.dataStripeSize.height + 'px'
       }
    }
 
@@ -23,9 +23,10 @@ export class Stripe extends React.Component<{
       return (
          <div className="stripe"
               style={this.getStyle()}>
-            <StripeScreen dataPanelSize={this.props.dataPanelSize}
+            <StripeScreen dataStripeSize={this.props.dataStripeSize}
                           dataFile={this.props.dataFile}
-                          leftPosition={this.props.leftPosition} />
+                          leftPosition={this.props.leftPosition}
+                          field={this.props.field} />
          </div>
       );
    }

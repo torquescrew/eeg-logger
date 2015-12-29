@@ -4,19 +4,19 @@ import * as _ from 'underscore';
 export class VirtualCanvas {
    canvas: HTMLCanvasElement;
    context: CanvasRenderingContext2D;
-   dataPanelSize: Size;
+   dataStripeSize: Size;
    leftPix: number;
 
-   constructor(dataPanelSize: Size) {
-      this.dataPanelSize = dataPanelSize;
+   constructor(dataStripeSize: Size) {
+      this.dataStripeSize = dataStripeSize;
       this.canvas = document.createElement('canvas');
-      this.canvas.width = this.dataPanelSize.width;
-      this.canvas.height = this.dataPanelSize.height;
+      this.canvas.width = this.dataStripeSize.width;
+      this.canvas.height = this.dataStripeSize.height;
       this.context = this.canvas.getContext('2d');
    }
 
    saveCanvas(canvas: HTMLCanvasElement, leftPix: number) {
-      this.context.clearRect(0, 0, this.dataPanelSize.width, this.dataPanelSize.height);
+      this.context.clearRect(0, 0, this.dataStripeSize.width, this.dataStripeSize.height);
       this.context.drawImage(canvas, 0, 0);
       this.leftPix = leftPix;
    }

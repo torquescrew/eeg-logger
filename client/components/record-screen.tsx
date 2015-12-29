@@ -9,10 +9,13 @@ import {Mode} from '../util/constants';
 import {DataFile} from "../stores/data-file/data-file";
 import {Size} from "../util/util";
 import {Ev} from "../util/dispatcher";
+import {Field} from "../util/util";
+
 
 
 export class RecordScreen extends React.Component<{
-   dataPanelSize: Size,
+   dataStripeSize: Size,
+   visibleStripes: Field[],
    dataFile: DataFile,
    location: any[],
    playing: boolean,
@@ -26,7 +29,8 @@ export class RecordScreen extends React.Component<{
 
       return (
          <div className="recordScreen">
-            <DataPanel dataPanelSize={this.props.dataPanelSize}
+            <DataPanel dataStripeSize={this.props.dataStripeSize}
+                       visibleStripes={this.props.visibleStripes}
                        dataFile={this.props.dataFile}
                        playing={this.props.playing}
                        muted={this.props.muted}

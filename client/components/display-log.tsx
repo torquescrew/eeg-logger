@@ -7,10 +7,12 @@ import * as util from '../util/util';
 import {Size} from "../util/util";
 import {DataPanel} from './data-panel/data-panel';
 import {StatsPanel} from './stats-panel';
+import {Field} from "../util/util";
 
 
 export class DisplayLog extends React.Component<{
-   dataPanelSize: Size,
+   dataStripeSize: Size,
+   visibleStripes: Field[],
    dataFile: DataFile,
    location: any[],
    logList: number[]
@@ -80,7 +82,8 @@ export class DisplayLog extends React.Component<{
                     hide={this.hideNextButton()} />
             </div>
 
-            <DataPanel dataPanelSize={this.props.dataPanelSize}
+            <DataPanel dataStripeSize={this.props.dataStripeSize}
+                       visibleStripes={this.props.visibleStripes}
                        dataFile={this.props.dataFile}
                        location={this.props.location}  />
 

@@ -1,16 +1,18 @@
-import { Size } from '../util/util';
-import { DataFile } from './data-file/data-file';
+import {Size, Field} from '../util/util';
+import {DataFile} from './data-file/data-file';
 import * as $ from 'jquery';
 import * as _ from 'underscore';
-import { dispatcher, Ev } from '../util/dispatcher';
+import {dispatcher, Ev} from '../util/dispatcher';
 
-import { Mode } from '../util/constants';
-import { Store } from "./store";
+import {Mode} from '../util/constants';
+import {Store} from "./store";
+
 
 //TODO: Should this be split into 2 stores? settings and data-file stuff?
 
 export interface MainState {
-   dataPanelSize: Size,
+   dataStripeSize: Size,
+   visibleStripes: Field[],
    dataFile: DataFile,
    logList: number[],
    location: any[],
@@ -26,24 +28,22 @@ interface Settings {
 }
 
 export class DataStore extends Store implements MainState {
-   dataPanelSize: Size;
+   dataStripeSize: Size;
+   visibleStripes = [Field.Meditation, Field.Attention];
    dataFile: DataFile;
    logList = [];
-   location = [];
+   location = [Mode.Start];
    playing = false;
    muted = false;
    pixPerMilliSec = 0.01;
 
-   constructor(dataPanelSize: Size) {
+   constructor() {
       super();
-      this.dataPanelSize = dataPanelSize;
-      this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
-      this.location = [Mode.Start];
-      this.playing = false;
-      this.muted = false;
+      this.dataStripeSize = new Size(800, 150);
+      this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
       dispatcher.on(Ev.PlayLog, () => {
-         this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
+         this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
          this.setPlaying(true);
          this.emitChange();
       });
@@ -170,7 +170,7 @@ export class DataStore extends Store implements MainState {
 
    loadLog(log: number, callback: Function): void {
       $.get('/loadLog', {name: log + '.json'}).done((res) => {
-         this.dataFile = new DataFile(this.dataPanelSize, this.pixPerMilliSec);
+         this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
          this.dataFile.appendArrayOfData(JSON.parse(res));
          let pixPerMilliSec = this.dataFile.calcPixPerMilliSecToFit();
 
@@ -188,13 +188,14 @@ export class DataStore extends Store implements MainState {
 
    getState(): MainState {
       return {
-         dataPanelSize: this.dataPanelSize,
+         dataStripeSize: this.dataStripeSize,
+         visibleStripes: this.visibleStripes,
          dataFile: this.dataFile,
          logList: this.logList,
          location: this.location,
          playing: this.playing,
          muted: this.muted,
-         pixPerMilliSec: this.pixPerMilliSec
+         pixPerMilliSec: this.pixPerMilliSec,
       };
    }
 

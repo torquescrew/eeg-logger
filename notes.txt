@@ -1,8 +1,6 @@
 
 TODO:
- - when viewing log, data panel should fit full log on screen, ie zoom 100%
- - save location to server
- - display stat averages in history mode
+
  - improve appearance of data panel
     - show time/y values
  - show url location
@@ -15,6 +13,7 @@ TODO:
  - need a channel per frequency since they each have their own scale.
  - delete log
  - label axis
+ - refactor stores
 
 Settings:
  - which traces to display
@@ -41,3 +40,7 @@ draw rest of screen
 save screen to virtual canvas
 
 how to keep track of what is still visible on virtual canvas? - will this work with sampling?
+
+which data fields are shown
+height of a stripe
+ - calculate height of data panel from this

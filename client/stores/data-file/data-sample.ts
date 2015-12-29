@@ -1,34 +1,4 @@
-//var a = {
-//   "eSense": {"attention": 64, "meditation": 81},
-//   "eegPower": {
-//      "delta": 5881,
-//      "theta": 4519,
-//      "lowAlpha": 7393,
-//      "highAlpha": 3582,
-//      "lowBeta": 2084,
-//      "highBeta": 1661,
-//      "lowGamma": 783,
-//      "highGamma": 3414
-//   },
-//   "poorSignalLevel": 0,
-//   "time": 1446272258272
-//};
-
-
-export enum Field {
-   Attention,
-   Meditation,
-   Delta,
-   Theta,
-   LowAlpha,
-   HighAlpha,
-   LowBeta,
-   HighBeta,
-   LowGamma,
-   HighGamma,
-   Signal,
-   Time
-}
+import {Field} from "../../util/util";
 
 interface Sample {
    eSense: {
@@ -91,21 +61,4 @@ export class DataSample {
    private calcSignal(poorSignalLevel: number): number {
       return 100 - (poorSignalLevel / 2);
    }
-
-   //getSignal(): number {
-   //   let poorSignalLevel = this.sample['poorSignalLevel'];
-   //   return 100 - (poorSignalLevel / 2);
-   //}
-   //
-   //getAttention(): number {
-   //   return this.sample['eSense']['attention'];
-   //}
-   //
-   //getMeditation(): number {
-   //   return this.sample['eSense']['meditation'];
-   //}
-   //
-   //getTime(): number {
-   //   return this.sample['time'];
-   //}
 }

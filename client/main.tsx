@@ -11,7 +11,7 @@ import {dispatcher, Ev} from './util/dispatcher';
 import {Mode} from "./util/constants";
 
 
-var store = new DataStore(new Size(800, 400));
+var store = new DataStore();
 
 
 class Main extends React.Component<{}, MainState> {
@@ -37,13 +37,15 @@ class Main extends React.Component<{}, MainState> {
 
       switch (this.state.location[0]) {
          case Mode.History:
-            screen = <HistoryScreen dataPanelSize={this.state.dataPanelSize}
+            screen = <HistoryScreen dataStripeSize={this.state.dataStripeSize}
+                                    visibleStripes={this.state.visibleStripes}
                                     dataFile={this.state.dataFile}
                                     location={this.state.location}
                                     logList={this.state.logList} />;
             break;
          case Mode.Start:
-            screen = <RecordScreen dataPanelSize={this.state.dataPanelSize}
+            screen = <RecordScreen dataStripeSize={this.state.dataStripeSize}
+                                   visibleStripes={this.state.visibleStripes}
                                    dataFile={this.state.dataFile}
                                    location={this.state.location}
                                    playing={this.state.playing}

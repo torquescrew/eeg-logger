@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {DataSample} from "../stores/data-file/data-sample";
 import {DataFile} from "../stores/data-file/data-file";
-import {Field} from "../stores/data-file/data-sample";
+import {Field} from "../util/util";
+
 
 export class StatsPanel extends React.Component<{
    dataFile: DataFile,

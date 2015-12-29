@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'underscore';
 import {DataFile} from "../stores/data-file/data-file";
-import {Field} from "../stores/data-file/data-sample";
+import {Field} from "../util/util";
 
 
 export class AudioOut extends React.Component<{

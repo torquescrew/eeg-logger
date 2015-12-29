@@ -6,14 +6,13 @@ import * as _ from 'underscore';
 
 export class TimeAxis extends React.Component<{
    dataFile: DataFile,
-   dataPanelSize: Size
+   dataStripeSize: Size
 }, {}> {
 
    getStyle(): any {
       let len = this.props.dataFile.getLengthOfStripe();
-      let w = this.props.dataPanelSize.width;
+      let w = this.props.dataStripeSize.width;
       if (len < w) {
-
          return {
             width: len,
             marginLeft: (w - len) + 'px'

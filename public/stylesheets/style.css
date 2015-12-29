@@ -25,6 +25,11 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.stripe {
+  border-bottom: 1px solid #d4d4d4;
+  cursor: default;
+}
+
 .sidebar {
   display: flex;
   flex-flow: column;
@@ -214,7 +219,7 @@
 
 .timeAxis {
   height: 25px;
-  border-top: 1px solid #d4d4d4;
+  /*border-top: 1px solid #d4d4d4;*/
   color: #6a6a6a;
   /*background-color: #f6f6f6;*/
   padding-top: 2px;

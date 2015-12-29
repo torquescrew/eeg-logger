@@ -1,20 +1,22 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as $ from 'jquery';
-import {Mapper} from "../../stores/data-file/pix-mapper";
+
 import {Mode} from "../../util/constants";
-import {dispatcher} from "../../util/dispatcher";
-import {Ev} from "../../util/dispatcher";
-import {Size} from "../../util/util";
+import {dispatcher, Ev} from "../../util/dispatcher";
+import {Size, Field} from "../../util/util";
 import {DataFile} from "../../stores/data-file/data-file";
+
 import {Controls} from '../controls/controls';
 import {Stripe} from './stripe';
 import {Btn} from '../controls/btn';
 import {TimeAxis} from './time-axis';
+import {DragState} from "./drag-state";
 
 
 export class DataPanel extends React.Component<{
-   dataPanelSize: Size,
+   dataStripeSize: Size,
+   visibleStripes: Field[],
    dataFile: DataFile,
    location: any[]
    muted?: boolean,
@@ -23,6 +25,8 @@ export class DataPanel extends React.Component<{
    leftPosition: number,
    stickScrollToRight: boolean
 }> {
+
+   private dragState: DragState;
 
    static defaultProps = {
       muted: false,
@@ -35,6 +39,9 @@ export class DataPanel extends React.Component<{
    };
 
    componentDidMount() {
+      //let stripeContainer = this.refs['stripeContainer'] as HTMLElement;
+      //new Hammer(stripeContainer);
+
       dispatcher.on(Ev.PlayLog, this.playLog);
    }
 
@@ -57,7 +64,7 @@ export class DataPanel extends React.Component<{
 
    onScroll = () => {
       var $stripe = $(this.getElement('stripe'));
-      let $stripeContainer = $(this.getElement('stripeContainer'));
+      let $stripeContainer = $(this.refs['stripeContainer']);
 
       let leftPos = Math.floor($stripe.position().left - $stripeContainer.position().left);
 
@@ -65,11 +72,33 @@ export class DataPanel extends React.Component<{
          leftPosition: leftPos,
          stickScrollToRight: this.state.stickScrollToRight
       });
+
+      //console.log('this.state.leftPosition: ', this.state.leftPosition);
+   };
+
+   onMouseDown = (e: __React.MouseEvent) => {
+      var $stripe = $(this.getElement('stripe'));
+      let $stripeContainer = $(this.refs['stripeContainer']);
+
+      let left = $stripe.position().left - $stripeContainer.position().left;
+
+      this.dragState = new DragState(left, e.clientX);
+   };
+
+   onMouseMove = (e: __React.MouseEvent) => {
+      if (e.buttons) {
+         let maxLeftPos = -(this.props.dataFile.getLengthOfStripe() - this.props.dataStripeSize.width);
+         let xDiff = e.clientX - this.dragState.clientX;
+         let newLeft = this.dragState.left + xDiff;
+         let newPos = newLeft / maxLeftPos;
+
+         this.scrollToPosition(newPos);
+      }
    };
 
    getStyle() {
       return {
-         width: this.props.dataPanelSize.width + 'px'
+         width: this.props.dataStripeSize.width + 'px'
       }
    }
 
@@ -91,12 +120,22 @@ export class DataPanel extends React.Component<{
       });
    };
 
-   scrollToRight = () => {
-      let leftPos = this.props.dataFile.getLengthOfStripe() - this.props.dataPanelSize.width;
+   scrollToPosition = (pos: number): void => {
+      if (pos < 0 || pos > 1 || isNaN(pos)) {
+         return;
+      }
+
+      const stripeContainer = this.refs['stripeContainer'] as HTMLElement;
+      const maxScrollLeft = stripeContainer.scrollWidth - stripeContainer.clientWidth;
+
+      stripeContainer.scrollLeft = maxScrollLeft * pos;
+
+      const maxLeftPos = -(this.props.dataFile.getLengthOfStripe() - this.props.dataStripeSize.width);
+      const leftPos = pos * maxLeftPos;
 
       if (leftPos !== this.state.leftPosition) {
          this.setState({
-            leftPosition: this.props.dataFile.getLengthOfStripe() - this.props.dataPanelSize.width,
+            leftPosition: leftPos,
             stickScrollToRight: this.state.stickScrollToRight
          });
       }
@@ -104,8 +143,19 @@ export class DataPanel extends React.Component<{
 
    componentDidUpdate() {
       if (this.state.stickScrollToRight) {
-         this.scrollToRight();
+         //this.scrollToRight();
+         this.scrollToPosition(1.0);
       }
+   }
+
+   renderStripes() {
+      return this.props.visibleStripes.map((field: Field) => (
+         <Stripe dataStripeSize={this.props.dataStripeSize}
+                 dataFile={this.props.dataFile}
+                 leftPosition={this.state.leftPosition}
+                 field={field}
+                 key={Field[field]} />
+      ));
    }
 
    //TODO: hard coded id
@@ -120,14 +170,18 @@ export class DataPanel extends React.Component<{
       return (
          <div className="dataPanelContainer">
             <div className="stripeContainer"
+                 ref="stripeContainer"
                  style={this.getStyle()}
                  onScroll={this.onScroll}
+                 onMouseDown={this.onMouseDown}
+                 onMouseMove={this.onMouseMove}
                  onTouchMove={this.onScroll} >
-               <Stripe dataPanelSize={this.props.dataPanelSize}
-                       dataFile={this.props.dataFile}
-                       leftPosition={this.state.leftPosition} />
-               <TimeAxis dataPanelSize={this.props.dataPanelSize}
+
+               {this.renderStripes()}
+
+               <TimeAxis dataStripeSize={this.props.dataStripeSize}
                          dataFile={this.props.dataFile} />
+
             </div>
 
             <div className="dataPanelControls">

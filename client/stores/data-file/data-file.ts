@@ -1,26 +1,33 @@
 import {DataSample} from './data-sample';
 import {Mapper} from './pix-mapper';
-import {Size, Position} from '../../util/util';
+import {Size, Position, Field} from '../../util/util';
 import * as _ from 'underscore';
-import {Field} from "./data-sample";
+
 
 export class DataFile {
-   private dataPanelSize: Size;
+   private dataStripeSize: Size;
+   private visibleFields: Field[];
+   private fieldMaxValues: {};
    private data: DataSample[];
    private mapper: Mapper;
 
-   constructor(dataPanelSize: Size, pixPerMilliSec: number) {
-      this.dataPanelSize = dataPanelSize;
-      this.mapper = new Mapper(dataPanelSize, this, pixPerMilliSec);
+   constructor(dataStripeSize: Size, pixPerMilliSec: number, visibleFields: Field[]) {
+      this.dataStripeSize = dataStripeSize;
+      this.visibleFields = visibleFields;
+      this.mapper = new Mapper(dataStripeSize, this, pixPerMilliSec);
       this.data = [];
    }
 
-   appendData(data): void {
+   appendData(data, calcFieldMaxes: boolean = true): void {
       this.data.push(new DataSample(data));
+
+      if (calcFieldMaxes)
+         this.calculateFieldMaxValues();
    }
 
    appendArrayOfData(array: any[]): void {
-      array.forEach((data) => this.appendData(data));
+      array.forEach((data) => this.appendData(data, false));
+      this.calculateFieldMaxValues();
    }
 
    getLastSample(): DataSample {
@@ -64,7 +71,7 @@ export class DataFile {
       let time = sample.getField(Field.Time) - this.getStartTime();
 
       let x = Math.floor(this.mapper.timeToPixel(time) - leftPix);
-      let y = Math.floor(this.mapper.valueToYPixel(sample.getField(field)));
+      let y = Math.floor(this.mapper.valueToYPixel(sample, field));
 
       return new Position(x, y);
    }
@@ -86,7 +93,7 @@ export class DataFile {
    }
 
    calcPixPerMilliSecToFit() {
-      return this.dataPanelSize.width / this.getTimeDuration();
+      return this.dataStripeSize.width / this.getTimeDuration();
    }
 
    getPixPerMilliSec(): number {
@@ -110,6 +117,36 @@ export class DataFile {
          return this.mapper.pixelToTime(xPix) - this.getStartTime();
       }
       return Math.floor(this.mapper.pixelToTime(xPix));
+   }
+
+   private calculateFieldMaxValues() {
+      let max = (field: Field): number => {
+         return _.max(this.data, (sample: DataSample) => {
+            return sample.getField(field);
+         }).getField(field);
+      };
+
+      let maxValues = [];
+
+      this.visibleFields.forEach((field: Field) => {
+         switch (field) {
+            case Field.Meditation:
+               maxValues[field] = 100;
+               break;
+            case Field.Attention:
+               maxValues[field] = 100;
+               break;
+            default:
+               maxValues[field] = max(field);
+               break;
+         }
+      });
+
+      this.fieldMaxValues = maxValues;
+   }
+
+   getMaxValueForField(field: Field): number {
+      return this.fieldMaxValues[field];
    }
 
    isEmpty(): boolean {
