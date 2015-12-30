@@ -53,8 +53,6 @@ export class DataPanel extends React.Component<{
       });
    };
 
-
-   //TODO: Make sure this grabs the element inside this component only.
    getElement(className: string): Element {
       return ReactDOM.findDOMNode(this).getElementsByClassName(className)[0];
    }

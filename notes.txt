@@ -1,8 +1,5 @@
-
 TODO:
 
- - improve appearance of data panel
-    - show time/y values
  - show url location
  - remember location thread
  - fix event handler leaks
@@ -10,28 +7,14 @@ TODO:
     - connect headset
  - electron
  - modularise css
- - need a channel per frequency since they each have their own scale.
  - delete log
- - label axis
  - refactor stores
 
 Settings:
- - which traces to display
  - smoothing? - average based on the number of visible points
  -
 
 export/import of logs?
-
-Location keeping:
-
-plain array:
-['history', '12453453.json']
-
-map:
-{'history': [], 'start': [], 'settings': [], current: 'start'}
-
-location object:
-location['history']['2432365.json']
 
 
 
@@ -41,6 +24,3 @@ save screen to virtual canvas
 
 how to keep track of what is still visible on virtual canvas? - will this work with sampling?
 
-which data fields are shown
-height of a stripe
- - calculate height of data panel from this

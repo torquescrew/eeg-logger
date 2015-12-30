@@ -63,7 +63,10 @@ export class DataFile {
 
    getPixPositionsForScreen(leftPix: number, width: number, field: Field): Position[] {
       let startIndex = this.getClosestSampleIndex(this.mapper.pixelToTime(leftPix));
+      startIndex = _.max([0, startIndex - 1]);
+
       let endIndex = this.getClosestSampleIndex(this.mapper.pixelToTime(leftPix + width));
+      endIndex = _.min([this.data.length, endIndex + 1]);
 
       let positions: Position[] = [];
 
