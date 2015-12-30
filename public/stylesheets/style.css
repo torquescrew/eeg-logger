@@ -1,10 +1,7 @@
 .main {
-
   font-family: Verdana, Geneva, sans-serif;
   font-size: 1.2em;
   color: #323232;
-  /*background-color: #fdfdfd;*/
-
   position: absolute;
   top: 0;
   bottom: 0;
@@ -21,9 +18,7 @@
   border: 1px solid #c4c4c4;
   overflow-y: hidden;
   overflow-x: scroll;
-  /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);*/
   -webkit-overflow-scrolling: touch;
-  /*position: relative;*/
 }
 
 .stripeContainer.needToConnect {
@@ -33,7 +28,6 @@
 
 .needToConnect .stripe,
 .needToConnect .timeAxis {
-  /*pointer-events: none;*/
   filter: opacity(30%);
   -webkit-filter: opacity(30%);
 }
@@ -64,10 +58,6 @@
   height: 30px;
   background-color: white;
   pointer-events: all;
-  /*-webkit-filter: none;*/
-
-  /*-webkit-filter: drop-shadow(16px 16px 10px rgba(0,0,0,0.9));*/
-  /*filter: drop-shadow(16px 16px 10px rgba(0,0,0,0.9));*/
 }
 
 .stripe {
@@ -97,7 +87,6 @@
 }
 
 .historyList .button {
-  /*margin: 5px;*/
   cursor: pointer;
 }
 
@@ -127,8 +116,6 @@
   justify-content: flex-start;
 }
 
-
-
 .disable-select {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -141,16 +128,35 @@
   text-align: center;
   vertical-align: middle;
   line-height: 30px;
-  /*background-color: rgb(100, 100, 100);*/
-  /*background-color: #008CBA;*/
   border: 1px solid #d4d4d4;
-  /*color: rgb(255, 255, 255);*/
-  /*font-style: italic;*/
-
   padding: 4px 13px;
   cursor: pointer;
   margin: 5px;
   display: inline-block;
+}
+
+.btn.leftArrow {
+  padding-left: 29px;
+  position: relative;
+}
+
+.btn.leftArrow:before {
+  content: '< ';
+
+  border-top: 2px solid #303030;
+  border-left: 2px solid #303030;
+  color: transparent;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: 13px;
+  top: 14px;
+
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .btn.disabled {
@@ -159,27 +165,7 @@
 }
 
 .btn:hover {
-  /*text-decoration: underline;*/
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-  /*background-color: rgb(81, 81, 81);*/
-  /*background-color: #00729c;*/
-  /*background-color: rgba(148, 148, 148, 0.2);*/
-  /*border: 2px solid #353535;*/
-}
-
-.sidebar .start {
-  /*flex: 1;*/
-}
-
-.sidebar .historyList {
-  flex: 2;
-  overflow-y: auto;
-  width: 190px;
-  /*height: 100%;*/
-}
-
-.sidebar .settings {
-  /*flex: 1;*/
 }
 
 .menu {
@@ -280,9 +266,7 @@
 
 .timeAxis {
   height: 25px;
-  /*border-top: 1px solid #d4d4d4;*/
   color: #6a6a6a;
-  /*background-color: #f6f6f6;*/
   padding-top: 2px;
   cursor: default;
   overflow: hidden;
@@ -313,13 +297,11 @@
   display: flex;
   justify-content: space-around;
   padding: 2px;
-  /*cursor: pointer;*/
 }
 
 .settings .showFields .showField .label {
   width: 120px;
   padding: 4px;
-  /*font-size: 0.9em;*/
 }
 
 

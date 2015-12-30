@@ -70,7 +70,7 @@ export class DisplayLog extends React.Component<{
 
       return (
          <div className="displayLog">
-            <Btn text="< Logs" onClick={this.onClickBack} />
+            <Btn text="List" onClick={this.onClickBack} additionalClasses={['leftArrow']} />
 
             <div className="logNavigation">
                <Btn text="Prev" onClick={this.onClickPrev}

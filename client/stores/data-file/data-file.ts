@@ -80,8 +80,8 @@ export class DataFile {
    getPixPositionForSample(sample: DataSample, field: Field, leftPix: number): Position {
       let time = sample.getField(Field.Time) - this.getStartTime();
 
-      let x = Math.floor(this.mapper.timeToPixel(time) - leftPix);
-      let y = Math.floor(this.mapper.valueToYPixel(sample, field));
+      let x = Math.round(this.mapper.timeToPixel(time) - leftPix);
+      let y = Math.round(this.mapper.valueToYPixel(sample, field));
 
       return new Position(x, y);
    }
