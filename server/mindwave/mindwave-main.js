@@ -6,7 +6,7 @@ var socket = null;
 var recordedData = [];
 var recording = false;
 
-function start() {
+function connect() {
 
    var client = mindwave.createClient({
       appName:'NodeMindwave',
@@ -89,7 +89,7 @@ function calcMeanAttention() {
 }
 
 
-module.exports.start = start;
+module.exports.connect = connect;
 module.exports.setSocket = setSocket;
 module.exports.startRecording = startRecording;
 module.exports.stopRecording = stopRecording;

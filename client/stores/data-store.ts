@@ -30,7 +30,7 @@ interface Settings {
 
 export class DataStore extends Store implements MainState {
    dataStripeSize: Size;
-   visibleStripes = [Field.Meditation, Field.Attention];
+   visibleStripes = [Field.Meditation, Field.Attention, Field.Signal];
    dataFile: DataFile;
    logList = [];
    location = [Mode.Start];
@@ -40,7 +40,7 @@ export class DataStore extends Store implements MainState {
 
    constructor() {
       super();
-      this.dataStripeSize = new Size(800, 150);
+      this.dataStripeSize = new Size(800, 130);
       this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
       dispatcher.on(Ev.PlayLog, () => {
