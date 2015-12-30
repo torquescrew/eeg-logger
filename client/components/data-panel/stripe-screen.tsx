@@ -43,10 +43,12 @@ export class StripeScreen extends React.Component<{
       var leftPix = -this.props.leftPosition;
       var width = this.props.dataStripeSize.width;
 
-      let length = dataFile.getLengthOfStripe();
-      if (length < width) {
-         leftPix -= (width - length);
-      }
+      //let length = dataFile.getLengthOfStripe();
+      //let shift = 0;
+      //
+      //if (length < width) {
+      //   shift = (width - length);
+      //}
 
       context.clearRect(0, 0, width, this.props.dataStripeSize.height);
       if (dataFile.isEmpty()) {
@@ -96,6 +98,17 @@ export class StripeScreen extends React.Component<{
       }
    }
 
+   calcShift() {
+      var width = this.props.dataStripeSize.width;
+      let length = this.props.dataFile.getLengthOfStripe();
+      let shift = 0;
+
+      if (length < width) {
+         shift = (width - length);
+      }
+      return shift;
+   }
+
    smoothPoints(points: Position[], numTimes?: number): Position[] {
       let smoothed = [];
 
@@ -122,12 +135,14 @@ export class StripeScreen extends React.Component<{
    drawStraightLine(points: Position[], context: CanvasRenderingContext2D, leftPix: number) {
       context.beginPath();
 
+      let shift = this.calcShift();
+
       _.each(points, (p: Position, i: number) => {
          if (i === 0) {
-            context.moveTo(p.x, p.y);
+            context.moveTo(p.x + shift, p.y);
          }
          else {
-            context.lineTo(p.x, p.y);
+            context.lineTo(p.x + shift, p.y);
          }
       });
 
@@ -137,17 +152,18 @@ export class StripeScreen extends React.Component<{
 
    drawCurvedLine(points: Position[], context: CanvasRenderingContext2D, leftPix: number) {
       context.beginPath();
+      let shift = this.calcShift();
 
-      context.moveTo(points[0].x, points[0].y);
+      context.moveTo(points[0].x + shift, points[0].y);
 
       for (var i = 1; i < points.length - 2; i++) {
          var xc = (points[i].x + points[i + 1].x) / 2;
          var yc = (points[i].y + points[i + 1].y) / 2;
-         context.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+         context.quadraticCurveTo(points[i].x + shift, points[i].y, xc + shift, yc);
       }
 
       // curve through the last two points
-      context.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+      context.quadraticCurveTo(points[i].x + shift, points[i].y, points[i + 1].x + shift, points[i + 1].y);
 
       context.stroke();
       //this.virtualCanvas.saveCanvas(this.state.canvas, leftPix);
@@ -172,10 +188,14 @@ export class StripeScreen extends React.Component<{
    }
 
    componentDidUpdate() {
-      this.drawData();
+      //this.drawData();
    }
 
    render() {
+      if (this.state.context) {
+         this.drawData();
+      }
+
       return (
          <div>
             <canvas width={this.props.dataStripeSize.width}

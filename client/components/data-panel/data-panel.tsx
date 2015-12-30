@@ -39,9 +39,6 @@ export class DataPanel extends React.Component<{
    };
 
    componentDidMount() {
-      //let stripeContainer = this.refs['stripeContainer'] as HTMLElement;
-      //new Hammer(stripeContainer);
-
       dispatcher.on(Ev.PlayLog, this.playLog);
    }
 
@@ -72,8 +69,6 @@ export class DataPanel extends React.Component<{
          leftPosition: leftPos,
          stickScrollToRight: this.state.stickScrollToRight
       });
-
-      //console.log('this.state.leftPosition: ', this.state.leftPosition);
    };
 
    onMouseDown = (e: __React.MouseEvent) => {
@@ -142,8 +137,8 @@ export class DataPanel extends React.Component<{
    };
 
    componentDidUpdate() {
-      if (this.state.stickScrollToRight) {
-         //this.scrollToRight();
+      if (this.state.stickScrollToRight
+         && (this.props.dataFile.getLengthOfStripe() > this.props.dataStripeSize.width)) {
          this.scrollToPosition(1.0);
       }
    }

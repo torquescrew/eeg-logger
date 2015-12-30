@@ -23,6 +23,7 @@ export interface MainState {
 
 interface Settings {
    location: any[],
+   visibleStripes: Field[],
    playing: boolean,
    muted: boolean
 }
@@ -55,6 +56,9 @@ export class DataStore extends Store implements MainState {
          else {
             this.visibleStripes = _.without(this.visibleStripes, options.field);
          }
+         this.updateDataFileParams();
+         this.emitChange();
+         this.saveSettings();
       });
 
       dispatcher.on(Ev.StopPlaying, () => {
@@ -109,6 +113,10 @@ export class DataStore extends Store implements MainState {
       });
    }
 
+   updateDataFileParams = () => {
+      this.dataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+   };
+
    setPlaying = (playing: boolean) => {
       if (this.playing !== playing) {
          this.playing = playing;
@@ -132,7 +140,8 @@ export class DataStore extends Store implements MainState {
       let settings: Settings = {
          location: this.location,
          playing: this.playing,
-         muted: this.muted
+         muted: this.muted,
+         visibleStripes: this.visibleStripes
       };
 
       dispatcher.socket.emit('saveSettings', settings);
@@ -149,6 +158,9 @@ export class DataStore extends Store implements MainState {
             this.loadLastDataFile(callback);
          }
       }
+      else {
+         callback();
+      }
    }
 
    loadSettings(callback: Function) {
@@ -157,9 +169,9 @@ export class DataStore extends Store implements MainState {
             this.location = settings.location;
             this.playing = settings.playing;
             this.muted = settings.muted;
-
-            callback();
+            this.visibleStripes = settings.visibleStripes;
          }
+         callback();
 
          console.log(settings);
       });

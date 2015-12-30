@@ -12,6 +12,7 @@ export class DataFile {
    private mapper: Mapper;
 
    constructor(dataStripeSize: Size, pixPerMilliSec: number, visibleFields: Field[]) {
+
       this.dataStripeSize = dataStripeSize;
       this.visibleFields = visibleFields;
       this.mapper = new Mapper(dataStripeSize, this, pixPerMilliSec);
@@ -28,6 +29,12 @@ export class DataFile {
    appendArrayOfData(array: any[]): void {
       array.forEach((data) => this.appendData(data, false));
       this.calculateFieldMaxValues();
+   }
+
+   updateParams(dataStripeSize: Size, pixPerMilliSec: number, visibleFields: Field[]) {
+      this.dataStripeSize = dataStripeSize;
+      this.visibleFields = visibleFields;
+      this.mapper = new Mapper(dataStripeSize, this, pixPerMilliSec);
    }
 
    getLastSample(): DataSample {
@@ -116,7 +123,7 @@ export class DataFile {
       if (startAtZero) {
          return this.mapper.pixelToTime(xPix) - this.getStartTime();
       }
-      return Math.floor(this.mapper.pixelToTime(xPix));
+      return Math.round(this.mapper.pixelToTime(xPix));
    }
 
    private calculateFieldMaxValues() {
@@ -151,5 +158,9 @@ export class DataFile {
 
    isEmpty(): boolean {
       return this.data.length === 0;
+   }
+
+   numOfSamples(): number {
+      return this.data.length;
    }
 }

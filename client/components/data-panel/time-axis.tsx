@@ -33,9 +33,8 @@ export class TimeAxis extends React.Component<{
       let vals = [];
       var len = dataFile.getLengthOfStripe();
       let width = 80;
-      let numOfVals = Math.floor(len / width) + 2;
+      let numOfVals = Math.floor(len / width) + 1;
       let pos = 0;
-
 
       for (let i = 0; i < numOfVals; i++) {
          let time = moment(dataFile.pixelToTime(pos)).format('m:ss');
