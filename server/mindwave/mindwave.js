@@ -30,6 +30,8 @@ var NeuroSkyClient = function(opts) {
       format: "Json"
    };
 
+   this.connected = false;
+
    events.EventEmitter.call(this);
 };
 
@@ -58,7 +60,21 @@ NeuroSkyClient.prototype.connect = function() {
    client.on('error', function(err) {
       console.log('Error connecting to ThinkGear client. Try starting the ThinkGear Connector app.\n', err);
       process.exit(1);
-   })
+   });
+
+   this.connected = true;
+};
+
+NeuroSkyClient.prototype.isConnected = function() {
+   //TODO: improve this.
+   return this.connected;
+};
+
+NeuroSkyClient.prototype.close = function() {
+   //TODO
+
+   // Need to call close on this then end on each connection?
+   console.log('todo');
 };
 
 exports.NeuroSkyClient = NeuroSkyClient;

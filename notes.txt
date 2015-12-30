@@ -9,6 +9,7 @@ TODO:
  - modularise css
  - delete log
  - refactor stores
+ - show value of mouse pos on data panel
 
 Settings:
  - smoothing? - average based on the number of visible points

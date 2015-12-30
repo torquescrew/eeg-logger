@@ -8,24 +8,25 @@ import {Mode} from '../util/constants';
 import {Store} from "./store";
 
 
-//TODO: Should this be split into 2 stores? settings and data-file stuff?
+//TODO: Should this be split into 2 stores?
 
 export interface MainState {
-   dataStripeSize: Size,
-   visibleStripes: Field[],
-   dataFile: DataFile,
-   logList: number[],
-   location: any[],
-   playing: boolean,
-   muted: boolean,
-   pixPerMilliSec: number
+   dataStripeSize: Size;
+   visibleStripes: Field[];
+   dataFile: DataFile;
+   logList: number[];
+   location: any[];
+   playing: boolean;
+   muted: boolean;
+   pixPerMilliSec: number;
+   headsetConnected: boolean;
 }
 
 interface Settings {
-   location: any[],
-   visibleStripes: Field[],
-   playing: boolean,
-   muted: boolean
+   location: any[];
+   visibleStripes: Field[];
+   playing: boolean;
+   muted: boolean;
 }
 
 export class DataStore extends Store implements MainState {
@@ -37,6 +38,8 @@ export class DataStore extends Store implements MainState {
    playing = false;
    muted = false;
    pixPerMilliSec = 0.01;
+   headsetConnected = false;
+
 
    constructor() {
       super();
@@ -107,7 +110,9 @@ export class DataStore extends Store implements MainState {
       this.loadLogList(() => {
          this.loadSettings(() => {
             this.initDataFile(() => {
-               this.emitChange();
+               this.checkIfHeadsetConnected(() => {
+                  this.emitChange();
+               });
             });
          });
       });
@@ -148,7 +153,7 @@ export class DataStore extends Store implements MainState {
    };
 
    initDataFile(callback: Function) {
-      if (this.location[0] === Mode.History) {
+      //if (this.location[0] === Mode.History) {
          if (!_.isUndefined(this.location[1])) {
             let log: number = this.logList[this.location[1]];
 
@@ -157,10 +162,17 @@ export class DataStore extends Store implements MainState {
          else {
             this.loadLastDataFile(callback);
          }
-      }
-      else {
+      //}
+      //else {
+      //   callback();
+      //}
+   }
+
+   checkIfHeadsetConnected(callback) {
+      $.get('/headsetConnected', (res) => {
+         this.headsetConnected = res;
          callback();
-      }
+      });
    }
 
    loadSettings(callback: Function) {
@@ -193,7 +205,6 @@ export class DataStore extends Store implements MainState {
       $.get('/loadLog', {name: log + '.json'}).done((res) => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
          this.dataFile.appendArrayOfData(JSON.parse(res));
-         let pixPerMilliSec = this.dataFile.calcPixPerMilliSecToFit();
 
          this.dataFile.setPixPerMilliSec(this.dataFile.calcPixPerMilliSecToFit());
 
@@ -217,6 +228,7 @@ export class DataStore extends Store implements MainState {
          playing: this.playing,
          muted: this.muted,
          pixPerMilliSec: this.pixPerMilliSec,
+         headsetConnected: this.headsetConnected
       };
    }
 

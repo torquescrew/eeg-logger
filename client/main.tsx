@@ -49,6 +49,7 @@ class Main extends React.Component<{}, MainState> {
                                    visibleStripes={this.state.visibleStripes}
                                    dataFile={this.state.dataFile}
                                    location={this.state.location}
+                                   headsetConnected={this.state.headsetConnected}
                                    playing={this.state.playing}
                                    muted={this.state.muted} />;
             break;

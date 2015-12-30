@@ -8,14 +8,15 @@ import {DataFile} from "../../stores/data-file/data-file";
 export class Controls extends React.Component<{
    dataFile: DataFile,
    playing: boolean,
-   muted: boolean
+   muted: boolean,
+   disabled?: boolean
 }, {}> {
 
    render() {
       return (
          <div className="playControls">
-            <Play playing={this.props.playing} />
-            <Mute muted={this.props.muted} />
+            <Play playing={this.props.playing} disabled={this.props.disabled} />
+            <Mute muted={this.props.muted} disabled={this.props.disabled} />
          </div>
       );
    }

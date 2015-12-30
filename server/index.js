@@ -25,13 +25,13 @@ app.get('/stopPlaying', function(req, res) {
    res.send('done');
 });
 
-app.get('/connectMindwave', function(req, res) {
+app.get('/connectHeadset', function(req, res) {
    mindwave.connect();
    res.send('OK');
 });
 
-app.get('/isMindwaveConnected', function(req, res) {
-
+app.get('/headsetConnected', function(req, res) {
+   res.send(mindwave.isConnected());
 });
 
 app.get('/startRecording', function(req, res) {

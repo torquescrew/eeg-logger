@@ -18,7 +18,8 @@ export class DataPanel extends React.Component<{
    dataStripeSize: Size,
    visibleStripes: Field[],
    dataFile: DataFile,
-   location: any[]
+   location: any[],
+   headsetConnected?: boolean,
    muted?: boolean,
    playing?: boolean
 }, {
@@ -151,18 +152,38 @@ export class DataPanel extends React.Component<{
       ));
    }
 
-   //TODO: hard coded id
+   needToConnect() {
+      return this.props.location[0] === Mode.Start && !this.props.headsetConnected;
+   }
+
+   needToConnectClass() {
+      return this.needToConnect() ? ' needToConnect' : '';
+   }
+
+   renderConnectButton() {
+      if (this.needToConnect()) {
+         return (
+            <div>
+               <div className="disabledLayer"></div>
+               <Btn text="Connect Headset" additionalClasses={["connect"]} />
+            </div>
+         );
+      }
+      return null;
+   }
+
    render() {
       var controls = null;
       if (this.props.location[0] === Mode.Start) {
          controls = <Controls dataFile={this.props.dataFile}
                               playing={this.props.playing}
-                              muted={this.props.muted}/>;
+                              muted={this.props.muted}
+                              disabled={this.needToConnect()} />;
       }
 
       return (
          <div className="dataPanelContainer disable-select">
-            <div className="stripeContainer"
+            <div className={"stripeContainer" + this.needToConnectClass()}
                  ref="stripeContainer"
                  style={this.getStyle()}
                  onScroll={this.onScroll}
@@ -175,12 +196,13 @@ export class DataPanel extends React.Component<{
                <TimeAxis dataStripeSize={this.props.dataStripeSize}
                          dataFile={this.props.dataFile} />
 
-            </div>
+               {this.renderConnectButton()}
 
+            </div>
             <div className="dataPanelControls">
                <div className="scaleControls">
-                  <Btn onClick={this.zoomIn} text="+"/>
-                  <Btn onClick={this.zoomOut} text="-"/>
+                  <Btn onClick={this.zoomIn} text="+" disabled={this.needToConnect()} />
+                  <Btn onClick={this.zoomOut} text="-" disabled={this.needToConnect()} />
                </div>
 
                {controls}

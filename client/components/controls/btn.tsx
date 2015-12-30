@@ -2,30 +2,28 @@ import * as React from 'react';
 
 
 export class Btn extends React.Component<{
-   onClick: any,
+   onClick?: any,
    text: string,
    hide?: boolean,
-   classes?: string[]
+   classes?: string[],
+   additionalClasses?: string[],
+   disabled?: boolean
 }, {}> {
 
    static defaultProps = {
       onClick: () => { console.log('does nothing'); },
       test: 'todo',
       hide: false,
-      classes: ['btn', 'disable-select']
+      classes: ['btn', 'disable-select'],
+      additionalClasses: []
    };
 
-   //getDefaultProps() {
-   //   return {
-   //      onClick: () => { console.log('does nothing'); },
-   //      test: 'todo',
-   //      hide: false,
-   //      classes: ['btn', 'disable-select']
-   //   };
-   //}
-
    getClasses(): string {
-      var classes = this.props.classes;
+      var classes = this.props.classes.concat(this.props.additionalClasses);
+
+      if (this.props.disabled) {
+         classes.push('disabled');
+      }
 
       if (this.props.hide) {
          return classes.concat('hide').join(' ');
@@ -42,10 +40,3 @@ export class Btn extends React.Component<{
       )
    }
 }
-
-//Btn.defaultProps = {
-//   onClick: () => { console.log('does nothing'); },
-//   test: 'todo',
-//   hide: false,
-//   classes: ['btn', 'disable-select']
-//};

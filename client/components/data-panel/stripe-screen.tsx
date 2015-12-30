@@ -188,13 +188,13 @@ export class StripeScreen extends React.Component<{
    }
 
    componentDidUpdate() {
-      //this.drawData();
+      this.drawData();
    }
 
    render() {
-      if (this.state.context) {
-         this.drawData();
-      }
+      //if (this.state.context) {
+      //   this.drawData();
+      //}
 
       return (
          <div>

@@ -10,6 +10,7 @@ import {DataFile} from "../stores/data-file/data-file";
 import {Size} from "../util/util";
 import {Ev} from "../util/dispatcher";
 import {Field} from "../util/util";
+//import {Btn} from './controls/btn';
 
 
 
@@ -18,6 +19,7 @@ export class RecordScreen extends React.Component<{
    visibleStripes: Field[],
    dataFile: DataFile,
    location: any[],
+   headsetConnected: boolean,
    playing: boolean,
    muted: boolean
 },{}> {
@@ -32,9 +34,12 @@ export class RecordScreen extends React.Component<{
             <DataPanel dataStripeSize={this.props.dataStripeSize}
                        visibleStripes={this.props.visibleStripes}
                        dataFile={this.props.dataFile}
+                       headsetConnected={this.props.headsetConnected}
                        playing={this.props.playing}
                        muted={this.props.muted}
                        location={this.props.location} />
+
+
 
             <StatsPanel dataFile={this.props.dataFile}
                         playing={this.props.playing} />
