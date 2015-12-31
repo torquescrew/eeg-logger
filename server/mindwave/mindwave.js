@@ -30,7 +30,7 @@ var NeuroSkyClient = function(opts) {
       format: "Json"
    };
 
-   this.connected = false;
+   //this.connected = false;
 
    events.EventEmitter.call(this);
 };
@@ -62,12 +62,7 @@ NeuroSkyClient.prototype.connect = function() {
       process.exit(1);
    });
 
-   this.connected = true;
-};
-
-NeuroSkyClient.prototype.isConnected = function() {
-   //TODO: improve this.
-   return this.connected;
+   //this.connected = true;
 };
 
 NeuroSkyClient.prototype.close = function() {

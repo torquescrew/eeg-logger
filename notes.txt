@@ -10,6 +10,10 @@ TODO:
  - delete log
  - refactor stores
  - show value of mouse pos on data panel
+ - comparison of logs over time
+ - handle lots of visible fields:
+   - choose colors
+   - fit on page or scroll
 
 Settings:
  - smoothing? - average based on the number of visible points

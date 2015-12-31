@@ -10,7 +10,6 @@ import {DataFile} from "../stores/data-file/data-file";
 import {Size} from "../util/util";
 import {Ev} from "../util/dispatcher";
 import {Field} from "../util/util";
-//import {Btn} from './controls/btn';
 
 
 
@@ -38,8 +37,6 @@ export class RecordScreen extends React.Component<{
                        playing={this.props.playing}
                        muted={this.props.muted}
                        location={this.props.location} />
-
-
 
             <StatsPanel dataFile={this.props.dataFile}
                         playing={this.props.playing} />

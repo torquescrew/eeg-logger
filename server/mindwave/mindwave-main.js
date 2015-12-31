@@ -6,6 +6,7 @@ var client = null;
 
 var recordedData = [];
 var recording = false;
+var connected = false;
 
 function connect() {
 
@@ -24,12 +25,16 @@ function connect() {
 }
 
 function isConnected() {
-   return !!(client && client.isConnected());
+   return connected;
 }
 
 function handleNewData(data) {
    if (!data['eSense']) {
-      return;
+      connected = false;
+      //return;
+   }
+   else {
+      connected = true;
    }
 
    data.time = new Date().getTime();
@@ -50,15 +55,15 @@ function startRecording() {
 
 function stopRecording() {
    recording = false;
-   var meanMeditation = calcMeanMeditation();
-   var meanAttention = calcMeanAttention();
-
-   if (socket) {
-      socket.emit('stats', {
-         meanMeditation: meanMeditation,
-         meanAttention: meanAttention
-      });
-   }
+   //var meanMeditation = calcMeanMeditation();
+   //var meanAttention = calcMeanAttention();
+   //
+   //if (socket) {
+   //   socket.emit('stats', {
+   //      meanMeditation: meanMeditation,
+   //      meanAttention: meanAttention
+   //   });
+   //}
 }
 
 function getRecordedData() {
@@ -69,29 +74,29 @@ function setSocket(s) {
    socket = s;
 }
 
-function calcMeanMeditation() {
-   if (recordedData.length === 0) {
-      return 0;
-   }
-
-   var totalMeditation = _.reduce(recordedData, function(sum, data) {
-      return sum + data['eSense']['meditation'];
-   }, 0);
-
-   return totalMeditation / recordedData.length;
-}
-
-function calcMeanAttention() {
-   if (recordedData.length === 0) {
-      return 0;
-   }
-
-   var totalAttention = _.reduce(recordedData, function(sum, data) {
-      return sum + data['eSense']['attention'];
-   }, 0);
-
-   return totalAttention / recordedData.length;
-}
+//function calcMeanMeditation() {
+//   if (recordedData.length === 0) {
+//      return 0;
+//   }
+//
+//   var totalMeditation = _.reduce(recordedData, function(sum, data) {
+//      return sum + data['eSense']['meditation'];
+//   }, 0);
+//
+//   return totalMeditation / recordedData.length;
+//}
+//
+//function calcMeanAttention() {
+//   if (recordedData.length === 0) {
+//      return 0;
+//   }
+//
+//   var totalAttention = _.reduce(recordedData, function(sum, data) {
+//      return sum + data['eSense']['attention'];
+//   }, 0);
+//
+//   return totalAttention / recordedData.length;
+//}
 
 
 module.exports.connect = connect;

@@ -23,9 +23,16 @@ export class DataPanel extends React.Component<{
    muted?: boolean,
    playing?: boolean
 }, {
-   leftPosition: number,
-   stickScrollToRight: boolean
+   leftPosition?: number,
+   stickScrollToRight?: boolean,
+   connectingHeadset?: boolean
 }> {
+   // Defaults
+   state = {
+      leftPosition: 0,
+      stickScrollToRight: false,
+      connectingHeadset: false
+   };
 
    private dragState: DragState;
 
@@ -33,23 +40,17 @@ export class DataPanel extends React.Component<{
       muted: false,
       playing: false
    };
-   
-   state = {
-      leftPosition: 0,
-      stickScrollToRight: false
-   };
 
    componentDidMount() {
-      dispatcher.on(Ev.PlayLog, this.playLog);
+      dispatcher.on(Ev.StartRecording, this.playLog);
    }
 
    componentWillUnmount() {
-      dispatcher.removeListener(Ev.PlayLog, this.playLog);
+      dispatcher.removeListener(Ev.StartRecording, this.playLog);
    }
 
    playLog = () => {
       this.setState({
-         leftPosition: 0,
          stickScrollToRight: true
       });
    };
@@ -65,8 +66,7 @@ export class DataPanel extends React.Component<{
       let leftPos = Math.floor($stripe.position().left - $stripeContainer.position().left);
 
       this.setState({
-         leftPosition: leftPos,
-         stickScrollToRight: this.state.stickScrollToRight
+         leftPosition: leftPos
       });
    };
 
@@ -100,8 +100,7 @@ export class DataPanel extends React.Component<{
       dispatcher.emit(Ev.SetPixPerMilliSec, this.props.dataFile.getPixPerMilliSec() / 2);
 
       this.setState({
-         leftPosition: this.state.leftPosition,
-         stickScrollToRight: this.state.stickScrollToRight
+         leftPosition: this.state.leftPosition
       });
    };
 
@@ -109,8 +108,7 @@ export class DataPanel extends React.Component<{
       dispatcher.emit(Ev.SetPixPerMilliSec, this.props.dataFile.getPixPerMilliSec() * 2);
 
       this.setState({
-         leftPosition: this.state.leftPosition,
-         stickScrollToRight: this.state.stickScrollToRight
+         leftPosition: this.state.leftPosition
       });
    };
 
@@ -129,8 +127,7 @@ export class DataPanel extends React.Component<{
 
       if (leftPos !== this.state.leftPosition) {
          this.setState({
-            leftPosition: leftPos,
-            stickScrollToRight: this.state.stickScrollToRight
+            leftPosition: leftPos
          });
       }
    };
@@ -139,6 +136,12 @@ export class DataPanel extends React.Component<{
       if (this.state.stickScrollToRight
          && (this.props.dataFile.getLengthOfStripe() > this.props.dataStripeSize.width)) {
          this.scrollToPosition(1.0);
+      }
+
+      if (this.state.connectingHeadset && !this.needToConnect()) {
+         this.setState({
+            connectingHeadset: false
+         });
       }
    }
 
@@ -162,15 +165,27 @@ export class DataPanel extends React.Component<{
 
    renderConnectButton() {
       if (this.needToConnect()) {
+         let text = this.state.connectingHeadset ? 'Connecting...' : 'Connect Headset';
+
          return (
             <div>
-               <div className="disabledLayer"></div>
-               <Btn text="Connect Headset" additionalClasses={["connect"]} />
+               <Btn text={text}
+                    additionalClasses={["connect"]}
+                    onClick={this.tryConnect} />
             </div>
          );
       }
+
       return null;
    }
+
+   tryConnect = () => {
+      dispatcher.emit(Ev.ConnectHeadset);
+
+      this.setState({
+         connectingHeadset: true
+      });
+   };
 
    render() {
       var controls = null;

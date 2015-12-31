@@ -4,8 +4,6 @@ import {EventEmitter} from 'events';
 
 
 export enum Ev {
-   PlayLog,
-   StopPlaying,
    LiveData,
    SelectLog,
    SelectMode,
@@ -13,7 +11,10 @@ export enum Ev {
    Mute,
    Unmute,
    SetPixPerMilliSec,
-   SetFieldVisibility
+   SetFieldVisibility,
+   ConnectHeadset,
+   StartRecording,
+   StopRecording
 }
 
 class Dispatcher {
@@ -38,16 +39,16 @@ class Dispatcher {
    };
 
    //TODO: old way of doing things.
-   playLog(name: string, callback?: Function) {
-      $.get('playLog', {name: name}).done(function(res) {
-         if (callback)
-            callback(res);
-      });
-   }
-
-   stopPlayingLog() {
-      $.get('/stopPlaying');
-   }
+   //playLog(name: string, callback?: Function) {
+   //   $.get('playLog', {name: name}).done(function(res) {
+   //      if (callback)
+   //         callback(res);
+   //   });
+   //}
+   //
+   //stopPlayingLog() {
+   //   $.get('/stopPlaying');
+   //}
 }
 
 export let dispatcher = new Dispatcher();

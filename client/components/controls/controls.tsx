@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Play} from './play';
+import {Record} from './record';
 import {Mute} from './mute';
 import {DataFile} from "../../stores/data-file/data-file";
 
@@ -15,7 +15,7 @@ export class Controls extends React.Component<{
    render() {
       return (
          <div className="playControls">
-            <Play playing={this.props.playing} disabled={this.props.disabled} />
+            <Record playing={this.props.playing} disabled={this.props.disabled} />
             <Mute muted={this.props.muted} disabled={this.props.disabled} />
          </div>
       );

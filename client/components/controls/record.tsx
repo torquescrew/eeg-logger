@@ -4,33 +4,33 @@ import {Btn} from './btn';
 import {Ev} from "../../util/dispatcher";
 
 
-export class Play extends React.Component<{
+export class Record extends React.Component<{
    playing: boolean,
    disabled?: boolean
 }, {}> {
 
-   handlePlay() {
-      dispatcher.emit(Ev.PlayLog);
-      dispatcher.playLog('1447751933712');
+   handleStart() {
+      dispatcher.emit(Ev.StartRecording);
+      //dispatcher.playLog('1447751933712');
    }
 
    handleStop() {
-      dispatcher.stopPlayingLog();
-      dispatcher.emit(Ev.StopPlaying);
+      //dispatcher.stopPlayingLog();
+      dispatcher.emit(Ev.StopRecording);
    }
 
-   playButton() {
+   RecordButton() {
       if (this.props.playing) {
          return <Btn onClick={this.handleStop} text="Stop" disabled={this.props.disabled} />;
       }
       else {
-         return <Btn onClick={this.handlePlay} text="Play" disabled={this.props.disabled} />;
+         return <Btn onClick={this.handleStart} text="Start" disabled={this.props.disabled} />;
       }
    }
 
    render() {
       return (
-         this.playButton()
+         this.RecordButton()
       );
    }
 }

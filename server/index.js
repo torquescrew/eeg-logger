@@ -27,7 +27,7 @@ app.get('/stopPlaying', function(req, res) {
 
 app.get('/connectHeadset', function(req, res) {
    mindwave.connect();
-   res.send('OK');
+   res.send(mindwave.isConnected());
 });
 
 app.get('/headsetConnected', function(req, res) {

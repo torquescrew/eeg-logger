@@ -40,16 +40,30 @@ export class DataStore extends Store implements MainState {
    pixPerMilliSec = 0.01;
    headsetConnected = false;
 
+   timeAtLastSample = 0;
 
    constructor() {
       super();
       this.dataStripeSize = new Size(800, 130);
       this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
-      dispatcher.on(Ev.PlayLog, () => {
+      dispatcher.on(Ev.StartRecording, () => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+
+         $.get('/startRecording');
+
          this.setPlaying(true);
          this.emitChange();
+      });
+
+      dispatcher.on(Ev.StopRecording, () => {
+         this.setPlaying(false);
+
+         $.get('/stopRecording');
+
+         this.loadLogList(() => {
+            this.emitChange();
+         });
       });
 
       dispatcher.on(Ev.SetFieldVisibility, (options: {field: Field, visible: boolean}) => {
@@ -64,11 +78,6 @@ export class DataStore extends Store implements MainState {
          this.saveSettings();
       });
 
-      dispatcher.on(Ev.StopPlaying, () => {
-         this.setPlaying(false);
-         this.emitChange();
-      });
-
       dispatcher.on(Ev.Mute, () => {
          this.setMuted(true);
          this.emitChange();
@@ -80,9 +89,33 @@ export class DataStore extends Store implements MainState {
       });
 
       dispatcher.socket.on('liveData', data => {
-         this.setPlaying(true);
-         this.dataFile.appendData(data);
-         this.emitChange();
+         console.log(data);
+         this.timeAtLastSample = _.now();
+
+         if (data['eSense']) {
+            //if (!this.headsetConnected) {
+            //   this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+            //   this.emitChange();
+            //}
+            this.headsetConnected = true;
+            if (this.playing) {
+               this.dataFile.appendData(data);
+            }
+            this.emitChange();
+         }
+         else if (data['blinkStrength']) {
+
+         }
+         else if(this.headsetConnected) {
+            this.headsetConnected = false;
+            //if (this.playing)
+            this.playing = false;
+            this.emitChange();
+         }
+      });
+
+      dispatcher.on(Ev.ConnectHeadset, () => {
+         this.tryConnectHeadset();
       });
 
       dispatcher.on(Ev.SelectLog, (log: number) => {
@@ -110,12 +143,22 @@ export class DataStore extends Store implements MainState {
       this.loadLogList(() => {
          this.loadSettings(() => {
             this.initDataFile(() => {
-               this.checkIfHeadsetConnected(() => {
+               //this.checkIfHeadsetConnected(() => {
                   this.emitChange();
-               });
+               //});
             });
          });
       });
+
+      setInterval(() => {
+         if (this.timeAtLastSample + 2000 < _.now()) {
+            if (this.headsetConnected || this.playing) {
+               this.headsetConnected = false;
+               this.playing = false;
+               this.emitChange();
+            }
+         }
+      }, 1000);
    }
 
    updateDataFileParams = () => {
@@ -153,27 +196,28 @@ export class DataStore extends Store implements MainState {
    };
 
    initDataFile(callback: Function) {
-      //if (this.location[0] === Mode.History) {
-         if (!_.isUndefined(this.location[1])) {
-            let log: number = this.logList[this.location[1]];
+      if (!_.isUndefined(this.location[1])) {
+         let log: number = this.logList[this.location[1]];
 
-            this.loadLog(log, callback);
-         }
-         else {
-            this.loadLastDataFile(callback);
-         }
-      //}
-      //else {
-      //   callback();
-      //}
+         this.loadLog(log, callback);
+      }
+      else {
+         this.loadLastDataFile(callback);
+      }
    }
 
-   checkIfHeadsetConnected(callback) {
-      $.get('/headsetConnected', (res) => {
-         this.headsetConnected = res;
-         callback();
-      });
-   }
+   //checkIfHeadsetConnected(callback) {
+   //   $.get('/headsetConnected', (res) => {
+   //      this.headsetConnected = res;
+   //      callback();
+   //   });
+   //}
+
+   tryConnectHeadset = () => {
+      if (this.timeAtLastSample + 3000 < _.now()) {
+         $.get('/connectHeadset');
+      }
+   };
 
    loadSettings(callback: Function) {
       $.get('/loadSettings', (settings: Settings) => {

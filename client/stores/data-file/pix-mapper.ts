@@ -42,6 +42,6 @@ export class Mapper {
 
       let max = this.dataFile.getMaxValueForField(field);
 
-      return (((max - value) / max) * (this.dataStripeSize.height - 2)) + 4;
+      return (((max - value) / max) * (this.dataStripeSize.height - 5)) + 2;
    }
 }
