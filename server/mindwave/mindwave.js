@@ -65,11 +65,8 @@ NeuroSkyClient.prototype.connect = function() {
    //this.connected = true;
 };
 
-NeuroSkyClient.prototype.close = function() {
-   //TODO
-
-   // Need to call close on this then end on each connection?
-   console.log('todo');
+NeuroSkyClient.prototype.destroy = function() {
+   this.client.destroy();
 };
 
 exports.NeuroSkyClient = NeuroSkyClient;

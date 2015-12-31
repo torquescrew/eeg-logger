@@ -7,6 +7,7 @@ var client = null;
 var recordedData = [];
 var recording = false;
 var connected = false;
+var numOfBadSamples = 0;
 
 function connect() {
 
@@ -15,8 +16,9 @@ function connect() {
       appKey:'0fc4141b4b45c675cc8d3a765b8d71c5bde9390'
    });
 
-   client.on('data',function(data){
+   client.on('data', function(data) {
       console.log(data);
+      //console.log(client);
 
       handleNewData(data);
    });
@@ -31,9 +33,14 @@ function isConnected() {
 function handleNewData(data) {
    if (!data['eSense']) {
       connected = false;
-      //return;
+      numOfBadSamples++;
+      if (numOfBadSamples >= 20) {
+         client.destroy();
+         socket.emit('failedToConnectHeadset');
+      }
    }
    else {
+      numOfBadSamples = 0;
       connected = true;
    }
 
