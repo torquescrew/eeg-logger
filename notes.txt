@@ -15,9 +15,10 @@ TODO:
    - choose colors
    - fit on page or scroll
 
+
 Settings:
  - smoothing? - average based on the number of visible points
- -
+ - choice of sounds
 
 export/import of logs?
 

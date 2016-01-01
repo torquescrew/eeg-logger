@@ -106,3 +106,5 @@ typings
 /public/scripts
 
 /app-state/state.json
+
+/public/audio/xylophone-mp3
