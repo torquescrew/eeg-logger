@@ -1,8 +1,9 @@
 'use strict';
 const electron = require('electron');
-const app = electron.app;  // Module to control application life.
-const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
 
+// This starts the server.
 const server = require('../server/server');
 
 
@@ -15,11 +16,20 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-   server.start();
+   const width = 900;
+   const height = 800;
 
-   mainWindow = new BrowserWindow({width: 1800, height: 1100});
+   mainWindow = new BrowserWindow({
+      width: width,
+      height: height,
+      'min-width': width,
+      'min-height': height,
+      'max-width': width,
+      'max-height': height
+   });
    mainWindow.loadURL('file://' + __dirname + '/../public/index.html');
-   mainWindow.webContents.openDevTools();
+   //mainWindow.webContents.openDevTools();
+   mainWindow.setMenu(null);
 
    mainWindow.on('closed', function() {
       mainWindow = null;

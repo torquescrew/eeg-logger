@@ -44,7 +44,7 @@ export class DataStore extends Store implements MainState {
 
    constructor() {
       super();
-      this.dataStripeSize = new Size(800, 130);
+      this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length + 1);
       this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
       dispatcher.on(Ev.StartRecording, () => {
@@ -160,6 +160,7 @@ export class DataStore extends Store implements MainState {
    }
 
    updateDataFileParams = () => {
+      this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length);
       this.dataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
    };
 
@@ -217,6 +218,7 @@ export class DataStore extends Store implements MainState {
             this.playing = settings.playing;
             this.muted = settings.muted;
             this.visibleStripes = settings.visibleStripes;
+            this.updateDataFileParams();
          }
          callback();
 

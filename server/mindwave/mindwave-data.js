@@ -3,7 +3,7 @@ var path = require('path');
 var _ = require('underscore');
 
 var logsPath = path.resolve(__dirname + '/../../app-state/mindwave_logs/');
-console.log(logsPath);
+
 
 function save(data) {
    if (!data.length) {

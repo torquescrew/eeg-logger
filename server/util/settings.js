@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 
 var settingsPath = path.resolve(__dirname + '/../../app-state/state.json');
-console.log(settingsPath);
+
 
 function saveSettings(settings) {
    var settingsStr = JSON.stringify(settings);
