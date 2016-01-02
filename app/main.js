@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 // This starts the server.
 require('../server/server');
 
-const debug = true;
+const debug = false;
 
 let mainWindow;
 
@@ -18,7 +18,7 @@ app.on('window-all-closed', function() {
 
 app.on('ready', function() {
    const width = debug? 1400 : 900;
-   const height = 810;
+   const height = 823;
 
    let options = {};
    options.width = width;

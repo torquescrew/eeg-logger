@@ -182,7 +182,7 @@ export class StripeScreen extends React.Component<{
          //position: 'absolute',
          //left: (-this.props.leftPosition) + 'px',
          position: 'fixed',
-         backgroundColor: '#ffffff',
+         //backgroundColor: '#ffffff',
          pointerEvents: 'none'
       };
    }

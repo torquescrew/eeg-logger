@@ -64,18 +64,3 @@ io.on('connection', function(s) {
 
    mindwave.setSocket(s);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

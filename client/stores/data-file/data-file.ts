@@ -35,6 +35,7 @@ export class DataFile {
       this.dataStripeSize = dataStripeSize;
       this.visibleFields = visibleFields;
       this.mapper = new Mapper(dataStripeSize, this, pixPerMilliSec);
+      this.calculateFieldMaxValues();
    }
 
    getLastSample(): DataSample {
@@ -130,6 +131,9 @@ export class DataFile {
    }
 
    private calculateFieldMaxValues() {
+      if (_.isEmpty(this.data))
+         return;
+
       let max = (field: Field): number => {
          return _.max(this.data, (sample: DataSample) => {
             return sample.getField(field);

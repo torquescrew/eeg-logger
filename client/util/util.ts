@@ -41,9 +41,9 @@ export function fieldColour(field: Field) {
       case Field.Meditation:
          return '#00aa00';
       case Field.Attention:
-         return '#0000ff';
+         return '#1133ff';
       default:
-         return '#ff0000';
+         return '#ff2222';
    }
 }
 
