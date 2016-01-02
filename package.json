@@ -2,7 +2,7 @@
   "name": "eeg-logger",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app/main.js",
   "dependencies": {
     "babel-preset-react": "~6.3.13",
     "react": "~0.14.3",
