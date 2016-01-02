@@ -133,7 +133,7 @@ export class DataPanel extends React.Component<{
    };
 
    componentDidUpdate() {
-      if (this.state.stickScrollToRight
+      if (this.props.playing
          && (this.props.dataFile.getLengthOfStripe() > this.props.dataStripeSize.width)) {
          this.scrollToPosition(1.0);
       }
