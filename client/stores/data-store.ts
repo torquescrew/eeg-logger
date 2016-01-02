@@ -206,13 +206,6 @@ export class DataStore extends Store implements MainState {
       }
    }
 
-   //checkIfHeadsetConnected(callback) {
-   //   $.get('/headsetConnected', (res) => {
-   //      this.headsetConnected = res;
-   //      callback();
-   //   });
-   //}
-
    tryConnectHeadset = () => {
       if (this.timeAtLastSample + 3000 < _.now()) {
          $.get('/connectHeadset');
@@ -220,7 +213,7 @@ export class DataStore extends Store implements MainState {
    };
 
    loadSettings(callback: Function) {
-      $.get('/loadSettings', (settings: Settings) => {
+      dispatcher.get('loadSettings', (settings: Settings) => {
          if (!_.isEmpty(settings)) {
             this.location = settings.location;
             this.playing = settings.playing;
@@ -234,11 +227,9 @@ export class DataStore extends Store implements MainState {
    }
 
    loadLogList(callback: Function) {
-      $.get('/logFileList', (logs: string[]) => {
+      dispatcher.get('logFileList', (logs: string[]) => {
          var list = logs.map((e) => parseInt(e));
-
          list.sort((a, b) => b - a);
-
          this.logList = list;
 
          callback();
@@ -246,7 +237,7 @@ export class DataStore extends Store implements MainState {
    }
 
    loadLog(log: number, callback: Function): void {
-      $.get('/loadLog', {name: log + '.json'}).done((res) => {
+      dispatcher.req('loadLog', '/' + log + '.json', (res: string) => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
          this.dataFile.appendArrayOfData(JSON.parse(res));
 
@@ -257,7 +248,7 @@ export class DataStore extends Store implements MainState {
    }
 
    loadLastDataFile(callback: Function) {
-      $.get('/logFileList', (list: string[]) => {
+      dispatcher.get('logFileList', (list: string[]) => {
          this.loadLog(parseInt(_.last(list)), callback);
       });
    }

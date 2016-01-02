@@ -9,7 +9,6 @@ function saveSettings(settings) {
 
    fs.writeFile(settingsPath, settingsStr, function(err) {
       if (err) throw err;
-      console.log('saved settings');
    })
 }
 

@@ -84,11 +84,26 @@ function start() {
 
    io.on('connection', function(s) {
 
-      //TODO: make this post?
+      s.on('logFileList', function() {
+         data.getLogFilesList(function(list) {
+            s.emit('logFileList', list);
+         });
+      });
+
+      s.on('loadLog', function(name) {
+         data.load(name, function(data) {
+            s.emit('loadLog', data.toString());
+         });
+      });
+
+      s.on('loadSettings', function() {
+         settings.loadSettings(function(settings) {
+            s.emit('loadSettings', settings);
+         })
+      });
+
       s.on('saveSettings', function(data) {
          settings.saveSettings(data);
-
-         //console.log(data);
       });
 
       console.log('connection!');
@@ -98,3 +113,15 @@ function start() {
 }
 
 module.exports.start = start;
+
+
+
+
+
+
+
+
+
+
+
+

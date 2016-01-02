@@ -38,17 +38,16 @@ class Dispatcher {
       this.emitter.removeListener(Ev[event], listener);
    };
 
-   //TODO: old way of doing things.
-   //playLog(name: string, callback?: Function) {
-   //   $.get('playLog', {name: name}).done(function(res) {
-   //      if (callback)
-   //         callback(res);
-   //   });
-   //}
-   //
-   //stopPlayingLog() {
-   //   $.get('/stopPlaying');
-   //}
+   get = (event: string, callback: Function) => {
+      this.socket.emit(event);
+      this.socket.once(event, callback);
+   };
+
+   req = (event: string, data: any, callback: Function) => {
+      this.socket.emit(event, data);
+      this.socket.once(event, callback);
+   };
+
 }
 
 export let dispatcher = new Dispatcher();
