@@ -59,7 +59,8 @@ class Main extends React.Component<{}, MainState> {
 
       return (
          <div className="main">
-            <Menu location={this.state.location} />
+            <Menu location={this.state.location}
+                  playing={this.state.playing} />
             <div className="screen">
                {screen}
             </div>

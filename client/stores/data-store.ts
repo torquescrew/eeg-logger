@@ -44,7 +44,7 @@ export class DataStore extends Store implements MainState {
 
    constructor() {
       super();
-      this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length + 1);
+      this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length);
       this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
       dispatcher.on(Ev.StartRecording, () => {

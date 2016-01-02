@@ -26,7 +26,8 @@ function isConnected() {
 }
 
 function handleNewData(data) {
-   connected = !!data['eSense'];
+   var validData = !!data['eSense'];
+   connected = validData;
 
    data.time = new Date().getTime();
 
@@ -34,7 +35,7 @@ function handleNewData(data) {
       socket.emit('liveData', data);
    }
 
-   if (recording) {
+   if (recording && validData) {
       recordedData.push(data);
    }
 }

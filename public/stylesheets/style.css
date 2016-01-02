@@ -220,6 +220,11 @@ body {
   /*animation-duration: 0.2s;*/
 }
 
+.menu.disabled .menuButton {
+  pointer-events: none;
+  color: #d1d1d1;
+}
+
 .menu .menuButton.selected {
   /*font-size: 2.5em;*/
   /*margin-top: 5px;*/

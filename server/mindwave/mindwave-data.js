@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
-var logsPath = path.resolve(__dirname + '/../../app-state/mindwave_logs/');
+var logsPath = path.resolve(__dirname + '/../../app-state/mindwave_logs');
 
 
 function save(data) {
@@ -11,7 +11,7 @@ function save(data) {
       return;
    }
 
-   var fileName = new Date().getTime() + '.json';
+   var fileName = '/' + new Date().getTime() + '.json';
    var dataStr = JSON.stringify(data);
 
    fs.writeFile(logsPath + fileName, dataStr, function(err) {
