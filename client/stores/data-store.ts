@@ -50,7 +50,7 @@ export class DataStore extends Store implements MainState {
       dispatcher.on(Ev.StartRecording, () => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
-         $.get('/startRecording');
+         dispatcher.get('startRecording');
 
          this.setPlaying(true);
          this.emitChange();
@@ -59,7 +59,7 @@ export class DataStore extends Store implements MainState {
       dispatcher.on(Ev.StopRecording, () => {
          this.setPlaying(false);
 
-         $.get('/stopRecording');
+         dispatcher.get('stopRecording');
 
          this.loadLogList(() => {
             this.emitChange();
@@ -143,9 +143,7 @@ export class DataStore extends Store implements MainState {
       this.loadLogList(() => {
          this.loadSettings(() => {
             this.initDataFile(() => {
-               //this.checkIfHeadsetConnected(() => {
-                  this.emitChange();
-               //});
+               this.emitChange();
             });
          });
       });
@@ -208,7 +206,7 @@ export class DataStore extends Store implements MainState {
 
    tryConnectHeadset = () => {
       if (this.timeAtLastSample + 3000 < _.now()) {
-         $.get('/connectHeadset');
+         dispatcher.get('connectHeadset');
       }
    };
 

@@ -11,78 +11,34 @@ var io = require('socket.io')(server);
 
 var settings = require('./util/settings');
 
+// Also in dispatcher.ts
+const PORT = 3081;
+
 function start() {
-
-   app.get('/playLog', function(req, res) {
-      var name = req.query.name;
-      //player.playLog(name);
-      player.playLast();
-
-      res.send('done');
-   });
-
-   app.get('/stopPlaying', function(req, res) {
-      player.stop();
-
-      res.send('done');
-   });
-
-   app.get('/connectHeadset', function(req, res) {
-      mindwave.connect();
-      res.send(mindwave.isConnected());
-   });
-
-   app.get('/headsetConnected', function(req, res) {
-      res.send(mindwave.isConnected());
-   });
-
-   app.get('/startRecording', function(req, res) {
-      mindwave.startRecording();
-      res.send('OK');
-   });
-
-   app.get('/stopRecording', function(req, res) {
-      mindwave.stopRecording();
-
-      data.save(mindwave.getRecordedData());
-
-      res.send('OK');
-   });
-
-   app.get('/logFileList', function(req, res) {
-      data.getLogFilesList(function(list) {
-         res.send(list);
-      });
-   });
-
-   app.get('/loadLog', function(req, res) {
-      var name = req.query.name;
-      data.load(name, function(data) {
-         res.send(data);
-      });
-   });
-
-   app.get('/deleteLog', function(req, res) {
-      var name = req.query.name;
-      data.remove(name);
-      res.send('OK');
-   });
-
-   app.get('/loadSettings', function(req, res) {
-      //console.log(req.query);
-
-      settings.loadSettings(function(settings) {
-         res.send(settings);
-      })
-   });
-
    app.use(express.static(path.join(__dirname, '../public')));
 
-   server.listen(3081, function() {
-      console.log("Listening on port 3081");
+   server.listen(PORT, function() {
+      console.log("Listening on port " + PORT);
    });
 
    io.on('connection', function(s) {
+
+      s.on('connectHeadset', function() {
+         mindwave.connect();
+      });
+
+      s.on('startRecording', function() {
+         mindwave.startRecording();
+      });
+
+      s.on('stopRecording', function() {
+         mindwave.stopRecording();
+         data.save(mindwave.getRecordedData());
+      });
+
+      s.on('deleteLog', function(name) {
+         data.remove(name);
+      });
 
       s.on('logFileList', function() {
          data.getLogFilesList(function(list) {
@@ -106,10 +62,8 @@ function start() {
          settings.saveSettings(data);
       });
 
-      console.log('connection!');
       mindwave.setSocket(s);
    });
-
 }
 
 module.exports.start = start;
