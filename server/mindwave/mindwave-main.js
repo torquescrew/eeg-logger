@@ -1,5 +1,6 @@
 var mindwave = require('./mindwave');
 var fakeData = require('./mindwave-fake-data');
+var settings = require('../../app/debug-settings');
 
 var socket = null;
 var client = null;
@@ -8,6 +9,10 @@ var recordedData = [];
 var recording = false;
 var connected = false;
 var numOfBadSamples = 0;
+
+if (settings.fakeData) {
+   fakeData.startEmitting(handleNewData);
+}
 
 function connect() {
 
@@ -70,10 +75,6 @@ function setSocket(s) {
    socket = s;
 }
 
-function emitFakeData() {
-   fakeData.startEmitting(handleNewData);
-}
-
 module.exports.connect = connect;
 module.exports.isConnected = isConnected;
 module.exports.setSocket = setSocket;
@@ -81,5 +82,5 @@ module.exports.startRecording = startRecording;
 module.exports.stopRecording = stopRecording;
 module.exports.getRecordedData = getRecordedData;
 module.exports.handleNewData = handleNewData;
-module.exports.emitFakeData = emitFakeData;
+
 

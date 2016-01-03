@@ -65,8 +65,3 @@ io.on('connection', function(s) {
    mindwave.setSocket(s);
 });
 
-module.exports.emitFakeData = function() {
-   mindwave.emitFakeData();
-};
-
-//mindwave.emitFakeData();

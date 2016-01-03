@@ -2,15 +2,16 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const settings = require('./debug-settings');
 
 // This starts the server.
-let server = require('../server/server');
+require('../server/server');
 
-const debug = true;
+const debug = settings.debug;
 
-if (debug) {
-   server.emitFakeData();
-}
+//if (debug) {
+//   server.emitFakeData();
+//}
 
 let mainWindow;
 

@@ -12,7 +12,6 @@ TODO:
  - output sound without recording?
  - timed session and timer
  - white noise/rain sounds in background option?
- - fake signal generator for testing
  - proper full screen support and resizing
  - data panel optimisation
  - document properly, upload final sounds
