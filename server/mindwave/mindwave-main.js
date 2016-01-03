@@ -6,6 +6,7 @@ var client = null;
 var recordedData = [];
 var recording = false;
 var connected = false;
+var numOfBadSamples = 0;
 
 function connect() {
 
@@ -28,6 +29,17 @@ function isConnected() {
 function handleNewData(data) {
    var validData = !!data['eSense'];
    connected = validData;
+
+   if (validData) {
+      numOfBadSamples++;
+      if (numOfBadSamples >= 20) {
+         client.destroy();
+         socket.emit('failedToConnectHeadset');
+      }
+   }
+   else {
+      numOfBadSamples = 0;
+   }
 
    data.time = new Date().getTime();
 

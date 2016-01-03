@@ -42,12 +42,22 @@ export class DataPanel extends React.Component<{
    };
 
    componentDidMount() {
+      dispatcher.socket.on('failedToConnectHeadset', this.handleFailureToConnect);
+
       dispatcher.on(Ev.StartRecording, this.playLog);
    }
 
    componentWillUnmount() {
+      dispatcher.socket.removeListener('failedToConnectHeadset', this.handleFailureToConnect);
+
       dispatcher.removeListener(Ev.StartRecording, this.playLog);
    }
+
+   handleFailureToConnect = () => {
+      this.setState({
+         connectingHeadset: false
+      });
+   };
 
    playLog = () => {
       this.setState({

@@ -18,9 +18,10 @@ TODO:
  - document properly, upload final sounds
 
 
+
 Settings:
  - smoothing? - average based on the number of visible points
- -
+ - choice of sounds
 
 Possible:
  - export/import of logs?
