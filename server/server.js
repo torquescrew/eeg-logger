@@ -42,19 +42,19 @@ io.on('connection', function(s) {
 
    s.on('logFileList', function() {
       data.getLogFilesList(function(list) {
-         s.emit('logFileList', list);
+         io.emit('logFileList', list);
       });
    });
 
    s.on('loadLog', function(name) {
       data.load(name, function(data) {
-         s.emit('loadLog', data.toString());
+         io.emit('loadLog', data.toString());
       });
    });
 
    s.on('loadSettings', function() {
       settings.loadSettings(function(settings) {
-         s.emit('loadSettings', settings);
+         io.emit('loadSettings', settings);
       })
    });
 

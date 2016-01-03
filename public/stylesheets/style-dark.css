@@ -252,6 +252,7 @@ body {
 
 .statsPanel {
   margin: 20px;
+  margin-top: 0;
   display: flex;
   justify-content: space-between;
 }
