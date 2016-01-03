@@ -14,6 +14,8 @@ TODO:
  - timed session and timer
  - white noise/rain sounds in background option?
  - fake signal generator for testing
+ - proper full screen support and resizing
+ - document properly, upload final sounds
 
 
 Settings:
