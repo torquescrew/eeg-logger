@@ -4,9 +4,13 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 // This starts the server.
-require('../server/server');
+let server = require('../server/server');
 
-const debug = false;
+const debug = true;
+
+if (debug) {
+   server.emitFakeData();
+}
 
 let mainWindow;
 

@@ -1,6 +1,5 @@
 TODO:
 
-
  - remember location thread
 
  - modularise css
@@ -15,13 +14,14 @@ TODO:
  - white noise/rain sounds in background option?
  - fake signal generator for testing
  - proper full screen support and resizing
+ - data panel optimisation
  - document properly, upload final sounds
-
 
 
 Settings:
  - smoothing? - average based on the number of visible points
  - choice of sounds
+ - curve fitting
 
 Possible:
  - export/import of logs?

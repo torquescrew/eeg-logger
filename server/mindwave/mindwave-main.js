@@ -1,4 +1,5 @@
-var mindwave = require('./mindwave.js');
+var mindwave = require('./mindwave');
+var fakeData = require('./mindwave-fake-data');
 
 var socket = null;
 var client = null;
@@ -30,7 +31,7 @@ function handleNewData(data) {
    var validData = !!data['eSense'];
    connected = validData;
 
-   if (validData) {
+   if (!validData) {
       numOfBadSamples++;
       if (numOfBadSamples >= 20) {
          client.destroy();
@@ -69,6 +70,9 @@ function setSocket(s) {
    socket = s;
 }
 
+function emitFakeData() {
+   fakeData.startEmitting(handleNewData);
+}
 
 module.exports.connect = connect;
 module.exports.isConnected = isConnected;
@@ -77,3 +81,5 @@ module.exports.startRecording = startRecording;
 module.exports.stopRecording = stopRecording;
 module.exports.getRecordedData = getRecordedData;
 module.exports.handleNewData = handleNewData;
+module.exports.emitFakeData = emitFakeData;
+
