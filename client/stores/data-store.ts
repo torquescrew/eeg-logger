@@ -14,6 +14,7 @@ export interface MainState {
    dataStripeSize: Size;
    visibleStripes: Field[];
    dataFile: DataFile;
+   tempDataFile: DataFile;
    logList: number[];
    location: any[];
    recording: boolean;
@@ -33,6 +34,7 @@ export class DataStore extends Store implements MainState {
    dataStripeSize: Size;
    visibleStripes = [Field.Meditation, Field.Attention, Field.Signal];
    dataFile: DataFile;
+   tempDataFile: DataFile;
    logList = [];
    location = [Mode.Start];
    recording = false;
@@ -42,10 +44,13 @@ export class DataStore extends Store implements MainState {
 
    timeAtLastSample = 0;
 
+
    constructor() {
       super();
       this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length);
       this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+      this.tempDataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+      this.tempDataFile.fillWithEmptySamples(20);
 
       dispatcher.on(Ev.StartRecording, () => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
@@ -100,6 +105,10 @@ export class DataStore extends Store implements MainState {
             this.headsetConnected = true;
             if (this.recording) {
                this.dataFile.appendData(data);
+            }
+            else {
+               this.tempDataFile.appendData(data);
+               this.tempDataFile.truncateForNiceDisplay();
             }
             this.emitChange();
          }
@@ -162,6 +171,7 @@ export class DataStore extends Store implements MainState {
    updateDataFileParams = () => {
       this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length);
       this.dataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+      this.tempDataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
    };
 
    setPlaying = (recording: boolean) => {
@@ -258,6 +268,7 @@ export class DataStore extends Store implements MainState {
          dataStripeSize: this.dataStripeSize,
          visibleStripes: this.visibleStripes,
          dataFile: this.dataFile,
+         tempDataFile: this.tempDataFile,
          logList: this.logList,
          location: this.location,
          recording: this.recording,

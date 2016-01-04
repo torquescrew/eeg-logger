@@ -48,6 +48,7 @@ class Main extends React.Component<{}, MainState> {
             screen = <RecordScreen dataStripeSize={this.state.dataStripeSize}
                                    visibleStripes={this.state.visibleStripes}
                                    dataFile={this.state.dataFile}
+                                   tempDataFile={this.state.tempDataFile}
                                    location={this.state.location}
                                    headsetConnected={this.state.headsetConnected}
                                    recording={this.state.recording}

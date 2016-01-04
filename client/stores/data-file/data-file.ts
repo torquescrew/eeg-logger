@@ -1,4 +1,4 @@
-import {DataSample} from './data-sample';
+import {DataSample, createEmptySample} from './data-sample';
 import {Mapper} from './pix-mapper';
 import {Size, Position, Field} from '../../util/util';
 import * as _ from 'underscore';
@@ -12,7 +12,6 @@ export class DataFile {
    private mapper: Mapper;
 
    constructor(dataStripeSize: Size, pixPerMilliSec: number, visibleFields: Field[]) {
-
       this.dataStripeSize = dataStripeSize;
       this.visibleFields = visibleFields;
       this.mapper = new Mapper(dataStripeSize, this, pixPerMilliSec);
@@ -160,11 +159,31 @@ export class DataFile {
    }
 
    getMaxValueForField(field: Field): number {
-      return this.fieldMaxValues[field];
+      if (this.fieldMaxValues)
+         return this.fieldMaxValues[field];
+
+      return 0;
    }
 
    isEmpty(): boolean {
       return this.data.length === 0;
+   }
+
+   fillWithEmptySamples(num: number) {
+      for (let i = 0; i < num - this.data.length; i++) {
+         let sample = createEmptySample();
+         sample.setTime(_.now() - ((i + 2) * 1000));
+         this.data.unshift(sample);
+      }
+   }
+
+   truncateForNiceDisplay() {
+      const numSamples = 20;
+
+      if (this.data.length > numSamples) {
+         this.data = _.rest(this.data, this.data.length - numSamples);
+      }
+      this.setPixPerMilliSec(this.calcPixPerMilliSecToFit());
    }
 
    numOfSamples(): number {

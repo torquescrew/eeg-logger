@@ -12,38 +12,40 @@ import {Ev} from "../util/dispatcher";
 import {Field} from "../util/util";
 
 
-
 export class RecordScreen extends React.Component<{
    dataStripeSize: Size,
    visibleStripes: Field[],
    dataFile: DataFile,
+   tempDataFile: DataFile,
    location: any[],
    headsetConnected: boolean,
    recording: boolean,
    muted: boolean
-},{}> {
+}, {}> {
 
    render() {
       if (this.props.location[0] !== Mode.Start) {
          return null;
       }
 
+      let dataFile = this.props.recording ? this.props.dataFile : this.props.tempDataFile;
+
       return (
          <div className="recordScreen">
             <DataPanel dataStripeSize={this.props.dataStripeSize}
                        visibleStripes={this.props.visibleStripes}
-                       dataFile={this.props.dataFile}
+                       dataFile={dataFile}
                        headsetConnected={this.props.headsetConnected}
                        recording={this.props.recording}
                        muted={this.props.muted}
-                       location={this.props.location} />
+                       location={this.props.location}/>
 
-            <StatsPanel dataFile={this.props.dataFile}
-                        recording={this.props.recording} />
+            <StatsPanel dataFile={dataFile}
+                        recording={true} />
 
             <AudioOut recording={this.props.recording}
                       muted={this.props.muted}
-                      dataFile={this.props.dataFile} />
+                      dataFile={dataFile} />
          </div>
       );
    }

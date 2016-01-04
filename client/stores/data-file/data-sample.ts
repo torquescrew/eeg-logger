@@ -19,6 +19,28 @@ interface Sample {
    time: number
 }
 
+
+export function createEmptySample(): DataSample {
+   return new DataSample({
+      eSense: {
+         attention: 0,
+         meditation: 0
+      },
+      eegPower: {
+         delta: 0,
+         theta: 0,
+         lowAlpha: 0,
+         highAlpha: 0,
+         lowBeta: 0,
+         highBeta: 0,
+         lowGamma: 0,
+         highGamma: 0
+      },
+      poorSignalLevel: 200,
+      time: 0
+   });
+}
+
 export class DataSample {
    sample: Sample;
 
@@ -56,6 +78,10 @@ export class DataSample {
          case Field.Time:
             return s.time;
       }
+   }
+
+   setTime(time: number) {
+      this.sample.time = time;
    }
 
    private calcSignal(poorSignalLevel: number): number {
