@@ -5,7 +5,7 @@ import {Ev} from "../../util/dispatcher";
 
 
 export class Record extends React.Component<{
-   playing: boolean,
+   recording: boolean,
    disabled?: boolean
 }, {}> {
 
@@ -20,7 +20,7 @@ export class Record extends React.Component<{
    }
 
    RecordButton() {
-      if (this.props.playing) {
+      if (this.props.recording) {
          return <Btn onClick={this.handleStop} text="Stop" disabled={this.props.disabled} />;
       }
       else {

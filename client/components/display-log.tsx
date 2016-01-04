@@ -88,7 +88,7 @@ export class DisplayLog extends React.Component<{
                        location={this.props.location}  />
 
             <StatsPanel dataFile={this.props.dataFile}
-                        playing={false} />
+                        recording={false} />
          </div>
       );
    }

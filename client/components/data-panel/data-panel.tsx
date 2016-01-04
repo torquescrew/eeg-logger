@@ -21,7 +21,7 @@ export class DataPanel extends React.Component<{
    location: any[],
    headsetConnected?: boolean,
    muted?: boolean,
-   playing?: boolean
+   recording?: boolean
 }, {
    leftPosition?: number,
    stickScrollToRight?: boolean,
@@ -38,7 +38,7 @@ export class DataPanel extends React.Component<{
 
    static defaultProps = {
       muted: false,
-      playing: false
+      recording: false
    };
 
    componentDidMount() {
@@ -143,7 +143,7 @@ export class DataPanel extends React.Component<{
    };
 
    componentDidUpdate() {
-      if (this.props.playing
+      if (this.props.recording
          && (this.props.dataFile.getLengthOfStripe() > this.props.dataStripeSize.width)) {
          this.scrollToPosition(1.0);
       }
@@ -201,7 +201,7 @@ export class DataPanel extends React.Component<{
       var controls = null;
       if (this.props.location[0] === Mode.Start) {
          controls = <Controls dataFile={this.props.dataFile}
-                              playing={this.props.playing}
+                              recording={this.props.recording}
                               muted={this.props.muted}
                               disabled={this.needToConnect()} />;
       }

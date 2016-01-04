@@ -50,7 +50,7 @@ class Main extends React.Component<{}, MainState> {
                                    dataFile={this.state.dataFile}
                                    location={this.state.location}
                                    headsetConnected={this.state.headsetConnected}
-                                   playing={this.state.playing}
+                                   recording={this.state.recording}
                                    muted={this.state.muted} />;
             break;
          case Mode.Settings:
@@ -60,7 +60,7 @@ class Main extends React.Component<{}, MainState> {
       return (
          <div className="main">
             <Menu location={this.state.location}
-                  playing={this.state.playing} />
+                  recording={this.state.recording} />
             <div className="screen">
                {screen}
             </div>

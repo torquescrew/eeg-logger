@@ -19,7 +19,7 @@ export class RecordScreen extends React.Component<{
    dataFile: DataFile,
    location: any[],
    headsetConnected: boolean,
-   playing: boolean,
+   recording: boolean,
    muted: boolean
 },{}> {
 
@@ -34,14 +34,14 @@ export class RecordScreen extends React.Component<{
                        visibleStripes={this.props.visibleStripes}
                        dataFile={this.props.dataFile}
                        headsetConnected={this.props.headsetConnected}
-                       playing={this.props.playing}
+                       recording={this.props.recording}
                        muted={this.props.muted}
                        location={this.props.location} />
 
             <StatsPanel dataFile={this.props.dataFile}
-                        playing={this.props.playing} />
+                        recording={this.props.recording} />
 
-            <AudioOut playing={this.props.playing}
+            <AudioOut recording={this.props.recording}
                       muted={this.props.muted}
                       dataFile={this.props.dataFile} />
          </div>

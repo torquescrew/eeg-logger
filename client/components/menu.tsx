@@ -4,7 +4,7 @@ import { Mode } from '../util/constants';
 
 export class Menu extends React.Component<{
    location: any[],
-   playing: boolean
+   recording: boolean
 }, {}> {
 
    onClickSettings() {
@@ -21,7 +21,7 @@ export class Menu extends React.Component<{
 
    render() {
       return (
-         <div className={"menu disable-select" + (this.props.playing ? ' disabled' : '')}>
+         <div className={"menu disable-select" + (this.props.recording ? ' disabled' : '')}>
             <div className={"menuButton" + (this.props.location[0] === Mode.Settings ? ' selected' : '')}
                  onClick={this.onClickSettings}>
                Settings

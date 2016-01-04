@@ -16,7 +16,7 @@ export interface MainState {
    dataFile: DataFile;
    logList: number[];
    location: any[];
-   playing: boolean;
+   recording: boolean;
    muted: boolean;
    pixPerMilliSec: number;
    headsetConnected: boolean;
@@ -25,7 +25,7 @@ export interface MainState {
 interface Settings {
    location: any[];
    visibleStripes: Field[];
-   playing: boolean;
+   recording: boolean;
    muted: boolean;
 }
 
@@ -35,7 +35,7 @@ export class DataStore extends Store implements MainState {
    dataFile: DataFile;
    logList = [];
    location = [Mode.Start];
-   playing = false;
+   recording = false;
    muted = false;
    pixPerMilliSec = 0.01;
    headsetConnected = false;
@@ -98,7 +98,7 @@ export class DataStore extends Store implements MainState {
             //   this.emitChange();
             //}
             this.headsetConnected = true;
-            if (this.playing) {
+            if (this.recording) {
                this.dataFile.appendData(data);
             }
             this.emitChange();
@@ -106,10 +106,10 @@ export class DataStore extends Store implements MainState {
          else if (data['blinkStrength']) {
 
          }
-         else if(this.headsetConnected) {
+         else if (this.headsetConnected) {
             this.headsetConnected = false;
-            //if (this.playing)
-            this.playing = false;
+            //if (this.recording)
+            this.recording = false;
             this.emitChange();
          }
       });
@@ -150,9 +150,9 @@ export class DataStore extends Store implements MainState {
 
       setInterval(() => {
          if (this.timeAtLastSample + 2000 < _.now()) {
-            if (this.headsetConnected || this.playing) {
+            if (this.headsetConnected || this.recording) {
                this.headsetConnected = false;
-               this.playing = false;
+               this.recording = false;
                this.emitChange();
             }
          }
@@ -164,9 +164,9 @@ export class DataStore extends Store implements MainState {
       this.dataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
    };
 
-   setPlaying = (playing: boolean) => {
-      if (this.playing !== playing) {
-         this.playing = playing;
+   setPlaying = (recording: boolean) => {
+      if (this.recording !== recording) {
+         this.recording = recording;
          this.saveSettings();
       }
    };
@@ -186,7 +186,7 @@ export class DataStore extends Store implements MainState {
    saveSettings = () => {
       let settings: Settings = {
          location: this.location,
-         playing: this.playing,
+         recording: this.recording,
          muted: this.muted,
          visibleStripes: this.visibleStripes
       };
@@ -215,7 +215,7 @@ export class DataStore extends Store implements MainState {
       dispatcher.get('loadSettings', (settings: Settings) => {
          if (!_.isEmpty(settings)) {
             this.location = settings.location;
-            this.playing = settings.playing;
+            this.recording = settings.recording;
             this.muted = settings.muted;
             this.visibleStripes = settings.visibleStripes;
             this.updateDataFileParams();
@@ -260,7 +260,7 @@ export class DataStore extends Store implements MainState {
          dataFile: this.dataFile,
          logList: this.logList,
          location: this.location,
-         playing: this.playing,
+         recording: this.recording,
          muted: this.muted,
          pixPerMilliSec: this.pixPerMilliSec,
          headsetConnected: this.headsetConnected

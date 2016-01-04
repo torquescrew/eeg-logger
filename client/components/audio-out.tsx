@@ -6,7 +6,7 @@ import {Field} from "../util/util";
 
 export class AudioOut extends React.Component<{
    dataFile: DataFile,
-   playing: boolean,
+   recording: boolean,
    muted: boolean
 }, {}> {
 
@@ -70,7 +70,7 @@ export class AudioOut extends React.Component<{
    }
 
    play = () => {
-      if (this.props.playing && !this.props.muted) {
+      if (this.props.recording && !this.props.muted) {
          if (_.now() >= this.state.nextNoteTime) {
             this.playNote();
             this.queueNextNote();
