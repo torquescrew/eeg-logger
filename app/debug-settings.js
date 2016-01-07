@@ -1,8 +1,8 @@
 
 var debug = {
-   debug: false,
-   fakeData: true,
-   saveRecordedData: false
+   debug: true,
+   fakeData: false,
+   saveRecordedData: true
 };
 
 var production = {

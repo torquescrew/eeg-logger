@@ -15,6 +15,8 @@ TODO:
  - proper full screen support and resizing
  - data panel optimisation
  - document properly, upload final sounds
+ - shouldn't show connect button even if streaming bad data.
+ - delete puts file into deleted folder.
 
 
 Settings:

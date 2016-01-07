@@ -94,7 +94,7 @@ export class DataStore extends Store implements MainState {
       });
 
       dispatcher.socket.on('liveData', data => {
-         //console.log(data);
+         console.log(data);
          this.timeAtLastSample = _.now();
 
          if (data['eSense']) {

@@ -15,6 +15,7 @@ if (settings.fakeData) {
 }
 
 function connect() {
+   numOfBadSamples = 0;
 
    client = mindwave.createClient({
       appName:'NodeMindwave',
@@ -38,7 +39,7 @@ function handleNewData(data) {
 
    if (!validData) {
       numOfBadSamples++;
-      if (numOfBadSamples >= 20) {
+      if (numOfBadSamples >= 100) {
          client.destroy();
          socket.emit('failedToConnectHeadset');
       }
