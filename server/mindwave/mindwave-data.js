@@ -1,15 +1,23 @@
 var fs = require('fs');
+var path = require('path');
 var _ = require('underscore');
+var debugSettings = require('../../app/debug-settings');
 
-var logsPath = '../app-state/mindwave_logs/';
+var logsPath = path.resolve(__dirname + '/../../app-state/mindwave_logs');
+
 
 function save(data) {
+   if (!debugSettings.saveRecordedData) {
+      console.log('Saving recorded data disabled.');
+      return;
+   }
+
    if (!data.length) {
       console.log('No data recorded.');
       return;
    }
 
-   var fileName = new Date().getTime() + '.json';
+   var fileName = '/' + new Date().getTime() + '.json';
    var dataStr = JSON.stringify(data);
 
    fs.writeFile(logsPath + fileName, dataStr, function(err) {

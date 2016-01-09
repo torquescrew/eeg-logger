@@ -1,27 +1,32 @@
 TODO:
 
- - show url location
  - remember location thread
- - fix event handler leaks
- - get working with actual headset
-    - connect headset
- - electron
+
  - modularise css
  - delete log
  - refactor stores
  - show value of mouse pos on data panel
  - comparison of logs over time
- - handle lots of visible fields:
-   - choose colors
-   - fit on page or scroll
+ - need a read out of signal before starting to record
+ - volume control
+ - output sound without recording?
+ - timed session and timer
+ - white noise/rain sounds in background option?
+ - proper full screen support and resizing
+ - data panel optimisation
+ - document properly, upload final sounds
+ - shouldn't show connect button even if streaming bad data.
+ - delete puts file into deleted folder.
 
 
 Settings:
  - smoothing? - average based on the number of visible points
  - choice of sounds
+ - curve fitting
 
-export/import of logs?
-
+Possible:
+ - export/import of logs?
+ - keep deleted logs/allow restore?
 
 
 if virtual canvas contains any visible trace, blot to screen

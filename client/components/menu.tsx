@@ -3,7 +3,8 @@ import { dispatcher, Ev } from '../util/dispatcher';
 import { Mode } from '../util/constants';
 
 export class Menu extends React.Component<{
-   location: any[]
+   location: any[],
+   recording: boolean
 }, {}> {
 
    onClickSettings() {
@@ -20,19 +21,16 @@ export class Menu extends React.Component<{
 
    render() {
       return (
-         <div className="menu disable-select">
-            <div id="settings"
-                 className={"menuButton" + (this.props.location[0] === Mode.Settings ? ' selected' : '')}
+         <div className={"menu disable-select" + (this.props.recording ? ' disabled' : '')}>
+            <div className={"menuButton" + (this.props.location[0] === Mode.Settings ? ' selected' : '')}
                  onClick={this.onClickSettings}>
                Settings
             </div>
-            <div id="start"
-                 className={"menuButton" + (this.props.location[0] === Mode.Start ? ' selected' : '')}
+            <div className={"menuButton" + (this.props.location[0] === Mode.Start ? ' selected' : '')}
                  onClick={this.onClickStart}>
                Start
             </div>
-            <div id="history"
-                 className={"menuButton" + (this.props.location[0] === Mode.History ? ' selected' : '')}
+            <div className={"menuButton" + (this.props.location[0] === Mode.History ? ' selected' : '')}
                  onClick={this.onClickHistory}>
                History
             </div>

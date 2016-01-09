@@ -6,7 +6,7 @@ import * as util from '../util/util';
 import {DataFile} from "../stores/data-file/data-file";
 import {DisplayLog} from './display-log';
 import {Size, Field} from "../util/util";
-
+import {StatsPanel} from './stats-panel';
 
 
 export class HistoryScreen extends React.Component<{
@@ -60,7 +60,7 @@ export class HistoryScreen extends React.Component<{
       }
 
       return (
-         <div>
+         <div className="historyScreen">
             {view}
          </div>
       )

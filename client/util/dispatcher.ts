@@ -2,6 +2,7 @@ import * as io from 'socket.io-client';
 import * as $ from 'jquery';
 import {EventEmitter} from 'events';
 
+const PORT = 3081;
 
 export enum Ev {
    LiveData,
@@ -22,7 +23,7 @@ class Dispatcher {
    public socket: SocketIOClient.Socket;
 
    constructor() {
-      this.socket = io.connect('http://localhost:3081');
+      this.socket = io.connect('http://localhost:' + PORT);
       this.emitter = new EventEmitter();
    }
 
@@ -38,17 +39,19 @@ class Dispatcher {
       this.emitter.removeListener(Ev[event], listener);
    };
 
-   //TODO: old way of doing things.
-   //playLog(name: string, callback?: Function) {
-   //   $.get('playLog', {name: name}).done(function(res) {
-   //      if (callback)
-   //         callback(res);
-   //   });
-   //}
-   //
-   //stopPlayingLog() {
-   //   $.get('/stopPlaying');
-   //}
+   get = (event: string, callback?: Function) => {
+      this.socket.emit(event);
+
+      if (callback) {
+         this.socket.once(event, callback);
+      }
+   };
+
+   req = (event: string, data: any, callback: Function) => {
+      this.socket.emit(event, data);
+      this.socket.once(event, callback);
+   };
+
 }
 
 export let dispatcher = new Dispatcher();

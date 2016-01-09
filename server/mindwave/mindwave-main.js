@@ -1,5 +1,6 @@
-var mindwave = require('./mindwave.js');
-var _ = require('underscore');
+var mindwave = require('./mindwave');
+var fakeData = require('./mindwave-fake-data');
+var settings = require('../../app/debug-settings');
 
 var socket = null;
 var client = null;
@@ -9,7 +10,12 @@ var recording = false;
 var connected = false;
 var numOfBadSamples = 0;
 
+if (settings.fakeData) {
+   fakeData.startEmitting(handleNewData);
+}
+
 function connect() {
+   numOfBadSamples = 0;
 
    client = mindwave.createClient({
       appName:'NodeMindwave',
@@ -17,9 +23,6 @@ function connect() {
    });
 
    client.on('data', function(data) {
-      console.log(data);
-      //console.log(client);
-
       handleNewData(data);
    });
 
@@ -31,17 +34,18 @@ function isConnected() {
 }
 
 function handleNewData(data) {
-   if (!data['eSense']) {
-      connected = false;
+   var validData = !!data['eSense'];
+   connected = validData;
+
+   if (!validData) {
       numOfBadSamples++;
-      if (numOfBadSamples >= 20) {
+      if (numOfBadSamples >= 100) {
          client.destroy();
          socket.emit('failedToConnectHeadset');
       }
    }
    else {
       numOfBadSamples = 0;
-      connected = true;
    }
 
    data.time = new Date().getTime();
@@ -50,7 +54,7 @@ function handleNewData(data) {
       socket.emit('liveData', data);
    }
 
-   if (recording) {
+   if (recording && validData) {
       recordedData.push(data);
    }
 }
@@ -62,15 +66,6 @@ function startRecording() {
 
 function stopRecording() {
    recording = false;
-   //var meanMeditation = calcMeanMeditation();
-   //var meanAttention = calcMeanAttention();
-   //
-   //if (socket) {
-   //   socket.emit('stats', {
-   //      meanMeditation: meanMeditation,
-   //      meanAttention: meanAttention
-   //   });
-   //}
 }
 
 function getRecordedData() {
@@ -81,31 +76,6 @@ function setSocket(s) {
    socket = s;
 }
 
-//function calcMeanMeditation() {
-//   if (recordedData.length === 0) {
-//      return 0;
-//   }
-//
-//   var totalMeditation = _.reduce(recordedData, function(sum, data) {
-//      return sum + data['eSense']['meditation'];
-//   }, 0);
-//
-//   return totalMeditation / recordedData.length;
-//}
-//
-//function calcMeanAttention() {
-//   if (recordedData.length === 0) {
-//      return 0;
-//   }
-//
-//   var totalAttention = _.reduce(recordedData, function(sum, data) {
-//      return sum + data['eSense']['attention'];
-//   }, 0);
-//
-//   return totalAttention / recordedData.length;
-//}
-
-
 module.exports.connect = connect;
 module.exports.isConnected = isConnected;
 module.exports.setSocket = setSocket;
@@ -113,3 +83,5 @@ module.exports.startRecording = startRecording;
 module.exports.stopRecording = stopRecording;
 module.exports.getRecordedData = getRecordedData;
 module.exports.handleNewData = handleNewData;
+
+

@@ -6,7 +6,7 @@ import {Field} from "../util/util";
 
 export class StatsPanel extends React.Component<{
    dataFile: DataFile,
-   playing: boolean
+   recording: boolean
 }, {}> {
 
    liveValues() {
@@ -59,7 +59,7 @@ export class StatsPanel extends React.Component<{
    }
 
    render() {
-      if (this.props.playing) {
+      if (this.props.recording) {
          return this.liveValues();
       }
       else {

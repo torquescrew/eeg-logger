@@ -2,7 +2,7 @@
   "name": "eeg-logger",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app/main.js",
   "dependencies": {
     "babel-preset-react": "~6.3.13",
     "react": "~0.14.3",
@@ -17,11 +17,13 @@
     "moment": "~2.10.6"
   },
   "devDependencies": {
-    "json-loader": "~0.5.4"
+    "json-loader": "~0.5.4",
+    "electron-prebuilt": "^0.36.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "make": "webpack -d"
+    "make": "webpack -d",
+    "start": "electron app/main.js"
   },
   "author": "Toby Suggate",
   "license": "BSD-2-Clause"

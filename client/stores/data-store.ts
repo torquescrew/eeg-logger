@@ -14,9 +14,10 @@ export interface MainState {
    dataStripeSize: Size;
    visibleStripes: Field[];
    dataFile: DataFile;
+   tempDataFile: DataFile;
    logList: number[];
    location: any[];
-   playing: boolean;
+   recording: boolean;
    muted: boolean;
    pixPerMilliSec: number;
    headsetConnected: boolean;
@@ -25,7 +26,7 @@ export interface MainState {
 interface Settings {
    location: any[];
    visibleStripes: Field[];
-   playing: boolean;
+   recording: boolean;
    muted: boolean;
 }
 
@@ -33,24 +34,28 @@ export class DataStore extends Store implements MainState {
    dataStripeSize: Size;
    visibleStripes = [Field.Meditation, Field.Attention, Field.Signal];
    dataFile: DataFile;
+   tempDataFile: DataFile;
    logList = [];
    location = [Mode.Start];
-   playing = false;
+   recording = false;
    muted = false;
    pixPerMilliSec = 0.01;
    headsetConnected = false;
 
    timeAtLastSample = 0;
 
+
    constructor() {
       super();
-      this.dataStripeSize = new Size(800, 130);
+      this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length);
       this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+      this.tempDataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+      this.tempDataFile.fillWithEmptySamples(20);
 
       dispatcher.on(Ev.StartRecording, () => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
 
-         $.get('/startRecording');
+         dispatcher.get('startRecording');
 
          this.setPlaying(true);
          this.emitChange();
@@ -59,7 +64,7 @@ export class DataStore extends Store implements MainState {
       dispatcher.on(Ev.StopRecording, () => {
          this.setPlaying(false);
 
-         $.get('/stopRecording');
+         dispatcher.get('stopRecording');
 
          this.loadLogList(() => {
             this.emitChange();
@@ -98,18 +103,22 @@ export class DataStore extends Store implements MainState {
             //   this.emitChange();
             //}
             this.headsetConnected = true;
-            if (this.playing) {
+            if (this.recording) {
                this.dataFile.appendData(data);
+            }
+            else {
+               this.tempDataFile.appendData(data);
+               this.tempDataFile.truncateForNiceDisplay();
             }
             this.emitChange();
          }
          else if (data['blinkStrength']) {
 
          }
-         else if(this.headsetConnected) {
+         else if (this.headsetConnected) {
             this.headsetConnected = false;
-            //if (this.playing)
-            this.playing = false;
+            //if (this.recording)
+            this.recording = false;
             this.emitChange();
          }
       });
@@ -143,18 +152,16 @@ export class DataStore extends Store implements MainState {
       this.loadLogList(() => {
          this.loadSettings(() => {
             this.initDataFile(() => {
-               //this.checkIfHeadsetConnected(() => {
-                  this.emitChange();
-               //});
+               this.emitChange();
             });
          });
       });
 
       setInterval(() => {
          if (this.timeAtLastSample + 2000 < _.now()) {
-            if (this.headsetConnected || this.playing) {
+            if (this.headsetConnected || this.recording) {
                this.headsetConnected = false;
-               this.playing = false;
+               this.recording = false;
                this.emitChange();
             }
          }
@@ -162,12 +169,14 @@ export class DataStore extends Store implements MainState {
    }
 
    updateDataFileParams = () => {
+      this.dataStripeSize = new Size(800, 400 / this.visibleStripes.length);
       this.dataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
+      this.tempDataFile.updateParams(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
    };
 
-   setPlaying = (playing: boolean) => {
-      if (this.playing !== playing) {
-         this.playing = playing;
+   setPlaying = (recording: boolean) => {
+      if (this.recording !== recording) {
+         this.recording = recording;
          this.saveSettings();
       }
    };
@@ -187,7 +196,7 @@ export class DataStore extends Store implements MainState {
    saveSettings = () => {
       let settings: Settings = {
          location: this.location,
-         playing: this.playing,
+         recording: this.recording,
          muted: this.muted,
          visibleStripes: this.visibleStripes
       };
@@ -206,26 +215,20 @@ export class DataStore extends Store implements MainState {
       }
    }
 
-   //checkIfHeadsetConnected(callback) {
-   //   $.get('/headsetConnected', (res) => {
-   //      this.headsetConnected = res;
-   //      callback();
-   //   });
-   //}
-
    tryConnectHeadset = () => {
       if (this.timeAtLastSample + 3000 < _.now()) {
-         $.get('/connectHeadset');
+         dispatcher.get('connectHeadset');
       }
    };
 
    loadSettings(callback: Function) {
-      $.get('/loadSettings', (settings: Settings) => {
+      dispatcher.get('loadSettings', (settings: Settings) => {
          if (!_.isEmpty(settings)) {
             this.location = settings.location;
-            this.playing = settings.playing;
+            this.recording = settings.recording;
             this.muted = settings.muted;
             this.visibleStripes = settings.visibleStripes;
+            this.updateDataFileParams();
          }
          callback();
 
@@ -234,11 +237,9 @@ export class DataStore extends Store implements MainState {
    }
 
    loadLogList(callback: Function) {
-      $.get('/logFileList', (logs: string[]) => {
+      dispatcher.get('logFileList', (logs: string[]) => {
          var list = logs.map((e) => parseInt(e));
-
          list.sort((a, b) => b - a);
-
          this.logList = list;
 
          callback();
@@ -246,7 +247,7 @@ export class DataStore extends Store implements MainState {
    }
 
    loadLog(log: number, callback: Function): void {
-      $.get('/loadLog', {name: log + '.json'}).done((res) => {
+      dispatcher.req('loadLog', '/' + log + '.json', (res: string) => {
          this.dataFile = new DataFile(this.dataStripeSize, this.pixPerMilliSec, this.visibleStripes);
          this.dataFile.appendArrayOfData(JSON.parse(res));
 
@@ -257,7 +258,7 @@ export class DataStore extends Store implements MainState {
    }
 
    loadLastDataFile(callback: Function) {
-      $.get('/logFileList', (list: string[]) => {
+      dispatcher.get('logFileList', (list: string[]) => {
          this.loadLog(parseInt(_.last(list)), callback);
       });
    }
@@ -267,9 +268,10 @@ export class DataStore extends Store implements MainState {
          dataStripeSize: this.dataStripeSize,
          visibleStripes: this.visibleStripes,
          dataFile: this.dataFile,
+         tempDataFile: this.tempDataFile,
          logList: this.logList,
          location: this.location,
-         playing: this.playing,
+         recording: this.recording,
          muted: this.muted,
          pixPerMilliSec: this.pixPerMilliSec,
          headsetConnected: this.headsetConnected

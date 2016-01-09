@@ -7,7 +7,7 @@ import {DataFile} from "../../stores/data-file/data-file";
 
 export class Controls extends React.Component<{
    dataFile: DataFile,
-   playing: boolean,
+   recording: boolean,
    muted: boolean,
    disabled?: boolean
 }, {}> {
@@ -15,7 +15,7 @@ export class Controls extends React.Component<{
    render() {
       return (
          <div className="playControls">
-            <Record playing={this.props.playing} disabled={this.props.disabled} />
+            <Record recording={this.props.recording} disabled={this.props.disabled} />
             <Mute muted={this.props.muted} disabled={this.props.disabled} />
          </div>
       );

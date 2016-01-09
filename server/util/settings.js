@@ -1,13 +1,14 @@
 var fs = require('fs');
+var path = require('path');
 
-var settingsPath = '../app-state/state.json';
+var settingsPath = path.resolve(__dirname + '/../../app-state/state.json');
+
 
 function saveSettings(settings) {
    var settingsStr = JSON.stringify(settings);
 
    fs.writeFile(settingsPath, settingsStr, function(err) {
       if (err) throw err;
-      console.log('saved settings');
    })
 }
 

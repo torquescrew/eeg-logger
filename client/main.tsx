@@ -48,9 +48,10 @@ class Main extends React.Component<{}, MainState> {
             screen = <RecordScreen dataStripeSize={this.state.dataStripeSize}
                                    visibleStripes={this.state.visibleStripes}
                                    dataFile={this.state.dataFile}
+                                   tempDataFile={this.state.tempDataFile}
                                    location={this.state.location}
                                    headsetConnected={this.state.headsetConnected}
-                                   playing={this.state.playing}
+                                   recording={this.state.recording}
                                    muted={this.state.muted} />;
             break;
          case Mode.Settings:
@@ -59,7 +60,8 @@ class Main extends React.Component<{}, MainState> {
 
       return (
          <div className="main">
-            <Menu location={this.state.location} />
+            <Menu location={this.state.location}
+                  recording={this.state.recording} />
             <div className="screen">
                {screen}
             </div>
