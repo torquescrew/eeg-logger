@@ -12,6 +12,7 @@ module.exports = {
          { test: /\.tsx?$/, loader: 'ts-loader' }
       ]
    },
+   devtool: 'source-map',
    "exclude": [
       "node_modules",
       "public",
