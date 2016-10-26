@@ -18,5 +18,38 @@ module.exports = {
       "public",
       "server",
       "app-state"
-   ]
+   ],
+   externals: getExternals()
 };
+
+
+function getExternals() {
+   var modules = [
+      'events',
+      'electron',
+      'winston',
+      'mocha',
+      'spectron',
+
+      // Socket.io related.
+      'socket.io',
+      'bufferutil',
+      'utf-8-validate',
+      'socket.io-client/package',
+
+      'superagent',
+
+      // phantomjs related.
+      'system',
+      'webpage',
+      'phantomjs-prebuilt'
+   ];
+
+   var externals = {};
+
+   modules.forEach(function(m) {
+      externals[m] = 'require("' + m + '")'
+   });
+
+   return externals;
+}
