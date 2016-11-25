@@ -12,7 +12,7 @@ import {dispatcher, Ev} from './util/dispatcher';
 import {Mode} from "./util/constants";
 
 
-var store = new DataStore();
+const store = new DataStore();
 
 
 class Main extends React.Component<{}, MainState> {
@@ -34,7 +34,7 @@ class Main extends React.Component<{}, MainState> {
          return null;
       }
 
-      var screen;
+      let screen;
 
       switch (this.state.location[0]) {
          case Mode.History:

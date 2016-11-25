@@ -70,7 +70,7 @@ export class DataPanel extends React.Component<{
    }
 
    onScroll = () => {
-      var $stripe = $(this.getElement('stripe'));
+      const $stripe = $(this.getElement('stripe'));
       let $stripeContainer = $(this.refs['stripeContainer']);
 
       let leftPos = Math.floor($stripe.position().left - $stripeContainer.position().left);
@@ -81,7 +81,7 @@ export class DataPanel extends React.Component<{
    };
 
    onMouseDown = (e) => {
-      var $stripe = $(this.getElement('stripe'));
+      const $stripe = $(this.getElement('stripe'));
       let $stripeContainer = $(this.refs['stripeContainer']);
 
       let left = $stripe.position().left - $stripeContainer.position().left;
@@ -198,7 +198,7 @@ export class DataPanel extends React.Component<{
    };
 
    render() {
-      var controls = null;
+      let controls = null;
       if (this.props.location[0] === Mode.Start) {
          controls = <Controls dataFile={this.props.dataFile}
                               recording={this.props.recording}

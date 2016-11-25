@@ -48,11 +48,6 @@ export class EventEmitter {
    }
 
    emit(event, ...args) {
-      // let i;
-      // let listeners;
-      // let length;
-      // let args = [].slice.call(arguments, 1);
-
       if (typeof this.events[event] === 'object') {
          let listeners = this.events[event].slice();
          let length = listeners.length;
