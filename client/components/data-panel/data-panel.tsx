@@ -80,7 +80,7 @@ export class DataPanel extends React.Component<{
       });
    };
 
-   onMouseDown = (e: __React.MouseEvent) => {
+   onMouseDown = (e) => {
       var $stripe = $(this.getElement('stripe'));
       let $stripeContainer = $(this.refs['stripeContainer']);
 
@@ -89,7 +89,7 @@ export class DataPanel extends React.Component<{
       this.dragState = new DragState(left, e.clientX);
    };
 
-   onMouseMove = (e: __React.MouseEvent) => {
+   onMouseMove = (e) => {
       if (e.buttons) {
          let maxLeftPos = -(this.props.dataFile.getLengthOfStripe() - this.props.dataStripeSize.width);
          let xDiff = e.clientX - this.dragState.clientX;

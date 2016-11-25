@@ -35,6 +35,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "make": "webpack -d",
+    "watch": "webpack --progress --colors --watch",
     "start": "electron app/main.js"
   },
   "author": "Toby Suggate",

@@ -1,6 +1,6 @@
 import * as io from 'socket.io-client';
 import * as $ from 'jquery';
-import {EventEmitter} from 'events';
+import {EventEmitter} from './eventemitter';
 
 const PORT = 3081;
 
@@ -28,6 +28,7 @@ class Dispatcher {
    }
 
    on = (event: Ev, listener: Function) => {
+      const e: string = Ev[event];
       this.emitter.on(Ev[event], listener);
    };
 
