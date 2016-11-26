@@ -1,7 +1,9 @@
 module.exports = {
-   entry: './client/main.tsx',
+   entry: {
+      bundle: './client/main.tsx'
+   },
    output: {
-      filename: './public/scripts/bundle.js'
+      filename: './public/scripts/[name].js'
    },
    resolve: {
       extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
@@ -24,7 +26,7 @@ module.exports = {
 
 
 function getExternals() {
-   var modules = [
+   const modules = [
       'events',
       'electron',
       'winston',
@@ -45,7 +47,7 @@ function getExternals() {
       'phantomjs-prebuilt'
    ];
 
-   var externals = {};
+   let externals = {};
 
    modules.forEach(function(m) {
       externals[m] = 'require("' + m + '")'
