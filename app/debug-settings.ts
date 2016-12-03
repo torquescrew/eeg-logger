@@ -1,16 +1,16 @@
 
-var debug = {
+const debug = {
    debug: true,
    fakeData: false,
    saveRecordedData: true
 };
 
-var production = {
+const production = {
    debug: false,
    fakeData: false,
    saveRecordedData: true
 };
 
-
-module.exports = debug;
+export const settings = debug;
+// module.exports = debug;
 //module.exports = production;

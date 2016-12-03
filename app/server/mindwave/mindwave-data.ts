@@ -1,15 +1,16 @@
-var fs = require('fs');
-var path = require('path');
-var _ = require('underscore');
-var debugSettings = require('../../../app/debug-settings');
-var config = require('../../../app/config');
+import * as fs from 'fs';
+import * as path from 'path';
+import * as _ from 'underscore';
+
+import {settings} from '../../debug-settings';
 
 
-var logsPath = path.resolve(config.root, 'app-state', 'mindwave_logs');
+const config = require('../../../app/config');
+const logsPath = path.resolve(config.root, 'app-state', 'mindwave_logs');
 
 
-function save(data) {
-   if (!debugSettings.saveRecordedData) {
+export function save(data) {
+   if (!settings.saveRecordedData) {
       console.log('Saving recorded data disabled.');
       return;
    }
@@ -19,8 +20,8 @@ function save(data) {
       return;
    }
 
-   var fileName = '/' + new Date().getTime() + '.json';
-   var dataStr = JSON.stringify(data);
+   const fileName = '/' + new Date().getTime() + '.json';
+   const dataStr = JSON.stringify(data);
 
    fs.writeFile(logsPath + fileName, dataStr, function(err) {
       if (err) throw err;
@@ -28,7 +29,7 @@ function save(data) {
    });
 }
 
-function load(fileName, callback) {
+export function load(fileName, callback) {
    fs.readFile(logsPath + fileName, function(err, data) {
       if (err) throw err;
 
@@ -38,7 +39,7 @@ function load(fileName, callback) {
    });
 }
 
-function remove(fileName) {
+export function remove(fileName) {
    fs.unlink(logsPath + fileName, function(err) {
       if (err) throw err;
 
@@ -46,14 +47,14 @@ function remove(fileName) {
    });
 }
 
-function endsWith(str, suffix) {
+export function endsWith(str, suffix) {
    return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function getLogFilesList(callback) {
+export function getLogFilesList(callback) {
    fs.readdir(logsPath, function(err, res) {
       if (callback) {
-         var jsonFiles = _.filter(res, function(f) {
+         const jsonFiles = _.filter(res, function (f) {
             return endsWith(f, '.json');
          });
 
@@ -62,7 +63,3 @@ function getLogFilesList(callback) {
    });
 }
 
-module.exports.save = save;
-module.exports.load = load;
-module.exports.remove = remove;
-module.exports.getLogFilesList = getLogFilesList;

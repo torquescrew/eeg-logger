@@ -1,6 +1,9 @@
-var net = require('net'),
-   events = require('events'),
-   util = require('util');
+import * as net from 'net';
+import * as events from 'events';
+import * as util from 'util';
+// var net = require('net'),
+//    events = require('events'),
+//    util = require('util');
 
 function NodeNeuroSkyError(message) {
    Error.call(this);
@@ -11,7 +14,7 @@ function NodeNeuroSkyError(message) {
 
 NodeNeuroSkyError.prototype.__proto__ = Error.prototype;
 
-var NeuroSkyClient = function(opts) {
+export const NeuroSkyClient = function(opts) {
    opts || (opts = {});
 
    this.port = opts.port || 13854;
@@ -69,8 +72,8 @@ NeuroSkyClient.prototype.destroy = function() {
    this.client.destroy();
 };
 
-exports.NeuroSkyClient = NeuroSkyClient;
+// exports.NeuroSkyClient = NeuroSkyClient;
 
-exports.createClient = function(opts) {
+export function createClient(opts) {
    return new NeuroSkyClient(opts || {});
-};
+}
