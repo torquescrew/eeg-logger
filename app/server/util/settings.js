@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var config = require('../../app/config');
+var config = require('../../../app/config');
 
 var settingsPath = path.resolve(config.root + '/app-state/state.json');
 

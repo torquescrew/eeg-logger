@@ -1,8 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
-var debugSettings = require('../../app/debug-settings');
-var config = require('../../app/config');
+var debugSettings = require('../../../app/debug-settings');
+var config = require('../../../app/config');
 
 
 var logsPath = path.resolve(config.root, 'app-state', 'mindwave_logs');

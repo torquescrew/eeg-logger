@@ -5,7 +5,7 @@ const BrowserWindow = electron.BrowserWindow;
 const settings = require('./debug-settings');
 
 // This starts the server.
-require('../server/server');
+require('./server/server');
 
 const debug = settings.debug;
 

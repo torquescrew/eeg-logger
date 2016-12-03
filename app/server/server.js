@@ -11,7 +11,7 @@ var io = require('socket.io')(server);
 
 var settings = require('./util/settings');
 
-var config = require('../app/config');
+var config = require('../../app/config');
 
 // Also in dispatcher.ts
 const PORT = 3081;

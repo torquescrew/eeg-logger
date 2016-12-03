@@ -1,6 +1,6 @@
 var mindwave = require('./mindwave');
 var fakeData = require('./mindwave-fake-data');
-var settings = require('../../app/debug-settings');
+var settings = require('../../../app/debug-settings');
 
 var socket = null;
 var client = null;
