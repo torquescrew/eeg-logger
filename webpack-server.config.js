@@ -1,6 +1,6 @@
 module.exports = {
    entry: {
-      server: './app/main.js'
+      server: './app/main.ts'
    },
    output: {
       filename: './app/dist/[name].js'

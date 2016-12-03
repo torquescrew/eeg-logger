@@ -1,7 +1,7 @@
-'use strict';
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+// const electron = require('electron');
+import {app, BrowserWindow} from 'electron';
+// const app = electron.app;
+// const BrowserWindow = electron.BrowserWindow;
 const settings = require('./debug-settings');
 
 // This starts the server.
@@ -26,8 +26,8 @@ app.on('ready', function() {
    const height = 823;
 
    let options = {};
-   options.width = width;
-   options.height = height;
+   options['width'] = width;
+   options['height'] = height;
 
    if (!debug) {
       options['min-width'] = width;
