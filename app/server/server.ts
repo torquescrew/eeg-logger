@@ -1,72 +1,67 @@
-import * as path from 'path';
 import * as http from 'http';
 import * as express from 'express';
 import * as socketIo from 'socket.io';
 import * as config from '../config/config';
 import * as paths from '../config/app-paths';
 
-
-var player = require('./mindwave/mindwave-log-player');
-var data = require('./mindwave/mindwave-data');
-// var mindwave = require('./mindwave/mindwave-main');
+import * as settings from './util/settings';
 import * as mindwave from './mindwave/mindwave-main';
 
 
+const player = require('./mindwave/mindwave-log-player');
+const data = require('./mindwave/mindwave-data');
+
+
 const app = express();
-const server = http.createServer(app);
-const sio = socketIo(server);
+const server: http.Server = http.createServer(app);
+const sio: SocketIO.Server = socketIo(server);
 
 
-var settings = require('./util/settings');
+app.use('/public', express.static(paths.public_));
+app.use('/dist', express.static(paths.dist));
 
-
-
-
-app.use('/public', express.static(path.join(paths.root, 'app', 'public')));
-app.use('/dist', express.static(path.join(paths.root, 'app', 'dist')));
-
-server.listen(config.port, function() {
+server.listen(config.port, () => {
    console.log("Listening on port " + config.port);
 });
 
-sio.on('connection', function(s) {
+sio.on('connection', (s: SocketIO.Socket) => {
 
-   s.on('connectHeadset', function() {
+   s.on('connectHeadset', () => {
       // mindwave.connect();
    });
 
-   s.on('startRecording', function() {
+   s.on('startRecording', () => {
       // mindwave.startRecording();
    });
 
-   s.on('stopRecording', function() {
+   s.on('stopRecording', () => {
       // mindwave.stopRecording();
       // data.save(mindwave.getRecordedData());
    });
 
-   s.on('deleteLog', function(name) {
+   s.on('deleteLog', name => {
       // data.remove(name);
    });
 
-   s.on('logFileList', function() {
-      data.getLogFilesList(function(list) {
+   s.on('logFileList', () => {
+      data.getLogFilesList(list => {
          sio.emit('logFileList', list);
       });
    });
 
-   s.on('loadLog', function(name) {
-      data.load(name, function(data) {
+   s.on('loadLog', name => {
+      data.load(name, data => {
          sio.emit('loadLog', data.toString());
       });
    });
 
-   s.on('loadSettings', function() {
-      settings.loadSettings(function(settings) {
+   s.on('loadSettings', () => {
+      settings.loadSettings(settings => {
          sio.emit('loadSettings', settings);
       })
    });
 
-   s.on('saveSettings', function(data) {
+   s.on('saveSettings', data => {
       settings.saveSettings(data);
    });
 

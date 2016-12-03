@@ -3,10 +3,10 @@ import * as path from 'path';
 import * as _ from 'underscore';
 
 import {settings} from '../../debug-settings';
+import * as paths from '../../config/app-paths';
 
 
-const config = require('../../config/config');
-const logsPath = path.resolve(config.root, 'app-state', 'mindwave_logs');
+const logsPath = path.resolve(paths.root, 'app-state', 'mindwave_logs');
 
 
 export function save(data) {
