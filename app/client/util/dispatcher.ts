@@ -1,6 +1,6 @@
 import * as io from 'socket.io-client';
 import {EventEmitter} from './eventemitter';
-import * as config from '../../config/config';
+import * as sharedConfig from '../../shared/config-shared';
 
 
 export enum Ev {
@@ -22,7 +22,7 @@ class Dispatcher {
    public socket: SocketIOClient.Socket;
 
    constructor() {
-      this.socket = io.connect('http://localhost:' + config.port);
+      this.socket = io.connect('http://localhost:' + sharedConfig.port);
       this.emitter = new EventEmitter();
    }
 

@@ -1,27 +1,24 @@
-// const electron = require('electron');
 import {app, BrowserWindow} from 'electron';
-// const app = electron.app;
-// const BrowserWindow = electron.BrowserWindow;
-const settings = require('./debug-settings');
+import * as config from './server/config/config';
+
+
+
 
 // This starts the server.
 require('./server/server');
 
-const debug = settings.debug;
+const debug = config.getAppMode().debug;
 
-//if (debug) {
-//   server.emitFakeData();
-//}
 
 let mainWindow;
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', () => {
    if (process.platform != 'darwin') {
       app.quit();
    }
 });
 
-app.on('ready', function() {
+app.on('ready', () => {
    const width = debug? 1400 : 900;
    const height = 823;
 
@@ -45,7 +42,7 @@ app.on('ready', function() {
 
    mainWindow.setMenu(null);
 
-   mainWindow.on('closed', function() {
+   mainWindow.on('closed', () => {
       mainWindow = null;
    });
 });

@@ -2,15 +2,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'underscore';
 
-import {settings} from '../../debug-settings';
-import * as paths from '../../config/app-paths';
+// import {settings} from '../../debug-settings';
+import * as config from '../config/config';
+import * as paths from '../config/app-paths';
 
 
 const logsPath = path.resolve(paths.root, 'app-state', 'mindwave_logs');
 
 
 export function save(data) {
-   if (!settings.saveRecordedData) {
+   if (!config.getAppMode().saveRecordedData) {
       console.log('Saving recorded data disabled.');
       return;
    }

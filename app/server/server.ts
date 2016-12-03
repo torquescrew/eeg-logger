@@ -1,8 +1,9 @@
+import * as appArgs from './config/app-args';
 import * as http from 'http';
 import * as express from 'express';
 import * as socketIo from 'socket.io';
-import * as config from '../config/config';
-import * as paths from '../config/app-paths';
+import * as shared from '../shared/config-shared';
+import * as paths from './config/app-paths';
 
 import * as settings from './util/settings';
 import * as mindwave from './mindwave/mindwave-main';
@@ -17,11 +18,14 @@ const server: http.Server = http.createServer(app);
 const sio: SocketIO.Server = socketIo(server);
 
 
+console.log(appArgs.devMode);
+
+
 app.use('/public', express.static(paths.public_));
 app.use('/dist', express.static(paths.dist));
 
-server.listen(config.port, () => {
-   console.log("Listening on port " + config.port);
+server.listen(shared.port, () => {
+   console.log("Listening on port " + shared.port);
 });
 
 sio.on('connection', (s: SocketIO.Socket) => {
@@ -44,21 +48,21 @@ sio.on('connection', (s: SocketIO.Socket) => {
    });
 
    s.on('logFileList', () => {
-      data.getLogFilesList(list => {
-         sio.emit('logFileList', list);
-      });
+      // data.getLogFilesList(list => {
+      //    sio.emit('logFileList', list);
+      // });
    });
 
    s.on('loadLog', name => {
-      data.load(name, data => {
-         sio.emit('loadLog', data.toString());
-      });
+      // data.load(name, data => {
+      //    sio.emit('loadLog', data.toString());
+      // });
    });
 
    s.on('loadSettings', () => {
       settings.loadSettings(settings => {
          sio.emit('loadSettings', settings);
-      })
+      });
    });
 
    s.on('saveSettings', data => {

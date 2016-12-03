@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as paths from '../../config/app-paths';
+import * as paths from '../config/app-paths';
 
 
 const settingsPath = path.resolve(paths.root + '/app-state/state.json');

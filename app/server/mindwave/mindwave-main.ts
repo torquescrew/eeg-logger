@@ -1,6 +1,6 @@
 var mindwave = require('./mindwave');
 var fakeData = require('./mindwave-fake-data');
-var settings = require('../../../app/debug-settings');
+import * as config from '../config/config';
 
 var socket = null;
 var client = null;
@@ -10,7 +10,7 @@ var recording = false;
 var connected = false;
 var numOfBadSamples = 0;
 
-if (settings.fakeData) {
+if (config.getAppMode().fakeData) {
    fakeData.startEmitting(handleNewData);
 }
 
