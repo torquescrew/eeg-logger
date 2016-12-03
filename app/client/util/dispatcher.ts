@@ -1,8 +1,7 @@
 import * as io from 'socket.io-client';
-import * as $ from 'jquery';
 import {EventEmitter} from './eventemitter';
+import * as config from '../../config';
 
-const PORT = 3081;
 
 export enum Ev {
    LiveData,
@@ -23,7 +22,7 @@ class Dispatcher {
    public socket: SocketIOClient.Socket;
 
    constructor() {
-      this.socket = io.connect('http://localhost:' + PORT);
+      this.socket = io.connect('http://localhost:' + config.port);
       this.emitter = new EventEmitter();
    }
 
