@@ -37,7 +37,7 @@ app.on('ready', function() {
    }
 
    mainWindow = new BrowserWindow(options);
-   mainWindow.loadURL('file://' + __dirname + '/../public/index.html');
+   mainWindow.loadURL('http://localhost:3081/public/index.html');
 
    if (debug) {
       mainWindow.webContents.openDevTools();

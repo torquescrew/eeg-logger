@@ -1,7 +1,8 @@
 var fs = require('fs');
 var path = require('path');
+var config = require('../../app/config');
 
-var settingsPath = path.resolve(__dirname + '/../../app-state/state.json');
+var settingsPath = path.resolve(config.root + '/app-state/state.json');
 
 
 function saveSettings(settings) {

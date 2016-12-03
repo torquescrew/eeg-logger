@@ -11,11 +11,13 @@ var io = require('socket.io')(server);
 
 var settings = require('./util/settings');
 
+var config = require('../app/config');
+
 // Also in dispatcher.ts
 const PORT = 3081;
 
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use('/public', express.static(path.join(config.root, 'public')));
 
 server.listen(PORT, function() {
    console.log("Listening on port " + PORT);
