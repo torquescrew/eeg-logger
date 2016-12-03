@@ -1,13 +1,23 @@
-var path = require('path');
+import * as path from 'path';
 
 var player = require('./mindwave/mindwave-log-player');
 var data = require('./mindwave/mindwave-data');
 var mindwave = require('./mindwave/mindwave-main');
 
-var express = require('express');
+import * as express from 'express';
+
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+
+// import {Server} from 'http';
+import * as http from 'http';
+
+const server = http.createServer(app);
+// var server = require('http').Server(app);
+
+import * as socketIo from 'socket.io';
+
+const sio = socketIo(server);
+// var sio = require('socket.io')(server);
 
 var settings = require('./util/settings');
 
@@ -24,7 +34,7 @@ server.listen(PORT, function() {
    console.log("Listening on port " + PORT);
 });
 
-io.on('connection', function(s) {
+sio.on('connection', function(s) {
 
    s.on('connectHeadset', function() {
       mindwave.connect();
@@ -45,19 +55,19 @@ io.on('connection', function(s) {
 
    s.on('logFileList', function() {
       data.getLogFilesList(function(list) {
-         io.emit('logFileList', list);
+         sio.emit('logFileList', list);
       });
    });
 
    s.on('loadLog', function(name) {
       data.load(name, function(data) {
-         io.emit('loadLog', data.toString());
+         sio.emit('loadLog', data.toString());
       });
    });
 
    s.on('loadSettings', function() {
       settings.loadSettings(function(settings) {
-         io.emit('loadSettings', settings);
+         sio.emit('loadSettings', settings);
       })
    });
 
