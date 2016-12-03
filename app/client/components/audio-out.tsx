@@ -88,10 +88,10 @@ export class AudioOut extends React.Component<{
    render() {
       return (
          <div className="audioOut">
-            <audio id="note1" src="audio/xylophone-mp3/D4.mp3" type="audio/mpeg"/>
-            <audio id="note2" src="audio/xylophone-mp3/A4.mp3" type="audio/mpeg"/>
-            <audio id="note3" src="audio/xylophone-mp3/D5.mp3" type="audio/mpeg"/>
-            <audio id="note4" src="audio/xylophone-mp3/G6.mp3" type="audio/mpeg"/>
+            {/*<audio id="note1" src="audio/xylophone-mp3/D4.mp3" type="audio/mpeg"/>*/}
+            {/*<audio id="note2" src="audio/xylophone-mp3/A4.mp3" type="audio/mpeg"/>*/}
+            {/*<audio id="note3" src="audio/xylophone-mp3/D5.mp3" type="audio/mpeg"/>*/}
+            {/*<audio id="note4" src="audio/xylophone-mp3/G6.mp3" type="audio/mpeg"/>*/}
          </div>
       );
    }

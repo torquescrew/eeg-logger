@@ -1,6 +1,6 @@
 import * as io from 'socket.io-client';
 import {EventEmitter} from './eventemitter';
-import * as config from '../../config';
+import * as config from '../../config/config';
 
 
 export enum Ev {

@@ -2,7 +2,8 @@ import * as path from 'path';
 import * as http from 'http';
 import * as express from 'express';
 import * as socketIo from 'socket.io';
-import * as config from '../../app/config';
+import * as config from '../config/config';
+import * as paths from '../config/app-paths';
 
 
 var player = require('./mindwave/mindwave-log-player');
@@ -21,8 +22,8 @@ var settings = require('./util/settings');
 
 
 
-app.use('/public', express.static(path.join(config.root, 'app', 'public')));
-app.use('/dist', express.static(path.join(config.root, 'app', 'dist')));
+app.use('/public', express.static(path.join(paths.root, 'app', 'public')));
+app.use('/dist', express.static(path.join(paths.root, 'app', 'dist')));
 
 server.listen(config.port, function() {
    console.log("Listening on port " + config.port);
@@ -31,20 +32,20 @@ server.listen(config.port, function() {
 sio.on('connection', function(s) {
 
    s.on('connectHeadset', function() {
-      mindwave.connect();
+      // mindwave.connect();
    });
 
    s.on('startRecording', function() {
-      mindwave.startRecording();
+      // mindwave.startRecording();
    });
 
    s.on('stopRecording', function() {
-      mindwave.stopRecording();
-      data.save(mindwave.getRecordedData());
+      // mindwave.stopRecording();
+      // data.save(mindwave.getRecordedData());
    });
 
    s.on('deleteLog', function(name) {
-      data.remove(name);
+      // data.remove(name);
    });
 
    s.on('logFileList', function() {

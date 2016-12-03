@@ -5,7 +5,7 @@ import * as _ from 'underscore';
 import {settings} from '../../debug-settings';
 
 
-const config = require('../../../app/config');
+const config = require('../../config/config');
 const logsPath = path.resolve(config.root, 'app-state', 'mindwave_logs');
 
 
