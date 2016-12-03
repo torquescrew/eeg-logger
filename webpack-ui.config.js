@@ -1,9 +1,9 @@
 module.exports = {
    entry: {
-      bundle: './client/main.tsx'
+      ui: './client/main.tsx'
    },
    output: {
-      filename: './public/scripts/[name].js'
+      filename: './app/dist/[name].js'
    },
    resolve: {
       extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']

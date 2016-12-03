@@ -17,7 +17,8 @@ var config = require('../app/config');
 const PORT = 3081;
 
 
-app.use('/public', express.static(path.join(config.root, 'public')));
+app.use('/public', express.static(path.join(config.root, 'app', 'public')));
+app.use('/dist', express.static(path.join(config.root, 'app', 'dist')));
 
 server.listen(PORT, function() {
    console.log("Listening on port " + PORT);

@@ -103,8 +103,8 @@ node_modules
 
 typings
 
-/public/scripts
 
 /app-state/state.json
 
 /public/audio/xylophone-mp3
+/app/dist/
