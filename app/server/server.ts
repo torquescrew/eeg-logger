@@ -7,7 +7,8 @@ import * as config from '../../app/config';
 
 var player = require('./mindwave/mindwave-log-player');
 var data = require('./mindwave/mindwave-data');
-var mindwave = require('./mindwave/mindwave-main');
+// var mindwave = require('./mindwave/mindwave-main');
+import * as mindwave from './mindwave/mindwave-main';
 
 
 const app = express();

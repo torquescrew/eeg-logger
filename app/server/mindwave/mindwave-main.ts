@@ -14,7 +14,7 @@ if (settings.fakeData) {
    fakeData.startEmitting(handleNewData);
 }
 
-function connect() {
+export function connect() {
    numOfBadSamples = 0;
 
    client = mindwave.createClient({
@@ -29,11 +29,11 @@ function connect() {
    client.connect();
 }
 
-function isConnected() {
+export function isConnected() {
    return connected;
 }
 
-function handleNewData(data) {
+export function handleNewData(data) {
    var validData = !!data['eSense'];
    connected = validData;
 
@@ -59,29 +59,29 @@ function handleNewData(data) {
    }
 }
 
-function startRecording() {
+export function startRecording() {
    recordedData = [];
    recording = true;
 }
 
-function stopRecording() {
+export function stopRecording() {
    recording = false;
 }
 
-function getRecordedData() {
+export function getRecordedData() {
    return recordedData;
 }
 
-function setSocket(s) {
+export function setSocket(s) {
    socket = s;
 }
 
-module.exports.connect = connect;
-module.exports.isConnected = isConnected;
-module.exports.setSocket = setSocket;
-module.exports.startRecording = startRecording;
-module.exports.stopRecording = stopRecording;
-module.exports.getRecordedData = getRecordedData;
-module.exports.handleNewData = handleNewData;
+// module.exports.connect = connect;
+// module.exports.isConnected = isConnected;
+// module.exports.setSocket = setSocket;
+// module.exports.startRecording = startRecording;
+// module.exports.stopRecording = stopRecording;
+// module.exports.getRecordedData = getRecordedData;
+// module.exports.handleNewData = handleNewData;
 
 
