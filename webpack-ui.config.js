@@ -1,6 +1,6 @@
 module.exports = {
    entry: {
-      ui: './client/main.tsx'
+      ui: './app/client/main.tsx'
    },
    output: {
       filename: './app/dist/[name].js'
