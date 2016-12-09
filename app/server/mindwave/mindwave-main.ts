@@ -72,7 +72,7 @@ export function getRecordedData() {
    return recordedData;
 }
 
-export function setSocket(s) {
+export function setSocket(s: SocketIO.Socket) {
    socket = s;
 }
 

@@ -7,6 +7,7 @@ import * as paths from './config/app-paths';
 
 import * as settings from './util/settings';
 import * as mindwave from './mindwave/mindwave-main';
+import {MindwaveManager} from "./mindwave/MindwaveManager";
 
 
 const player = require('./mindwave/mindwave-log-player');
@@ -28,35 +29,40 @@ server.listen(shared.port, () => {
    console.log("Listening on port " + shared.port);
 });
 
+
+const headset = new MindwaveManager();
+
+
 sio.on('connection', (s: SocketIO.Socket) => {
 
    s.on('connectHeadset', () => {
-      // mindwave.connect();
+      headset.connect();
    });
 
    s.on('startRecording', () => {
-      // mindwave.startRecording();
+      headset.startRecording();
    });
 
    s.on('stopRecording', () => {
-      // mindwave.stopRecording();
-      // data.save(mindwave.getRecordedData());
+      headset.stopRecording();
+
+      data.save(mindwave.getRecordedData());
    });
 
    s.on('deleteLog', name => {
-      // data.remove(name);
+      data.remove(name);
    });
 
    s.on('logFileList', () => {
-      // data.getLogFilesList(list => {
-      //    sio.emit('logFileList', list);
-      // });
+      data.getLogFilesList(list => {
+         sio.emit('logFileList', list);
+      });
    });
 
    s.on('loadLog', name => {
-      // data.load(name, data => {
-      //    sio.emit('loadLog', data.toString());
-      // });
+      data.load(name, data => {
+         sio.emit('loadLog', data.toString());
+      });
    });
 
    s.on('loadSettings', () => {
@@ -69,6 +75,6 @@ sio.on('connection', (s: SocketIO.Socket) => {
       settings.saveSettings(data);
    });
 
-   mindwave.setSocket(s);
+   headset.setSocket(s);
 });
 
