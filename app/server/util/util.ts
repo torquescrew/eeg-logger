@@ -1,22 +1,12 @@
 import * as net from 'net';
 
 
-// export function isPortTaken(port: number, callback: Function) {
-//    const tempServer = net.createServer()
-//       .once('error', (err: Error) => {
-//          if (err['code'] !== 'EADDRINUSE') {
-//             return callback(err);
-//          }
-//
-//          callback(null, true);
-//       })
-//       .once('listening', () => {
-//          tempServer.once('close', () => {
-//             callback(null, false)
-//          }).close();
-//       }).listen(port);
-//
-// }
+export async function getFreePort(port: number) {
+   while (await isPortTaken(port)) {
+      port++;
+   }
+   return port;
+}
 
 export function isPortTaken(port: number): Promise<boolean> {
    return new Promise((resolve, reject) => {

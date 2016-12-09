@@ -14,67 +14,67 @@ const player = require('./mindwave/mindwave-log-player');
 const data = require('./mindwave/mindwave-data');
 
 
-const app = express();
-const server: http.Server = http.createServer(app);
-const sio: SocketIO.Server = socketIo(server);
+export function startServer() {
+   const app = express();
+   const server: http.Server = http.createServer(app);
+   const sio: SocketIO.Server = socketIo(server);
 
+   console.log(appArgs.devMode);
 
-console.log(appArgs.devMode);
+   app.use('/public', express.static(paths.public_));
+   app.use('/dist', express.static(paths.dist));
 
-
-app.use('/public', express.static(paths.public_));
-app.use('/dist', express.static(paths.dist));
-
-server.listen(shared.port, () => {
-   console.log("Listening on port " + shared.port);
-});
-
-
-const headset = new MindwaveManager();
-
-
-sio.on('connection', (s: SocketIO.Socket) => {
-
-   s.on('connectHeadset', () => {
-      headset.connect();
+   server.listen(shared.port, () => {
+      console.log("Listening on port " + shared.port);
    });
 
-   s.on('startRecording', () => {
-      headset.startRecording();
-   });
 
-   s.on('stopRecording', () => {
-      headset.stopRecording();
+   const headset = new MindwaveManager();
 
-      data.save(mindwave.getRecordedData());
-   });
+   sio.on('connection', (s: SocketIO.Socket) => {
 
-   s.on('deleteLog', name => {
-      data.remove(name);
-   });
-
-   s.on('logFileList', () => {
-      data.getLogFilesList(list => {
-         sio.emit('logFileList', list);
+      s.on('connectHeadset', () => {
+         headset.connect();
       });
-   });
 
-   s.on('loadLog', name => {
-      data.load(name, data => {
-         sio.emit('loadLog', data.toString());
+      s.on('startRecording', () => {
+         headset.startRecording();
       });
-   });
 
-   s.on('loadSettings', () => {
-      settings.loadSettings(settings => {
-         sio.emit('loadSettings', settings);
+      s.on('stopRecording', () => {
+         headset.stopRecording();
+
+         data.save(mindwave.getRecordedData());
       });
-   });
 
-   s.on('saveSettings', data => {
-      settings.saveSettings(data);
-   });
+      s.on('deleteLog', name => {
+         data.remove(name);
+      });
 
-   headset.setSocket(s);
-});
+      s.on('logFileList', () => {
+         data.getLogFilesList(list => {
+            sio.emit('logFileList', list);
+         });
+      });
+
+      s.on('loadLog', name => {
+         data.load(name, data => {
+            sio.emit('loadLog', data.toString());
+         });
+      });
+
+      s.on('loadSettings', () => {
+         settings.loadSettings(settings => {
+            sio.emit('loadSettings', settings);
+         });
+      });
+
+      s.on('saveSettings', data => {
+         settings.saveSettings(data);
+      });
+
+      headset.setSocket(s);
+   });
+}
+
 

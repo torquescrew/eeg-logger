@@ -1,11 +1,12 @@
 import * as net from "net";
 import {Socket, Server} from "net";
+import {getFreePort} from "../util/util";
 const osc = require('osc-min');
 
 
 let server: Server = null;
 
-export function startServer() {
+export async function startServer() {
    server = net.createServer((socket: Socket) => {
       socket.end('goodbye\n');
 
@@ -27,11 +28,11 @@ export function startServer() {
       throw err;
    });
 
+   const port = await getFreePort(5000);
 
-   server.listen(5000, () => {
+   server.listen(port, () => {
       console.log('opened server on', server.address());
    });
-
 
 }
 
