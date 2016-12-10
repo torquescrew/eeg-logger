@@ -1,12 +1,14 @@
 import {initWindow} from "./client/electron-main";
-// import {startServer} from "./server/muse/osc-server";
 import {startServer} from "./server/server";
+import {MuseManager} from "./server/muse/muse-manager";
 //
 
 export function main() {
    // startServer();
-   startServer();
-   initWindow();
+   // initWindow();
+
+   const headset = new MuseManager();
+   headset.connect();
 }
 main();
 

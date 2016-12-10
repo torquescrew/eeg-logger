@@ -2,7 +2,7 @@
 
 export abstract class HeadsetManager {
 
-   abstract connect();
+   abstract async connect();
 
    abstract isConnected(): boolean;
 

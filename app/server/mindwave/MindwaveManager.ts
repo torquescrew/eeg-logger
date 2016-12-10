@@ -14,7 +14,7 @@ export class MindwaveManager implements HeadsetManager {
    private numBadSamples = 0;
    private recordedData = [];
 
-   connect() {
+   async connect() {
       this.numBadSamples = 0;
 
       this.client = mindwave.createClient({

@@ -1,10 +1,18 @@
 import {HeadsetManager} from "../headset";
+// import {startServer} from "./osc-server";
+import {startMuseIo, startServer} from "./muse-io";
+import {getFreePort} from "../util/util";
 
 
 export class MuseManager implements HeadsetManager {
 
-   connect() {
+   async connect() {
 
+      const port = await getFreePort(5000);
+
+      startServer(port);
+
+      startMuseIo('Muse-1642', port);
    }
 
    isConnected(): boolean {
@@ -24,3 +32,4 @@ export class MuseManager implements HeadsetManager {
    }
 
 }
+
